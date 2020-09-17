@@ -1,0 +1,114 @@
+@import '../../styles/var.scss';
+
+.navbar {
+  height: calc(100vh - 74px);
+  position: absolute;
+  top: calc(100% + 2px);
+  background: $gray;
+  right: 100%;
+  transition: 0.4s right;
+  width: 250px;
+  transition-timing-function: ease-in;
+  &.active {
+    right: calc(100% - 240px);
+    transition-timing-function: ease-out;
+  }
+  &__text {
+    padding: 15px 20px 0;
+    font-size: 13px;
+    line-height: 15px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: BR;
+    &--red {
+      color: $red;
+      font-family: BB;
+    }
+  }
+  &__links {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    &-item {
+      display: flex;
+      align-items: center;
+      padding: 0 25px;
+      font-size: 14px;
+      line-height: 48px;
+      &.active {
+        background: #2c2c2c;
+        span {
+          color: $red;
+        }
+      }
+      &:focus {
+        outline: none !important;
+      }
+      &-box {
+        width: 20px;
+        text-align: center;
+      }
+      span {
+        margin-left: 20px;
+        color: white;
+        font-family: BB;
+      }
+    }
+  }
+  &__topics {
+    margin: 20px 0;
+    padding: 20px 0;
+    border-top: 0.5px solid #444444;
+    border-bottom: 0.5px solid #444444;
+    &-title {
+      font-size: 14px;
+      line-height: 17px;
+      color: #b6b6b6;
+      text-transform: uppercase;
+      padding: 0 25px;
+      font-family: BM;
+      margin-bottom: 10px;
+    }
+    &-item {
+      display: flex;
+      align-items: center;
+      padding: 0 25px;
+      &-img {
+        width: 24px;
+        height: 24px;
+        background: rgba(255, 255, 255, 0.15);
+        margin-right: 15px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+      span {
+        font-size: 14px;
+        line-height: 40px;
+        color: white;
+        font-family: BM;
+      }
+    }
+  }
+  &__more {
+    padding-bottom: 30px;
+    &-title {
+      font-family: BR;
+      font-size: 12px;
+      line-height: 14px;
+      color: #b6b6b6;
+      margin-bottom: 5px;
+      padding: 0 25px;
+    }
+    &-link {
+      display: block;
+      padding: 0 25px;
+      color: white;
+      font-size: 12px;
+      line-height: 40px;
+      font-family: BR;
+      &:hover {
+        color: white;
+        text-decoration: underline;
+      }
+    }
+  }
+}

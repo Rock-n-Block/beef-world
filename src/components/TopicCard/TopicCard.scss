@@ -1,0 +1,118 @@
+$self: '.card';
+
+.card {
+  padding: 0 15px;
+  color: white;
+  font-family: BR;
+  &.only-text {
+    #{$self} {
+      &__text {
+        font-size: 22px;
+        line-height: 26px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 7;
+        -webkit-box-orient: vertical;
+        padding-top: 0;
+      }
+    }
+  }
+  &__box {
+    width: 100%;
+    overflow: hidden;
+    border: 2px solid #343537;
+    border-radius: 12px;
+  }
+  &__head {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+  }
+  &__grid {
+    padding-bottom: 30px;
+    #{$self} {
+      &__box {
+        max-width: 410px;
+      }
+    }
+  }
+  &__avatar {
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    margin-right: 15px;
+    overflow: hidden;
+    position: relative;
+    img {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+  }
+  &__name {
+    font-size: 13px;
+    line-height: 18px;
+    color: white !important;
+    span {
+      font-family: BB;
+    }
+    &-time {
+      font-family: BL !important;
+    }
+  }
+  &__img {
+    width: 100%;
+  }
+  &__content {
+  }
+  &__text {
+    font-size: 15px;
+    line-height: 18px;
+    overflow: hidden;
+    padding: 20px 15px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    color: white !important;
+  }
+  &__tags {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    padding: 0px 15px 8px;
+    border-bottom: 2px solid #343537;
+    margin-bottom: 15px;
+    &-item {
+      margin-right: 30px;
+      margin-bottom: 5px;
+    }
+  }
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 15px 15px;
+  }
+  &__comments {
+    margin: 0 30px 0 25px;
+    img {
+      margin-right: 8px;
+    }
+    span {
+      font-size: 14px;
+      line-height: 17px;
+      font-family: BM;
+      color: white !important;
+    }
+  }
+  &__share {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    img {
+      margin-right: 7px;
+    }
+  }
+}

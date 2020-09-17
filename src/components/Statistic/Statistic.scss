@@ -1,0 +1,28 @@
+@import '../../styles/var.scss';
+
+.stat {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  min-width: 84px;
+  padding: 5px 10px;
+  color: white !important;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  &__controller {
+    cursor: pointer;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__count {
+    margin: 0 7px;
+    &.isliked {
+      color: #37e1c3;
+    }
+    &.isdisliked {
+      color: $yellow;
+    }
+  }
+}

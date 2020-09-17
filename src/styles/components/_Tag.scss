@@ -1,0 +1,10 @@
+.tag {
+  color: $blue;
+  font-size: 12px;
+  line-height: 14px;
+  font-family: BM;
+  transition: .3s
+  &:hover {
+    color: #74BDE3;
+  }
+}

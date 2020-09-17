@@ -1,0 +1,36 @@
+@import '../../styles/var.scss';
+.home {
+  padding-top: 30px;
+  &__row {
+    // max-width: 1320px !important;
+  }
+  &__cards {
+    margin: 30px -15px 0 -15px;
+  }
+  &__navbar {
+    display: flex;
+    align-items: center;
+    &-item {
+      font-size: 18px;
+      cursor: pointer;
+      line-height: 48px;
+      font-family: BB;
+      color: #ffffff;
+      transition: 0.3s;
+      border-bottom: 2px solid transparent;
+      &.active {
+        color: $red;
+        border-color: $red;
+        &:hover {
+          color: $red;
+        }
+      }
+      &:hover {
+        color: #ff7a7a;
+      }
+      & + & {
+        margin-left: 20px;
+      }
+    }
+  }
+}

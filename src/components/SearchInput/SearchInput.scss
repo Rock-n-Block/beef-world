@@ -1,0 +1,27 @@
+.s-input {
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  width: 270px;
+  font-size: 15px;
+  line-height: 18px;
+  color: white;
+  display: flex;
+  padding: 11px 17px;
+  align-items: center;
+  &__img {
+    cursor: pointer;
+    &-clear {
+      cursor: pointer;
+    }
+  }
+  &__input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    margin-left: 10px;
+    margin-right: 5px;
+    color: white;
+    font-family: BR;
+  }
+}
