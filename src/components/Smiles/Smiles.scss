@@ -1,0 +1,64 @@
+$self: '.smiles__item';
+
+.smiles {
+  display: flex;
+  &__item {
+    width: 65px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center;
+    cursor: pointer;
+    & + & {
+      margin-left: 20px;
+    }
+    &.active {
+      background: #ffcc4d;
+      #{$self} {
+        &-box {
+          background: #ffcc4d;
+        }
+        &-text {
+          color: black;
+        }
+        &-count {
+          color: black;
+          background: #ffffff;
+        }
+      }
+    }
+    &-box {
+      background: #3a3a3a;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 10px;
+      padding-top: 8px;
+      margin-top: 10px;
+      border-radius: 30px;
+    }
+    &-text {
+      font-size: 12px;
+      line-height: 26px;
+      font-family: BS;
+      color: white;
+    }
+    &-count {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      font-size: 16px;
+      line-height: 26px;
+      font-family: BB;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 7px;
+      align-items: center;
+    }
+  }
+}

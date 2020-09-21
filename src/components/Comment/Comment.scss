@@ -1,0 +1,111 @@
+.comment {
+  max-width: 700px;
+
+  &__reply {
+    &-cancel {
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 3px 10px 5px;
+      color: white;
+      margin-right: 13px;
+      cursor: pointer;
+    }
+    &-post {
+      border-radius: 20px;
+      cursor: pointer;
+      padding: 3px 17px 5px;
+      color: #110e0d;
+      border: none;
+      background: #ffcc4d;
+      &:disabled {
+        cursor: default;
+        background: #fde19c;
+      }
+    }
+    &-wrapper {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+    }
+    &-box {
+      margin-bottom: 20px;
+    }
+    &-input {
+      background: transparent !important;
+      border: none !important;
+      resize: none;
+      color: white !important;
+      font-size: 15px;
+      line-height: 18px;
+      font-family: BR;
+      &:hover,
+      &:focus {
+        outline: none !important;
+        box-shadow: none !important;
+      }
+    }
+    &-btns {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-size: 14px;
+      line-height: 17px;
+      font-family: BR;
+      margin-top: 13px;
+    }
+    &-btn {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      span {
+        font-size: 15px;
+        line-height: 18px;
+        margin-left: 12px;
+        font-family: BR;
+        color: #ffcc4d;
+      }
+    }
+  }
+
+  .ant-comment-content-author-name > * {
+    color: white !important;
+    font-family: BM;
+    font-size: 15px;
+    line-height: 18px;
+  }
+  .comment-action {
+    font-size: 16px;
+    line-height: 19px;
+    font-family: BR;
+    color: #ffffff !important;
+    margin-left: 7px;
+  }
+  .ant-comment-actions {
+    li + li {
+      margin-left: 20px;
+    }
+    li {
+      span {
+        margin-right: 0;
+      }
+    }
+    li:last-child span {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 3px 15px 4px;
+      font-family: BR;
+      color: white !important;
+      font-size: 14px;
+      line-height: 17px;
+    }
+  }
+  .ant-comment-content-author-time {
+    font-family: BM;
+  }
+  .ant-comment-content-detail {
+    font-size: 15px;
+    line-height: 18px;
+    font-family: BR;
+  }
+}

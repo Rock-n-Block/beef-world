@@ -1,0 +1,123 @@
+.post {
+  display: grid;
+  grid-template-columns: 1050fr 390fr;
+  width: 100%;
+  grid-column-gap: 20px;
+  color: white;
+  &__trends {
+    padding: 35px 30px 35px 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+    &-title {
+      font-size: 22px;
+      line-height: 26px;
+      font-family: BB;
+      color: white;
+      margin-bottom: 25px;
+    }
+    .ScrollbarsCustom-ThumbY {
+      background: rgba(255, 255, 255, 0.4) !important;
+    }
+    .ScrollbarsCustom-TrackY {
+      margin-right: -10px;
+    }
+  }
+  &__content {
+    padding: 35px 0 35px 40px;
+  }
+  &__info {
+    &-wrapper {
+      display: flex;
+      align-items: center;
+    }
+    &-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      margin-right: 20px;
+      overflow: hidden;
+      position: relative;
+      img {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+      }
+    }
+    &-title {
+      font-size: 18px;
+      line-height: 21px;
+      font-family: BS;
+    }
+    &-person {
+      font-family: BR;
+      margin-top: 5px;
+      font-size: 15px;
+      line-height: 18px;
+      span {
+        font-family: BB;
+      }
+      &-time {
+        font-family: BL !important;
+      }
+    }
+    &-text {
+      font-size: 15px;
+      line-height: 18px;
+      font-family: BR;
+      max-width: 750px;
+      margin-top: 25px;
+    }
+    &-tags {
+      margin-top: 20px;
+      &-item {
+        margin-right: 30px;
+        margin-bottom: 15px;
+      }
+    }
+  }
+  &__socials {
+    display: flex;
+    align-items: center;
+    border-top: 2px solid #333333;
+    border-bottom: 2px solid #333333;
+    margin: 15px 0 25px;
+    padding: 15px 0;
+    &-item {
+      display: flex;
+      align-items: center;
+      padding: 4.5px 15px 4.5px 4px;
+      border-radius: 30px;
+      height: 32px;
+      cursor: pointer;
+      & + & {
+        margin-left: 15px;
+      }
+      &--fb {
+        background: #3b5998;
+      }
+      &--tw {
+        background: #55acee;
+      }
+      &--share {
+        background: rgba(255, 255, 255, 0.1);
+        padding-left: 8px;
+      }
+      &-img {
+        width: 22.86px;
+        height: 22.86px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        border-radius: 50%;
+      }
+      &-text {
+        margin-left: 8px;
+        font-family: BS;
+        font-size: 14px;
+        line-height: 16px;
+      }
+    }
+  }
+}

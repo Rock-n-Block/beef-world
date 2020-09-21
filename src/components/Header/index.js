@@ -10,15 +10,32 @@ import navbarCloseImg from '../../assets/img/navbar-close.svg';
 import logoImg from '../../assets/img/logo.svg';
 
 const Header = () => {
+    const navbarRef = React.useRef();
+    const btnRef = React.useRef()
 
     const [isNavbarOpen, setIsNavbarOpen] = React.useState(false)
+
+
+    const outsideClick = (e) => {
+        const path = e.path || (e.composedPath && e.composedPath())
+        if (!path.includes(navbarRef.current) && !path.includes(btnRef.current)) {
+            setIsNavbarOpen(false)
+        }
+    }
+
+    React.useEffect(() => {
+        document.body.addEventListener('click', outsideClick)
+        return () => {
+            document.body.removeEventListener('click', outsideClick)
+        };
+    }, []);
 
     return (
         <header className="header">
             <div className="header__row">
                 <div className="header__wrapper">
-                    <div className="header__navbar-toggle" onClick={() => setIsNavbarOpen(!isNavbarOpen)}>
-                        {isNavbarOpen ? <img src={navbarCloseImg} alt="" /> : <img src={navbarOpenImg} alt="" />}
+                    <div className="header__navbar-toggle" ref={btnRef}>
+                        {isNavbarOpen ? <img onClick={() => {setIsNavbarOpen(false)}} src={navbarCloseImg} alt="" /> : <img onClick={() => setIsNavbarOpen(true)} src={navbarOpenImg} alt="" />}
                     </div>
                     <Link to="/">
                         <img src={logoImg} alt="" />
@@ -31,7 +48,7 @@ const Header = () => {
                     <div className="header__btn btn">Make a post</div>
                 </div>
             </div>
-            <Navbar isOpen={isNavbarOpen} />
+            <Navbar isOpen={isNavbarOpen} navbarRef={navbarRef} />
         </header>
     );
 }

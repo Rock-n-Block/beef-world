@@ -9,14 +9,15 @@ import shareImg from '../../assets/img/share.svg'
 
 import './TopicCard.scss'
 
-const TopicCard = ({ avatar, name, date, img, text, tags, statistic, comments, type, topicName }) => {
+const TopicCard = ({ avatar, name, date, img, text, tags, statistic, comments, type, topicName, to }) => {
     return (
         <div className={classNames('card', {
             'card__grid': type === 'grid',
+            'card__column': type === 'column',
             'only-text': !img
         })}>
             <div className="card__box">
-                <Link to={`/topic/${topicName}`} className="card__link">
+                <Link to={`/${to}/${topicName}`} className="card__link">
                     <div className="card__head">
                         <div className="card__avatar">
                             <img src={avatar} alt={name} />

@@ -13,6 +13,9 @@
     right: calc(100% - 240px);
     transition-timing-function: ease-out;
   }
+  .ScrollbarsCustom-ThumbY {
+    background: rgba(255, 255, 255, 0.4) !important;
+  }
   &__text {
     padding: 15px 20px 0;
     font-size: 13px;

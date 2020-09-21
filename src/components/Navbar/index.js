@@ -5,7 +5,7 @@ import { Scrollbar } from 'react-scrollbars-custom';
 
 import './Navbar.scss'
 
-const Navbar = ({ isOpen }) => {
+const Navbar = ({ isOpen, navbarRef }) => {
 
     const [activeTab, setActiveTab] = React.useState(0)
 
@@ -64,7 +64,7 @@ const Navbar = ({ isOpen }) => {
     ]
 
     return (
-        <div className={classNames('navbar', {
+        <div ref={navbarRef} className={classNames('navbar', {
             'active': isOpen
         })}>
             <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>

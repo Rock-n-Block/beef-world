@@ -1,7 +1,6 @@
 $self: '.card';
 
 .card {
-  padding: 0 15px;
   color: white;
   font-family: BR;
   &.only-text {
@@ -29,11 +28,17 @@ $self: '.card';
     align-items: center;
   }
   &__grid {
+    padding: 0 15px;
     padding-bottom: 30px;
     #{$self} {
       &__box {
         max-width: 410px;
       }
+    }
+  }
+  &__column {
+    & + & {
+      margin-top: 20px;
     }
   }
   &__avatar {
@@ -71,7 +76,7 @@ $self: '.card';
     font-size: 15px;
     line-height: 18px;
     overflow: hidden;
-    padding: 20px 15px 0;
+    padding: 20px 20px 0;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;

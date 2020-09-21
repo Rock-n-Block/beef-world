@@ -40,7 +40,7 @@ const Home = () => {
                     }}>
                         {cards &&
                             cards.map((card, index) => {
-                                return <TopicCard key={index} {...card} type="grid" />
+                                return <TopicCard key={index} {...card} type="grid" to="topic" />
                             })
                         }
                     </Masonry>
