@@ -1,0 +1,20 @@
+.ant-modal {
+  padding: 0 !important;
+  width: fit-content !important;
+  &-content {
+    background-color: transparent !important;
+  }
+  &-body {
+    padding: 0 !important;
+  }
+  &-footer {
+    padding: 0 !important;
+    border: 0 !important;
+  }
+  &-close-x {
+    cursor: pointer;
+    path {
+      fill: white !important;
+    }
+  }
+}

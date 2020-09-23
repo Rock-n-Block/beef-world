@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { SearchInput, Navbar } from '../../components';
+import { SearchInput, Navbar, Modal } from '../../components';
+import { SignInForm } from '../../modules';
 
 import './Header.scss'
 
@@ -31,25 +32,30 @@ const Header = () => {
     }, []);
 
     return (
-        <header className="header">
-            <div className="header__row">
-                <div className="header__wrapper">
-                    <div className="header__navbar-toggle" ref={btnRef}>
-                        {isNavbarOpen ? <img onClick={() => {setIsNavbarOpen(false)}} src={navbarCloseImg} alt="" /> : <img onClick={() => setIsNavbarOpen(true)} src={navbarOpenImg} alt="" />}
+        <>
+            <header className="header">
+                <div className="header__row">
+                    <div className="header__wrapper">
+                        <div className="header__navbar-toggle" ref={btnRef}>
+                            {isNavbarOpen ? <img onClick={() => { setIsNavbarOpen(false) }} src={navbarCloseImg} alt="" /> : <img onClick={() => setIsNavbarOpen(true)} src={navbarOpenImg} alt="" />}
+                        </div>
+                        <Link to="/">
+                            <img src={logoImg} alt="" />
+                        </Link>
                     </div>
-                    <Link to="/">
-                        <img src={logoImg} alt="" />
-                    </Link>
+                    <SearchInput />
+                    <div className="header__wrapper">
+                        <div className="header__login">Log in</div>
+                        <div className="header__btn btn btn--gray">Sign up</div>
+                        <div className="header__btn btn">Make a post</div>
+                    </div>
                 </div>
-                <SearchInput />
-                <div className="header__wrapper">
-                    <div className="header__login">Log in</div>
-                    <div className="header__btn btn btn--gray">Sign up</div>
-                    <div className="header__btn btn">Make a post</div>
-                </div>
-            </div>
-            <Navbar isOpen={isNavbarOpen} navbarRef={navbarRef} />
-        </header>
+                <Navbar isOpen={isNavbarOpen} navbarRef={navbarRef} />
+            </header>
+            <Modal>
+                <SignInForm />
+            </Modal>
+        </>
     );
 }
 

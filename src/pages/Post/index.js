@@ -3,7 +3,7 @@ import { Scrollbar } from 'react-scrollbars-custom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import { TopicCard, VideoPlayer, Time, Smiles, Comment } from '../../components';
+import { TopicCard, VideoPlayer, Time, Smiles, Comments } from '../../components';
 
 import './Post.scss'
 
@@ -158,13 +158,7 @@ const PostPage = () => {
                             </div>
                             <Smiles {...data.smiles} />
                             <div className="post__comments">
-                                {
-                                    data.comments && data.comments.map((comment, index) => {
-                                        return (
-                                            <Comment key={comment.likes + comment.dislikes + index} {...comment} />
-                                        )
-                                    })
-                                }
+                                <Comments comments={data.comments} />
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,54 @@
+.comments {
+  border-top: 2px solid #333333;
+  padding-top: 40px;
+  margin-top: 20px;
+  max-width: 750px;
+  &__title {
+    font-size: 22px;
+    line-height: 26px;
+    font-family: BB;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  &__box {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px 20px 10px 10px;
+    display: flex;
+    margin-bottom: 25px;
+  }
+  &__input {
+    background: transparent !important;
+    border: none !important;
+    resize: none;
+    color: white !important;
+    font-size: 15px;
+    line-height: 18px;
+    font-family: BR;
+    &:hover,
+    &:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+  }
+  &__btn {
+    border-radius: 20px;
+    cursor: pointer;
+    padding: 3px 17px 5px;
+    margin-top: 3.2px;
+    color: #110e0d;
+    border: none;
+    background: #ffcc4d;
+    font-family: BR;
+    font-size: 14px;
+    height: 25px;
+    line-height: 17px;
+    &:disabled {
+      cursor: default;
+      background: #fde19c;
+    }
+  }
+}

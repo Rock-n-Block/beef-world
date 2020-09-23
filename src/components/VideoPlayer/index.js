@@ -13,7 +13,7 @@ import volumeImg from '../../assets/img/volume.svg';
 import novolumeImg from '../../assets/img/no-volume.svg';
 import fullscreenImg from '../../assets/img/fullscreen.svg';
 
-const VideoPlayer = ({video}) => {
+const VideoPlayer = ({ video, type, errFnc }) => {
 
     const [isFullScreen, setIsFullScreen] = React.useState(false)
 
@@ -23,6 +23,7 @@ const VideoPlayer = ({video}) => {
     const [muted, setMuted] = React.useState(false)
     const [duration, setDuration] = React.useState('00:00')
 
+    const playerBox = React.useRef()
     const player = React.useRef()
 
 
@@ -63,11 +64,10 @@ const VideoPlayer = ({video}) => {
 
 
     const handleClickFullscreen = () => {
-        // screenfull.request(findDOMNode(player.current))
-        screenfull.toggle(findDOMNode(player.current));
+        screenfull.toggle(findDOMNode(playerBox.current));
     }
 
-    
+
     const pad = (string) => {
         return ('0' + string).slice(-2)
     }
@@ -78,7 +78,7 @@ const VideoPlayer = ({video}) => {
         const mm = date.getUTCMinutes()
         const ss = pad(date.getUTCSeconds())
         if (hh) {
-        return `${hh}:${pad(mm)}:${ss}`
+            return `${hh}:${pad(mm)}:${ss}`
         }
         return `${mm < 10 ? '0' + mm : mm}:${ss}`
     }
@@ -96,34 +96,38 @@ const VideoPlayer = ({video}) => {
 
     return (
         <div className={classNames('v-player', {
-            'fullscreen': isFullScreen
-        })} ref={player} >
-            <ReactPlayer 
-                
+            'fullscreen': isFullScreen,
+            'makepost': type === 'makepost'
+        })} ref={playerBox} >
+            <ReactPlayer
+                ref={player}
                 style={{
                     width: '100%'
-                }} 
-                controls={false} 
-                url={video} 
+                }}
+                controls={false}
+                url={video}
                 playing={playing}
                 onProgress={handleProgress}
                 onPause={handlePause}
                 onPlay={handlePlay}
                 onDuration={handleDuration}
+                onError={errFnc || ((err) => console.log(err))}
                 pip={false}
                 muted={muted}
             />
-            <div className="v-player__controls">
-                 <div className="v-player__controls-box">
+            <div className={classNames('v-player__controls', {
+                // 'hidden': !playing
+            })}>
+                <div className="v-player__controls-box">
                     <div className="v-player__controls-box-left">
                         <div className="v-player__controls-toggle">
                             {
-                                playing ? <img className="v-player__controls-pause" onClick={handlePause} src={pauseImg} alt=""/> : <img className="v-player__controls-play" onClick={handlePlay} src={playImg} alt=""/>
+                                playing ? <img className="v-player__controls-pause" onClick={handlePause} src={pauseImg} alt="" /> : <img className="v-player__controls-play" onClick={handlePlay} src={playImg} alt="" />
                             }
                         </div>
                         <div className="v-player__controls-volume" onClick={handleToggleMuted}>
                             {
-                                muted ? <img src={novolumeImg} alt=""/> : <img src={volumeImg} alt=""/>
+                                muted ? <img src={novolumeImg} alt="" /> : <img src={volumeImg} alt="" />
                             }
                         </div>
                         <div className="v-player__controls-time">
@@ -131,19 +135,19 @@ const VideoPlayer = ({video}) => {
                         </div>
                     </div>
                     <div className="v-player__controls-box-right">
-                        <img onClick={handleClickFullscreen} src={fullscreenImg} alt=""/>
+                        <img onClick={handleClickFullscreen} src={fullscreenImg} alt="" />
                     </div>
-                 </div>
-                <Slider 
-                    className="v-player__progress" 
-                    onChange={handleSeekChange} 
-                    value={played} 
+                </div>
+                <Slider
+                    className="v-player__progress"
+                    onChange={handleSeekChange}
+                    value={played}
                     tipFormatter={null}
-                    max={1} 
+                    max={1}
                     step="0.00001"
                     onMouseDown={handleSeekMouseDown}
                     onAfterChange={handleSeekMouseUp}
-                 />
+                />
             </div>
         </div>
     );

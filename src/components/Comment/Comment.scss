@@ -1,5 +1,5 @@
 .comment {
-  max-width: 700px;
+  max-width: 750px;
 
   &__reply {
     &-cancel {
@@ -43,6 +43,9 @@
       &:focus {
         outline: none !important;
         box-shadow: none !important;
+      }
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;
       }
     }
     &-btns {
