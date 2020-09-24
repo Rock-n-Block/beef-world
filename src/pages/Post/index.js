@@ -3,7 +3,7 @@ import { Scrollbar } from 'react-scrollbars-custom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import { PostCard, VideoPlayer, Time, Smiles, Comments } from '../../components';
+import { PostCard, VideoPlayer, Time, Smiles, Comments, Statistic } from '../../components';
 
 import './Post.scss'
 
@@ -31,7 +31,7 @@ const PostPage = () => {
         ],
         "statistic": {
             "count": 391,
-            "like": ""
+            "like": false
         },
         "comments": 24,
         views: 123,
@@ -105,7 +105,7 @@ const PostPage = () => {
 
 
     React.useEffect(() => {
-        axios.get('http://localhost:3000/data.json').then(({ data }) => {
+        axios.get('http://localhost:3001/data.json').then(({ data }) => {
             setCards(data.data)
         })
     }, [])
@@ -115,16 +115,20 @@ const PostPage = () => {
             <div className="post__wrapper">
                 <VideoPlayer video={data.video} />
                 <div className="post__content">
+                    <Statistic {...data.statistic} />
+                    <div className="post__info-views">{data.views}k views</div>
                     <div className="post__info">
                         <div className="post__info-box">
                             <div className="post__info-wrapper">
-                                <div className="post__info-avatar">
-                                    <img src={data.avatar} alt="" />
-                                </div>
-                                <div>
-                                    <div className="post__info-title">{data.title}</div>
-                                    <div className="post__info-person">
-                                        by <span>{data.name}</span> • <span className="post__info-person-time">{<Time date={data.date} />}</span>
+                                <div className="post__info-person-box">
+                                    <div className="post__info-avatar">
+                                        <img src={data.avatar} alt="" />
+                                    </div>
+                                    <div>
+                                        <div className="post__info-title">{data.title}</div>
+                                        <div className="post__info-person">
+                                            by <span>{data.name}</span> • <span className="post__info-person-time">{<Time date={data.date} />}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

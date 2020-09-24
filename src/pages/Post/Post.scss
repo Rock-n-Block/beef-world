@@ -23,11 +23,42 @@
   }
   &__content {
     padding: 35px 0 35px 40px;
+    position: relative;
+    .stat {
+      padding: 12px 12px;
+      position: absolute;
+      right: 20px;
+      top: 35px;
+      &__controller {
+        height: 18px;
+        width: 22px;
+        svg {
+          height: 100%;
+          width: 100%;
+        }
+      }
+      &__count {
+        font-size: 18.5391px;
+        line-height: 22px;
+        font-family: BB;
+      }
+    }
   }
   &__info {
+    &-views {
+      font-family: BS;
+      font-size: 16px;
+      line-height: 19px;
+      text-align: right;
+      margin-bottom: -20px;
+      position: absolute;
+      right: 20px;
+      top: 90px;
+    }
     &-wrapper {
       display: flex;
       align-items: center;
+      justify-content: space-between;
     }
     &-avatar {
       width: 52px;
@@ -59,6 +90,10 @@
       }
       &-time {
         font-family: BL !important;
+      }
+      &-box {
+        display: flex;
+        align-items: center;
       }
     }
     &-text {
