@@ -3,7 +3,7 @@ import renderHTML from 'react-render-html';
 import classNames from 'classnames';
 import format from 'date-fns/format'
 
-import { TopicCard } from '../../components';
+import { PostCard } from '../../components';
 
 import './Topic.scss'
 
@@ -165,7 +165,7 @@ const TopicPage = () => {
                         </div>
                         {data.placets &&
                             data.placets.map((card, index) => {
-                                return <TopicCard key={index} {...card} type="column" to="post" />
+                                return <PostCard key={index} {...card} type="column" to="post" />
                             })
                         }
                     </div>
@@ -179,7 +179,7 @@ const TopicPage = () => {
                         </div>
                         {data.worsts &&
                             data.worsts.map((card, index) => {
-                                return <TopicCard key={index} {...card} type="column" to="post" />
+                                return <PostCard key={index} {...card} type="column" to="post" />
                             })
                         }
                     </div>

@@ -7,9 +7,9 @@ import { Time, Statistic } from '../../components';
 import commentsImg from '../../assets/img/comments.svg'
 import shareImg from '../../assets/img/share.svg'
 
-import './TopicCard.scss'
+import './PostCard.scss'
 
-const TopicCard = ({ avatar, name, date, img, text, tags, statistic, comments, type, topicName, to }) => {
+const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, type, topicName, to }) => {
     return (
         <div className={classNames('card', {
             'card__grid': type === 'grid',
@@ -58,4 +58,4 @@ const TopicCard = ({ avatar, name, date, img, text, tags, statistic, comments, t
     );
 }
 
-export default TopicCard;
+export default PostCard;

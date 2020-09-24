@@ -2,17 +2,48 @@ import React from 'react';
 import Masonry from 'react-masonry-component';
 import classNames from 'classnames';
 import axios from 'axios';
+import { useRouteMatch, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { TopicCard } from '../../components';
+import { filterActions } from '../../redux/actions';
+
+import { PostCard } from '../../components';
 
 import './Home.scss'
 
 const Home = () => {
 
-    const tabs = ['TRENDING', 'HOT', 'POPULAR']
+    const { path, params } = useRouteMatch();
+    const dispatch = useDispatch();
+
+    const tabs = [
+        {
+            link: 'trending',
+            text: 'TRENDING'
+        },
+        {
+            link: 'hot',
+            text: 'HOT'
+        },
+        {
+            link: 'popular',
+            text: 'POPULAR'
+        },
+        {
+            link: 'editors',
+            text: 'EDITOR’S PICK'
+        }
+    ]
 
     const [cards, setCards] = React.useState([])
-    const [activeTab, setActiveTab] = React.useState(0)
+    // const [activeTab, setActiveTab] = React.useState(0)
+
+    const { activeTab, activeSort } = useSelector(({ filter }) => {
+        return {
+            activeTab: filter.sort,
+            activeSort: filter.filter
+        }
+    })
 
 
     React.useEffect(() => {
@@ -21,15 +52,25 @@ const Home = () => {
         })
     }, [])
 
+    React.useEffect(() => {
+        const sortName = path.split('/')[1]
+
+        dispatch(filterActions.setMainSort(sortName))
+
+        if (params.topic) {
+            dispatch(filterActions.setMainFilter(params.topic))
+        }
+    }, [path])
+
     return (
         <div className="home">
             <div className="home__row row">
                 <div className="home__navbar">
                     {
                         tabs.map((tab, index) => {
-                            return <div onClick={() => setActiveTab(index)} key={index} className={classNames('home__navbar-item', {
-                                'active': index === activeTab
-                            })}>{tab}</div>
+                            return <Link to={`/${tab.link}${activeSort ? `/${activeSort}` : ''}`} key={index} className={classNames('home__navbar-item', {
+                                'active': tab.link === activeTab
+                            })}>{tab.text}</Link>
                         })
                     }
 
@@ -40,7 +81,7 @@ const Home = () => {
                     }}>
                         {cards &&
                             cards.map((card, index) => {
-                                return <TopicCard key={index} {...card} type="grid" to="topic" />
+                                return <PostCard key={index} {...card} type="grid" to="post" />
                             })
                         }
                     </Masonry>

@@ -2,12 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { Scrollbar } from 'react-scrollbars-custom';
+import { useSelector } from 'react-redux';
 
 import './Navbar.scss'
 
 const Navbar = ({ isOpen, navbarRef }) => {
 
-    const [activeTab, setActiveTab] = React.useState(0)
+    // const [activeTab, setActiveTab] = React.useState(0)
 
     const tabs = [
         {
@@ -63,6 +64,13 @@ const Navbar = ({ isOpen, navbarRef }) => {
         },
     ]
 
+    const { activeTab, activeSort } = useSelector(({ filter }) => {
+        return {
+            activeTab: filter.sort,
+            activeSort: filter.filter
+        }
+    })
+
     return (
         <div ref={navbarRef} className={classNames('navbar', {
             'active': isOpen
@@ -75,12 +83,12 @@ const Navbar = ({ isOpen, navbarRef }) => {
                     {
                         tabs.map((item, index) => {
                             return (
-                                <Link key={index} onClick={() => setActiveTab(index)} className={classNames('navbar__links-item', {
-                                    'active': index === activeTab
-                                })} to={`/${item.link}`}>
+                                <Link key={index} className={classNames('navbar__links-item', {
+                                    'active': item.link === activeTab
+                                })} to={`/${item.link}${activeSort ? `/${activeSort}` : ''}`}>
                                     <div className="navbar__links-item-box">
                                         {
-                                            index === activeTab ? <img src={require(`../../assets/img/tabs/${item.link}-active.svg`)} alt="" /> : <img src={require(`../../assets/img/tabs/${item.link}.svg`)} alt="" />
+                                            item.link === activeTab ? <img src={require(`../../assets/img/tabs/${item.link}-active.svg`)} alt="" /> : <img src={require(`../../assets/img/tabs/${item.link}.svg`)} alt="" />
                                         }
                                     </div>
                                     <span>{item.text}</span>
@@ -94,7 +102,7 @@ const Navbar = ({ isOpen, navbarRef }) => {
                     {
                         topics.map((item, index) => {
                             return (
-                                <Link key={index} className="navbar__topics-item" to={`/topic/${item.link}`}>
+                                <Link key={index} className="navbar__topics-item" to={`/${activeTab}/${item.link}`}>
                                     <div className="navbar__topics-item-img"></div>
                                     <span className="navbar__topics-item-text">{item.text}</span>
                                 </Link>
@@ -104,7 +112,7 @@ const Navbar = ({ isOpen, navbarRef }) => {
                 </div>
                 <div className="navbar__more">
                     <div className="navbar__more-title">MORE BEEF DOT WORLD</div>
-                    <a href="/" className="navbar__more-link">Community</a>
+                    <Link to="/community" className="navbar__more-link">Community</Link>
                     <a href="/" className="navbar__more-link">Terms</a>
                     <a href="/" className="navbar__more-link">Privacy</a>
                     <a href="/" className="navbar__more-link">Contact Us</a>

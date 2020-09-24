@@ -1,0 +1,21 @@
+.community {
+  padding: 80px 0 40px;
+  color: #ffffff;
+  &__row {
+    max-width: 1000px !important;
+  }
+  &__title {
+    font-family: BB;
+    font-size: 36px;
+    line-height: 43px;
+    margin-bottom: 30px;
+  }
+  p {
+    font-size: 18px;
+    line-height: 26px;
+    font-family: BR;
+  }
+  p + p {
+    margin-top: 20px;
+  }
+}

@@ -3,7 +3,7 @@ import { Scrollbar } from 'react-scrollbars-custom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import { TopicCard, VideoPlayer, Time, Smiles, Comments } from '../../components';
+import { PostCard, VideoPlayer, Time, Smiles, Comments } from '../../components';
 
 import './Post.scss'
 
@@ -169,7 +169,7 @@ const PostPage = () => {
                 <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
                     {cards &&
                         cards.map((card, index) => {
-                            return <TopicCard key={index} {...card} type="column" />
+                            return <PostCard key={index} {...card} type="column" />
                         })
                     }
                 </Scrollbar>
