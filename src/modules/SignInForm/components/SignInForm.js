@@ -18,7 +18,6 @@ const SignInForm = props => {
         handleChange,
         handleBlur,
         handleSubmit,
-        isSubmitting
     } = props;
 
     const validateField = (key, touched, errors) => {

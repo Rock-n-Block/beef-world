@@ -25,6 +25,13 @@ export default ({ isAuth, values, errors }) => {
                 errors.fullname = 'Enter your name'
             }
         },
+        confirm: (value) => {
+            if (!values.password || !values.confirm) {
+                errors.confirm = 'Repeat new password'
+            } else if (values.password !== value) {
+                errors.confirm = 'Пароли не совпадают'
+            }
+        },
     }
 
 

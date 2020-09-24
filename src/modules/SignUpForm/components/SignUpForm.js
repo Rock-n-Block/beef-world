@@ -17,8 +17,7 @@ const SignUpForm = props => {
         errors,
         handleChange,
         handleBlur,
-        handleSubmit,
-        isSubmitting
+        handleSubmit
     } = props;
 
     const validateField = (key, touched, errors) => {

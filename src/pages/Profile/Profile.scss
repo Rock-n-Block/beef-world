@@ -1,0 +1,106 @@
+.profile {
+  padding: 40px 0;
+  &__row {
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    color: #ffffff;
+  }
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__title {
+    font-size: 36px;
+    line-height: 43px;
+    font-family: BB;
+  }
+  &__logout {
+    width: fit-content;
+    padding: 13px 30px !important;
+    font-family: BR !important;
+    font-size: 12px;
+    line-height: 14px;
+    text-transform: uppercase;
+  }
+  &__avatar {
+    position: absolute;
+    right: calc(100% + 50px);
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &-box {
+      width: 128px;
+      height: 128px;
+      position: relative;
+      margin-bottom: 25px;
+      img {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+      }
+    }
+    &-upload {
+      &-btn {
+        font-family: BR !important;
+        width: max-content;
+        padding: 13px 16px !important;
+      }
+      input {
+        top: unset !important;
+        bottom: 0 !important;
+        height: 150px !important;
+      }
+    }
+  }
+  &__form {
+    margin-top: 25px;
+    &-btn {
+      border: none !important;
+      margin-top: 10px;
+      text-transform: uppercase;
+      padding: 11px 36px !important;
+    }
+    &-item {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 15px !important;
+      margin-bottom: 20px !important;
+      //   &--password {
+      //     min-height: 85px !important;
+      //     display: flex;
+      //     flex-direction: column;
+      //     justify-content: center;
+      //   }
+    }
+    &-input {
+      background-color: transparent !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      font-family: BR;
+      color: white !important;
+    }
+    .ant-form-item-label {
+      padding: 0 !important;
+      label {
+        color: rgba(255, 255, 255, 0.5) !important;
+        font-family: BR;
+        font-size: 12px;
+        line-height: 14px;
+      }
+    }
+    .ant-form-item-explain {
+      font-family: BR;
+    }
+    .ant-form-item-control {
+      flex-grow: 0 !important;
+    }
+  }
+}
