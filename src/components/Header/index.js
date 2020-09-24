@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { SearchInput, Navbar, Modal } from '../../components';
-import { SignInForm } from '../../modules';
+import { SignInForm, SignUpForm } from '../../modules';
+import { modalActions } from '../../redux/actions';
 
 import './Header.scss'
 
@@ -11,6 +13,9 @@ import navbarCloseImg from '../../assets/img/navbar-close.svg';
 import logoImg from '../../assets/img/logo.svg';
 
 const Header = () => {
+
+    const dispatch = useDispatch();
+
     const navbarRef = React.useRef();
     const btnRef = React.useRef()
 
@@ -31,6 +36,21 @@ const Header = () => {
         };
     }, []);
 
+
+    const { isOpenSignIn, isOpenSignUp } = useSelector(({ modal }) => {
+        return {
+            isOpenSignIn: modal.isOpenSignIn,
+            isOpenSignUp: modal.isOpenSignUp
+        }
+    })
+
+    const handleOkSignInModal = () => {
+        dispatch(modalActions.toggleSignInModal(false))
+    }
+    const handleOkSignUpModal = () => {
+        dispatch(modalActions.toggleSignUpModal(false))
+    }
+
     return (
         <>
             <header className="header">
@@ -45,15 +65,18 @@ const Header = () => {
                     </div>
                     <SearchInput />
                     <div className="header__wrapper">
-                        <div className="header__login">Log in</div>
-                        <div className="header__btn btn btn--gray">Sign up</div>
+                        <div className="header__login" onClick={() => dispatch(modalActions.toggleSignInModal(true))}>Log in</div>
+                        <div className="header__btn btn btn--gray" onClick={() => dispatch(modalActions.toggleSignUpModal(true))}>Sign up</div>
                         <div className="header__btn btn">Make a post</div>
                     </div>
                 </div>
                 <Navbar isOpen={isNavbarOpen} navbarRef={navbarRef} />
             </header>
-            <Modal>
+            <Modal isOpen={isOpenSignIn} handleOk={handleOkSignInModal}>
                 <SignInForm />
+            </Modal>
+            <Modal isOpen={isOpenSignUp} handleOk={handleOkSignUpModal}>
+                <SignUpForm />
             </Modal>
         </>
     );

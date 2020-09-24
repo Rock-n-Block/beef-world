@@ -1,18 +1,19 @@
 import { withFormik } from 'formik';
-import SignInForm from '../components/SignInForm'
+import SignUpForm from '../components/SignUpForm'
 import validateForm from '../../../utils/validate'
 
 
 export default withFormik({
     enableReinitialize: true,
     mapPropsToValues: () => ({
+        fullname: '',
         email: '',
         password: ''
     }),
     validate: values => {
         let errors = {};
 
-        validateForm({ isAuth: true, values, errors })
+        validateForm({ isAuth: false, values, errors })
 
         return errors;
     },
@@ -21,5 +22,5 @@ export default withFormik({
         console.log(values)
     },
 
-    displayName: 'SignInForm'
-})(SignInForm)
+    displayName: 'SignUpForm'
+})(SignUpForm)

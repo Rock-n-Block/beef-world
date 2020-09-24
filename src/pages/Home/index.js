@@ -16,7 +16,7 @@ const Home = () => {
 
 
     React.useEffect(() => {
-        axios.get('http://localhost:3000/data.json').then(({ data }) => {
+        axios.get('http://localhost:3001/data.json').then(({ data }) => {
             setCards(data.data)
         })
     }, [])

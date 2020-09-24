@@ -1,1 +1,1 @@
-export { default as signInActions } from './signin'
+export { default as modalActions } from './modal'

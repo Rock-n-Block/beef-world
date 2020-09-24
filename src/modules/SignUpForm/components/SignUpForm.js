@@ -9,7 +9,7 @@ import googleImg from '../../../assets/img/social/google.svg';
 
 
 
-const SignInForm = props => {
+const SignUpForm = props => {
     const dispatch = useDispatch();
 
     const {
@@ -33,14 +33,14 @@ const SignInForm = props => {
         }
     }
 
-    const handleSignUp = () => {
-        dispatch(modalActions.toggleSignInModal(false))
-        dispatch(modalActions.toggleSignUpModal(true))
+    const handleSignIn = () => {
+        dispatch(modalActions.toggleSignInModal(true))
+        dispatch(modalActions.toggleSignUpModal(false))
     }
 
     return (
         <div className="m-form">
-            <div className="m-form__title">Sign in</div>
+            <div className="m-form__title">Sign up</div>
             <div className="m-form__descr">With your social network</div>
             <div className="m-form__socials">
                 <div className="m-form__socials-item m-form__socials-item--fb">
@@ -61,6 +61,21 @@ const SignInForm = props => {
                 className="login-form"
                 initialValues={{ remember: true }}
             >
+                <Form.Item
+                    hasFeedback
+                    name="fullname"
+                    validateStatus={validateField('fullname', touched, errors)}
+                    help={!touched.fullname ? false : errors.fullname}
+                >
+                    <Input
+                        id="fullname"
+                        className="m-form__input"
+                        placeholder="User Name"
+                        size="large"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    />
+                </Form.Item>
                 <Form.Item
                     hasFeedback
                     name="email"
@@ -94,12 +109,12 @@ const SignInForm = props => {
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" size="large" className="btn m-form__btn" htmlType="submit" onClick={handleSubmit}>
-                        Log in
+                        Create your account
                             </Button>
                 </Form.Item>
-                <div className="m-form__link">Not a member? <span onClick={handleSignUp}>Sign up</span></div>
+                <div className="m-form__link">Already have an account? <span onClick={handleSignIn}>Sign in</span></div>
             </Form>
         </div>
     )
 }
-export default SignInForm;
+export default SignUpForm;

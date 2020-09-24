@@ -1,0 +1,102 @@
+@import '../var';
+
+.m-form {
+  background: $gray;
+  border-radius: 12px;
+  padding: 20px 20px 30px;
+  overflow: hidden;
+  text-align: center;
+  &__title {
+    color: $red;
+    font-family: BB;
+    font-size: 28px;
+    line-height: 22px;
+  }
+  &__descr {
+    font-family: BR;
+    font-size: 14px;
+    line-height: 26px;
+    margin: 20px 0;
+    color: white;
+  }
+  &__socials {
+    display: flex;
+    &-item {
+      width: 80px;
+      height: 45px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+      & + & {
+        margin-left: 20px;
+      }
+      &--fb {
+        background: #3b5898;
+      }
+      &--tw {
+        background: #55acee;
+      }
+      &--google {
+        background: $red;
+      }
+    }
+  }
+  &__decor {
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 26px;
+    font-family: BR;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    align-items: center;
+    &::before,
+    &::after {
+      content: '';
+      background: rgba(255, 255, 255, 0.25);
+      display: block;
+      height: 1px;
+      width: 75px;
+    }
+    span {
+      margin: 0 10px;
+    }
+  }
+  &__input {
+    background: #ffffff;
+    border-radius: 12px;
+    font-family: BM;
+    font-size: 16px;
+    line-height: 26px;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 11px 20px;
+    &:hover,
+    &:focus {
+      outline: none !important;
+    }
+  }
+  .ant-form-item-explain {
+    font-family: BR;
+    text-align: left;
+  }
+  &__btn {
+    border: none !important;
+    font-size: 15px;
+    line-height: 26px;
+    text-transform: uppercase;
+    height: 48px;
+    margin-top: 10px;
+  }
+  &__link {
+    font-size: 14px;
+    line-height: 15px;
+    color: #ffffff;
+    font-family: BB;
+    span {
+      color: $red;
+      cursor: pointer;
+    }
+  }
+}

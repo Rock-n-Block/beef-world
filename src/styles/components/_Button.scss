@@ -6,16 +6,16 @@
   line-height: 18px;
   cursor: pointer;
   color: white;
-  background: $red;
+  background: $red !important;
   transition: 0.3s;
   &:hover {
-    background: #ec5050;
+    background: #ec5050 !important;
   }
   &--gray {
     padding: 11px 25px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.15) !important;
     &:hover {
-      background: rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.24) !important;
     }
   }
 }

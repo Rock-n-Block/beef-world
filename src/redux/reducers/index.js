@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-const reducers = ['signin']
+const reducers = ['modal']
 
 export default combineReducers(
     reducers.reduce((initial, name) => {
