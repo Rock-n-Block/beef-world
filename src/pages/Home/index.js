@@ -6,8 +6,8 @@ import { useRouteMatch, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { filterActions } from '../../redux/actions';
-
 import { PostCard } from '../../components';
+import { youtubeApi } from '../../utils/api';
 
 import './Home.scss'
 
@@ -49,6 +49,17 @@ const Home = () => {
     React.useEffect(() => {
         axios.get('http://localhost:3001/data.json').then(({ data }) => {
             setCards(data.data)
+        })
+    }, [])
+
+    React.useEffect(() => {
+        youtubeApi.get('/search', {
+            params: {
+                q: 'yeqYNOFQDVU',
+                // relatedToVideoId: 'LUXloQM3eA0'
+            }
+        }).then(({ data }) => {
+            console.log(data)
         })
     }, [])
 

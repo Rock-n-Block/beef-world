@@ -1,23 +1,27 @@
 import React, { Fragment } from 'react';
-import renderHTML from 'react-render-html';
 import classNames from 'classnames';
 import format from 'date-fns/format'
+import { Scrollbar } from 'react-scrollbars-custom';
 
-import { PostCard } from '../../components';
+import { PostCard, Modal, Make } from '../../components';
 
 import './Topic.scss'
 
 import placedArrowImg from '../../assets/img/placed-arrow.svg';
 import worstArrowImg from '../../assets/img/worst-arrow.svg';
+import closeModalImg from '../../assets/img/close-cross.svg';
 
 const TopicPage = () => {
 
     const [activeTab, setActiveTab] = React.useState(0)
+    const [isModalOpen, setIsModalOpen] = React.useState(false)
+    const [modalTitle, setModalTitle] = React.useState('')
 
     const tabs = ['HOT', 'NEW', 'TOP']
 
     const data = {
-        title: 'Roman Empire vs Carthage',
+        leftTheme: 'Roman Empire',
+        rightTheme: 'Carthage',
         date: 'Fri Sep 18 2020 13:43:15 GMT+0300 (Москва, стандартное время)',
         placets: [
             {
@@ -103,18 +107,23 @@ const TopicPage = () => {
         ]
     }
 
-    const replaceVsStr = (str) => {
-        return str.replace('vs', '<span>vs</span>')
-    }
-
     const formatDate = (date) => {
         return format(new Date(date), 'd MMM Y')
+    }
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false)
+    }
+
+    const handleOpenModal = (modalTitle) => {
+        setModalTitle(modalTitle)
+        setIsModalOpen(true)
     }
 
     return (
         <div className="topic">
             <div className="topic__row row">
-                <div className="topic__title">{renderHTML(replaceVsStr(data.title))}</div>
+                <div className="topic__title">{data.leftTheme}<span> vs </span>{data.rightTheme}</div>
                 <div className="topic__wrapper">
                     <div className="topic__navbar">
                         {
@@ -157,34 +166,52 @@ const TopicPage = () => {
                 <div className="topic__content">
                     <div className="topic__content-box">
                         <div className="topic__content-wrapper">
-                            <div className="topic__content-btn">
-                                <div className="topic__content-btn-plus"><span>+</span></div>
-                                <div className="topic__content-btn-text">Make a Placet post</div>
+                            <div className="topic__content-name">{data.leftTheme}</div>
+                            <div className="topic__content-make">
+                                <span>{data.placets.length} posts&nbsp;&nbsp;&nbsp;•</span>
+                                <div className="topic__content-btn" onClick={() => handleOpenModal(data.leftTheme)}>
+                                    <div className="topic__content-btn-plus"><span>+</span></div>
+                                    <div className="topic__content-btn-text">Make a post</div>
+                                </div>
                             </div>
-                            <span>•  {data.placets.length} posts</span>
                         </div>
-                        {data.placets &&
-                            data.placets.map((card, index) => {
-                                return <PostCard key={index} {...card} type="column" to="post" />
-                            })
-                        }
+
+                        <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
+                            {data.placets &&
+                                data.placets.map((card, index) => {
+                                    return <PostCard key={index} {...card} type="column" to="post" />
+                                })
+                            }
+                        </Scrollbar>
                     </div>
                     <div className="topic__content-box">
                         <div className="topic__content-wrapper">
-                            <div className="topic__content-btn">
-                                <div className="topic__content-btn-plus topic__content-btn-plus--yellow"><span>+</span></div>
-                                <div className="topic__content-btn-text topic__content-btn-text--yellow">Make a Worst post</div>
+                            <div className="topic__content-name">{data.rightTheme}</div>
+                            <div className="topic__content-make">
+                                <span>{data.placets.length} posts&nbsp;&nbsp;&nbsp;•</span>
+                                <div className="topic__content-btn" onClick={() => handleOpenModal(data.rightTheme)}>
+                                    <div className="topic__content-btn-plus topic__content-btn-plus--yellow"><span>+</span></div>
+                                    <div className="topic__content-btn-text topic__content-btn-text--yellow">Make a post</div>
+                                </div>
                             </div>
-                            <span>•  {data.worsts.length} posts</span>
                         </div>
-                        {data.worsts &&
-                            data.worsts.map((card, index) => {
-                                return <PostCard key={index} {...card} type="column" to="post" />
-                            })
-                        }
+                        <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
+                            {data.worsts &&
+                                data.worsts.map((card, index) => {
+                                    return <PostCard key={index} {...card} type="column" to="post" />
+                                })
+                            }
+                        </Scrollbar>
                     </div>
                 </div>
             </div>
+            <Modal isOpen={isModalOpen} handleOk={handleCloseModal}>
+                <div className="topic__make">
+                    <div className="topic__make-title">Make a post for {modalTitle}</div>
+                    <img className="topic__make-img" onClick={handleCloseModal} src={closeModalImg} alt="" />
+                    <Make type="post" />
+                </div>
+            </Modal>
         </div>
     );
 }

@@ -37,9 +37,7 @@ $self: '.card';
     }
   }
   &__column {
-    & + & {
-      margin-top: 20px;
-    }
+    margin-bottom: 30px;
   }
   &__avatar {
     border-radius: 50%;

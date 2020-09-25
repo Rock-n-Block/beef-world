@@ -75,7 +75,7 @@ const Navbar = ({ isOpen, navbarRef }) => {
         <div ref={navbarRef} className={classNames('navbar', {
             'active': isOpen
         })}>
-            <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
+            <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '755px' }}>
                 <div className="navbar__text">
                     Post your video, meme, etcetera, or any video that already exists online. Every week the most popular post of the month will receive <span className="navbar__text--red">100 USD</span> from us! Press "Make a Post" to begin.
             </div>

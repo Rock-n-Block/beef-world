@@ -67,7 +67,7 @@ const Header = () => {
                     <div className="header__wrapper">
                         <div className="header__login" onClick={() => dispatch(modalActions.toggleSignInModal(true))}>Log in</div>
                         <div className="header__btn btn btn--gray" onClick={() => dispatch(modalActions.toggleSignUpModal(true))}>Sign up</div>
-                        <div className="header__btn btn">Make a post</div>
+                        <Link to="/make" className="header__btn btn">Make a topic</Link>
                     </div>
                 </div>
                 <Navbar isOpen={isNavbarOpen} navbarRef={navbarRef} />

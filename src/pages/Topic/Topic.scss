@@ -1,7 +1,46 @@
 @import '../../styles/var.scss';
 
 .topic {
-  padding: 40px 0;
+  padding: 40px 0 0;
+  height: calc(100vh - 74px);
+  overflow: hidden;
+  .ScrollbarsCustom-ThumbY {
+    background: rgba(255, 255, 255, 0.25) !important;
+  }
+  .ScrollbarsCustom-TrackY {
+    width: 6px !important;
+    right: -4px !important;
+  }
+  &__row {
+    height: 100%;
+  }
+  &__make {
+    background: $gray;
+    width: 480px;
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    position: relative;
+    &-title {
+      font-family: BB;
+      font-size: 22px;
+      line-height: 26px;
+      margin-bottom: 20px;
+    }
+    &-img {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+    .make__link {
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .make__headline {
+      margin-top: 15px;
+    }
+  }
   &__title {
     font-size: 36px;
     line-height: 43px;
@@ -69,7 +108,14 @@
   }
   &__content {
     display: grid;
+    height: calc(100% - 200px);
     grid-template-columns: 1fr 1fr;
+    &-name {
+      font-family: BB;
+      font-size: 18px;
+      line-height: 22px;
+      color: #ffffff;
+    }
     &-box {
       padding-right: 35px;
       & + & {
@@ -78,18 +124,23 @@
         border-left: 1px solid rgba(255, 255, 255, 0.25);
       }
     }
-    &-wrapper {
+    &-make {
       display: flex;
       align-items: center;
-      margin: 30px 0 20px;
       & > span {
-        margin-left: 10px;
+        margin-right: 10px;
         font-size: 14px;
         line-height: 17px;
         font-family: BM;
         color: #ffffff;
         opacity: 0.5;
       }
+    }
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 30px 0 20px;
     }
     &-btn {
       background: rgba(255, 255, 255, 0.1);

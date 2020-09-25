@@ -1,7 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
 
-
 import './Modal.scss'
 
 const ModalComponent = ({ children, isOpen, handleOk }) => {

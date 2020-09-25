@@ -2,7 +2,6 @@
   border-top: 2px solid #333333;
   padding-top: 40px;
   margin-top: 20px;
-  max-width: 750px;
   &__title {
     font-size: 22px;
     line-height: 26px;
@@ -16,6 +15,7 @@
     padding: 10px 20px 10px 10px;
     display: flex;
     margin-bottom: 25px;
+    max-width: 750px;
   }
   &__input {
     background: transparent !important;
