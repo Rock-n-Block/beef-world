@@ -36,7 +36,6 @@ const Home = () => {
     ]
 
     const [cards, setCards] = React.useState([])
-    // const [activeTab, setActiveTab] = React.useState(0)
 
     const { activeTab, activeSort } = useSelector(({ filter }) => {
         return {
@@ -47,7 +46,7 @@ const Home = () => {
 
 
     React.useEffect(() => {
-        axios.get('http://localhost:3001/data.json').then(({ data }) => {
+        axios.get('https://localhost:3000/data.json').then(({ data }) => {
             setCards(data.data)
         })
     }, [])
@@ -56,7 +55,6 @@ const Home = () => {
         youtubeApi.get('/search', {
             params: {
                 q: 'yeqYNOFQDVU',
-                // relatedToVideoId: 'LUXloQM3eA0'
             }
         }).then(({ data }) => {
             console.log(data)
@@ -64,7 +62,7 @@ const Home = () => {
     }, [])
 
     React.useEffect(() => {
-        const sortName = path.split('/')[1]
+        const sortName = path.split('/')[1] ? path.split('/')[1] : 'trending'
 
         dispatch(filterActions.setMainSort(sortName))
 

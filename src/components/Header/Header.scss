@@ -10,6 +10,31 @@
   &__btn {
     margin-left: 20px;
   }
+  &__popover {
+    background: red !important;
+    color: red !important;
+  }
+  &__user {
+    position: relative;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+    &-logout {
+      font-family: BR;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
   &__row {
     margin: 0 auto;
     display: flex;

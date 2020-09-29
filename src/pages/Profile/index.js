@@ -2,6 +2,7 @@ import React from 'react';
 import { UploadField } from '@navjobs/upload'
 
 import { ProfileForm } from '../../modules';
+import { Logout } from '../../components';
 
 import './Profile.scss';
 
@@ -31,7 +32,9 @@ const ProfilePage = () => {
                 </div>
                 <div className="profile__head">
                     <div className="profile__title">Profile</div>
-                    <div className="btn btn--gray profile__logout">Log out</div>
+                    <Logout>
+                        <div className="btn btn--gray profile__logout">Log out</div>
+                    </Logout>
                 </div>
                 <div className="profile__form">
                     <ProfileForm />

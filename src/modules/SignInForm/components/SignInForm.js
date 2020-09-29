@@ -1,7 +1,9 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd'
-import { useDispatch } from 'react-redux';
-import { modalActions } from '../../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { modalActions, facebookActions, userActions } from '../../../redux/actions';
+import { facebookApi } from '../../../utils/api';
 
 import fbImg from '../../../assets/img/social/fb-w.svg';
 import twImg from '../../../assets/img/social/tw-w.svg';
@@ -11,6 +13,12 @@ import googleImg from '../../../assets/img/social/google.svg';
 
 const SignInForm = props => {
     const dispatch = useDispatch();
+
+    const { facebookUserId } = useSelector((state) => {
+        return {
+            facebookUserId: state.facebook.userID
+        }
+    })
 
     const {
         touched,
@@ -37,12 +45,33 @@ const SignInForm = props => {
         dispatch(modalActions.toggleSignUpModal(true))
     }
 
+    const getFacebookUserData = (userId = '') => {
+        facebookApi.getMe().then(name => dispatch(userActions.setUserName(name)))
+        facebookApi.getUserPhoto(userId || facebookUserId).then(res => {
+            dispatch(userActions.setUserPhoto(res))
+        })
+    }
+
+    const handleFacebookLogin = () => {
+        facebookApi.getLoginStatus().then(res => {
+            dispatch(facebookActions.login(res))
+            getFacebookUserData()
+            dispatch(modalActions.toggleSignInModal(false))
+        }).catch(() => {
+            facebookApi.login().then((res) => {
+                dispatch(facebookActions.login(res))
+                getFacebookUserData(res.authResponse.userID)
+                dispatch(modalActions.toggleSignInModal(false))
+            })
+        })
+    }
+
     return (
         <div className="m-form">
             <div className="m-form__title">Sign in</div>
             <div className="m-form__descr">With your social network</div>
             <div className="m-form__socials">
-                <div className="m-form__socials-item m-form__socials-item--fb">
+                <div className="m-form__socials-item m-form__socials-item--fb" onClick={handleFacebookLogin}>
                     <img src={fbImg} alt="" />
                 </div>
                 <div className="m-form__socials-item m-form__socials-item--tw">

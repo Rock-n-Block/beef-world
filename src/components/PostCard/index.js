@@ -3,13 +3,19 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 import { Time, Statistic } from '../../components';
+import { facebookApi } from '../../utils/api';
 
 import commentsImg from '../../assets/img/comments.svg'
 import shareImg from '../../assets/img/share.svg'
 
 import './PostCard.scss'
 
-const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, type, topicName, to }) => {
+const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, type, topicName, to, path }) => {
+    const handleShare = () => {
+        const url = window.location.origin + `/${to}/${topicName}`;
+        facebookApi.share(url)
+    }
+
     return (
         <div className={classNames('card', {
             'card__grid': type === 'grid',
@@ -48,7 +54,7 @@ const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, ty
                         <img src={commentsImg} alt="" />
                         <span>{comments}</span>
                     </Link>
-                    <div className="card__share">
+                    <div className="card__share" onClick={handleShare}>
                         <img src={shareImg} alt="" />
                         <span>Share</span>
                     </div>
