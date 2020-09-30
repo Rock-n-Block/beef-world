@@ -16,6 +16,21 @@ $self: '.card';
       }
     }
   }
+  &__title {
+    padding: 20px 15px 0;
+    font-family: BM;
+    font-size: 14px;
+    line-height: 17px;
+    opacity: 0.5;
+    color: white;
+    &-post {
+      font-family: BB;
+      font-size: 15px;
+      line-height: 18px;
+      padding: 10px 15px 0;
+      color: white;
+    }
+  }
   &__box {
     width: 100%;
     overflow: hidden;
@@ -74,7 +89,8 @@ $self: '.card';
     font-size: 15px;
     line-height: 18px;
     overflow: hidden;
-    padding: 20px 20px 0;
+    padding: 0px 15px 0;
+    margin-top: 10px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;

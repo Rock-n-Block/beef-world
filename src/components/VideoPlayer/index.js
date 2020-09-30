@@ -116,7 +116,7 @@ const VideoPlayer = ({ video, type, errFnc }) => {
                 muted={muted}
             />
             <div className={classNames('v-player__controls', {
-                // 'hidden': !playing
+                'hidden': (!playing && playing === 0)
             })}>
                 <div className="v-player__controls-box">
                     <div className="v-player__controls-box-left">

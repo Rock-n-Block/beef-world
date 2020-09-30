@@ -16,6 +16,9 @@
   .ScrollbarsCustom-ThumbY {
     background: rgba(255, 255, 255, 0.4) !important;
   }
+  .ScrollbarsCustom-Track {
+    width: 6px !important;
+  }
   &__text {
     padding: 15px 20px 0;
     font-size: 13px;
@@ -113,5 +116,9 @@
         text-decoration: underline;
       }
     }
+  }
+  &__subs {
+    border-bottom: 0;
+    padding-bottom: 0;
   }
 }

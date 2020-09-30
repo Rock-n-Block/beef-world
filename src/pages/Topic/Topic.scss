@@ -14,6 +14,19 @@
   &__row {
     height: 100%;
   }
+  &__sub {
+    align-items: center;
+    display: flex;
+    padding-left: 14px !important;
+    span {
+      text-transform: uppercase;
+      font-family: BS;
+      color: white !important;
+      font-size: 13px;
+      line-height: 16px;
+      margin-left: 8px;
+    }
+  }
   &__make {
     background: $gray;
     width: 480px;
@@ -46,6 +59,9 @@
     line-height: 43px;
     font-family: BB;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     span {
       color: $red;
     }
@@ -76,33 +92,6 @@
         border-color: $red;
         font-family: BB;
         color: $red;
-      }
-    }
-  }
-  &__statistic {
-    display: flex;
-    align-items: center;
-    &-item {
-      display: flex;
-      align-items: flex-start;
-      & + & {
-        margin-left: 30px;
-      }
-      img {
-        margin-top: 6px;
-        margin-right: 9px;
-      }
-      &-content {
-        font-family: BM;
-        color: white;
-        font-size: 16px;
-        line-height: 19px;
-      }
-      &-head {
-        font-size: 14px;
-        line-height: 16px;
-        font-family: BR;
-        color: rgba(255, 255, 255, 0.5);
       }
     }
   }

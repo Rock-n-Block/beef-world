@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 
-import { HomePage, TopicPage, PostPage, MakeTopicPage, ProfilePage, CommunityPage, TestPage } from './pages';
+import { HomePage, TopicPage, PostPage, MakeTopicPage, ProfilePage, CommunityPage, TestPage, SearchPage } from './pages';
 import { Header } from './components';
 import { facebookActions, userActions } from './redux/actions';
 import { facebookApi } from './utils/api';
@@ -53,6 +53,7 @@ function App() {
       <Route exact path={'/make'} component={MakeTopicPage}></Route>
       <Route path={'/profile/:id'} component={ProfilePage}></Route>
       <Route exact path={'/community'} component={CommunityPage}></Route>
+      <Route exact path={'/search'} component={SearchPage}></Route>
 
 
       <Route exact path={'/test'} component={TestPage}></Route>

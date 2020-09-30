@@ -1,28 +1,23 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
-import format from 'date-fns/format'
 import { Scrollbar } from 'react-scrollbars-custom';
 
-import { PostCard, Modal, Make } from '../../components';
+import { PostCard, Modal, Make, TopicStatistic } from '../../components';
 
 import './Topic.scss'
 
-import placedArrowImg from '../../assets/img/placed-arrow.svg';
-import worstArrowImg from '../../assets/img/worst-arrow.svg';
 import closeModalImg from '../../assets/img/close-cross.svg';
+import subImg from '../../assets/img/sub.svg';
+import subActiveImg from '../../assets/img/sub-active.svg';
 
 const TopicPage = () => {
-
-    const [activeTab, setActiveTab] = React.useState(0)
-    const [isModalOpen, setIsModalOpen] = React.useState(false)
-    const [modalTitle, setModalTitle] = React.useState('')
-
-    const tabs = ['HOT', 'NEW', 'TOP']
-
     const data = {
         leftTheme: 'Roman Empire',
         rightTheme: 'Carthage',
         date: 'Fri Sep 18 2020 13:43:15 GMT+0300 (Москва, стандартное время)',
+        subscribe: false,
+        placet: '33.3k',
+        against: '24k',
         placets: [
             {
                 "avatar": "https://sun9-26.userapi.com/impf/RI0zS2_e7QuwGaNG2ji5sqYSgKNe950uz9a5fA/MJyaN_JHbvU.jpg?size=50x0&quality=88&crop=268,0,1535,1535&sign=025ed0b2dd6137a7d9b22daeacbeb330&ava=1",
@@ -107,9 +102,12 @@ const TopicPage = () => {
         ]
     }
 
-    const formatDate = (date) => {
-        return format(new Date(date), 'd MMM Y')
-    }
+    const [activeTab, setActiveTab] = React.useState(0)
+    const [isModalOpen, setIsModalOpen] = React.useState(false)
+    const [modalTitle, setModalTitle] = React.useState('')
+    const [isSub, setIsSub] = React.useState(data.subscribe)
+
+    const tabs = ['HOT', 'NEW', 'TOP']
 
     const handleCloseModal = () => {
         setIsModalOpen(false)
@@ -120,10 +118,22 @@ const TopicPage = () => {
         setIsModalOpen(true)
     }
 
+    const handleSubscribe = () => {
+        setIsSub(!isSub)
+    }
+
     return (
         <div className="topic">
             <div className="topic__row row">
-                <div className="topic__title">{data.leftTheme}<span> vs </span>{data.rightTheme}</div>
+                <div className="topic__title">
+                    <p>{data.leftTheme}<span> vs </span>{data.rightTheme}</p>
+                    <div className="topic__sub btn btn--gray" onClick={handleSubscribe}>
+                        {
+                            isSub ? <img src={subActiveImg} alt="" /> : <img src={subImg} alt="" />
+                        }
+                        <span>subscribe</span>
+                    </div>
+                </div>
                 <div className="topic__wrapper">
                     <div className="topic__navbar">
                         {
@@ -134,34 +144,9 @@ const TopicPage = () => {
                             })
                         }
                     </div>
-                    <div className="topic__statistic">
-                        <div className="topic__statistic-item">
-                            <div className="topic__statistic-item-box">
-                                <div className="topic__statistic-item-content">{data.placets.length + data.worsts.length}</div>
-                                <div className="topic__statistic-item-head">Posts</div>
-                            </div>
-                        </div>
-                        <div className="topic__statistic-item">
-                            <img src={placedArrowImg} alt="" />
-                            <div className="topic__statistic-item-box">
-                                <div className="topic__statistic-item-content">33.3k</div>
-                                <div className="topic__statistic-item-head">Placet!</div>
-                            </div>
-                        </div>
-                        <div className="topic__statistic-item">
-                            <img src={worstArrowImg} alt="" />
-                            <div className="topic__statistic-item-box">
-                                <div className="topic__statistic-item-content">24k</div>
-                                <div className="topic__statistic-item-head">Against</div>
-                            </div>
-                        </div>
-                        <div className="topic__statistic-item">
-                            <div className="topic__statistic-item-box">
-                                <div className="topic__statistic-item-content">{formatDate(data.date)}</div>
-                                <div className="topic__statistic-item-head">Created</div>
-                            </div>
-                        </div>
-                    </div>
+
+                    <TopicStatistic posts={data.placets.length + data.worsts.length} placet={data.placet} against={data.against} date={data.date} />
+
                 </div>
                 <div className="topic__content">
                     <div className="topic__content-box">
@@ -213,6 +198,7 @@ const TopicPage = () => {
                 </div>
             </Modal>
         </div>
+
     );
 }
 

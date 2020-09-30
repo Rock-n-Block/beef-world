@@ -7,9 +7,6 @@ import { useSelector } from 'react-redux';
 import './Navbar.scss'
 
 const Navbar = ({ isOpen, navbarRef }) => {
-
-    // const [activeTab, setActiveTab] = React.useState(0)
-
     const tabs = [
         {
             link: 'trending',
@@ -29,7 +26,7 @@ const Navbar = ({ isOpen, navbarRef }) => {
         },
     ]
 
-    const topics = [
+    const tags = [
         {
             link: 'animals',
             text: 'Animals'
@@ -64,6 +61,21 @@ const Navbar = ({ isOpen, navbarRef }) => {
         },
     ]
 
+    const subs = [
+        {
+            text: 'Roman Empire vs Carthage',
+            link: '123'
+        },
+        {
+            text: 'Right vs Left',
+            link: '123'
+        },
+        {
+            text: 'Soft vs Hard',
+            link: '123'
+        },
+    ]
+
     const { activeTab, activeSort } = useSelector(({ filter }) => {
         return {
             activeTab: filter.sort,
@@ -75,7 +87,7 @@ const Navbar = ({ isOpen, navbarRef }) => {
         <div ref={navbarRef} className={classNames('navbar', {
             'active': isOpen
         })}>
-            <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '755px' }}>
+            <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
                 <div className="navbar__text">
                     Post your video, meme, etcetera, or any video that already exists online. Every week the most popular post of the month will receive <span className="navbar__text--red">100 USD</span> from us! Press "Make a Post" to begin.
             </div>
@@ -97,10 +109,22 @@ const Navbar = ({ isOpen, navbarRef }) => {
                         })
                     }
                 </div>
-                <div className="navbar__topics">
-                    <div className="navbar__topics-title">topic</div>
+                <div className="navbar__topics navbar__subs">
+                    <div className="navbar__topics-title">subscribe</div>
                     {
-                        topics.map((item, index) => {
+                        subs.map((item, index) => {
+                            return (
+                                <Link key={index} className="navbar__topics-item" to={`/topic/${item.link}`}>
+                                    <span className="navbar__topics-item-text">{item.text}</span>
+                                </Link>
+                            )
+                        })
+                    }
+                </div>
+                <div className="navbar__topics">
+                    <div className="navbar__topics-title">tags</div>
+                    {
+                        tags.map((item, index) => {
                             return (
                                 <Link key={index} className="navbar__topics-item" to={`/${activeTab}/${item.link}`}>
                                     <div className="navbar__topics-item-img"></div>

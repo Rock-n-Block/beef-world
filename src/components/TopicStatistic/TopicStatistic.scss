@@ -1,0 +1,28 @@
+.t-statistic {
+  display: flex;
+  align-items: center;
+  &__item {
+    & + & {
+      margin-left: 30px;
+    }
+    &-content {
+      font-family: BR;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 2px;
+      line-height: 19px;
+      &.placet {
+        color: #37e1c3;
+      }
+      &.against {
+        color: #d0a023;
+      }
+    }
+    &-head {
+      font-size: 14px;
+      line-height: 16px;
+      font-family: BR;
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}

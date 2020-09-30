@@ -3,6 +3,7 @@ import { Input, Select } from 'antd';
 import classNames from 'classnames';
 
 import { VideoPlayer } from '../../components';
+import { youtubeApi } from '../../utils/api';
 
 import './Make.scss'
 
@@ -14,6 +15,7 @@ const { Option } = Select
 const Make = ({ type }) => {
 
     const [videoLink, setVideoLink] = React.useState('')
+    const [youtubeVideoTitle, setYoutubeVideoTitle] = React.useState('')
     const [firstOponent, setFirstOponent] = React.useState('')
     const [secondOponent, setSecondOponent] = React.useState('')
     const [postTitle, setPostTitle] = React.useState('')
@@ -38,10 +40,29 @@ const Make = ({ type }) => {
 
     // const [postType, setPostType] = React.useState('placet')
 
+    const youtube_parser = (url) => {
+        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        var match = url.match(regExp);
+        return (match && match[7].length == 11) ? match[7] : false;
+    }
+
     const handleInputLinkChange = (e) => {
+        const id = youtube_parser(e.target.value)
         let value = e.target.value.replace('https://', '')
         value = value.replace('http://', '')
-        setVideoLink(value)
+
+        if (id) {
+            youtubeApi.get('/search', {
+                params: {
+                    q: id,
+                }
+            }).then(({ data }) => {
+                setYoutubeVideoTitle(data.items[0].snippet.title)
+                setVideoLink(value)
+            })
+
+        }
+
     }
 
     const handlePostTitleChange = (e) => {
@@ -102,37 +123,6 @@ const Make = ({ type }) => {
                     </div>
                 )
             }
-            {/* {type === 'post' && (
-                <>
-                    <div className="make__box make__post">
-                        <div className="make__post-box">
-                            <div className="make__box-title">Topic</div>
-                            <Input type="text" className="make__input" placeholder="Topic Name" value={topicTitle} onChange={(e) => setTopicTitle(e.target.value)} />
-                        </div>
-                        <div className="make__post-type">
-                            <div onClick={() => setPostType('placet')} className={classNames('make__post-type-item make__post-type-item--placet', {
-                                'active': postType === 'placet'
-                            })}>
-                                <div className="make__post-type-item-img">
-                                    <img src={checkImg} alt="" />
-                                </div>
-                                <div className="make__post-type-item-text">Placet</div>
-                            </div>
-                            <div onClick={() => setPostType('worst')} className={classNames('make__post-type-item make__post-type-item--worst', {
-                                'active': postType === 'worst'
-                            })}>
-                                <div className="make__post-type-item-img">
-                                    <img src={checkImg} alt="" />
-                                </div>
-                                <div className="make__post-type-item-text">Worst</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="make__post-example make__box-title">Example Roman Empire vs Carthage</div>
-                </>
-            )
-            } */}
-
             <div className="make__box make__headline">
                 <div className="make__box-title">
                     <TextArea autoSize={{ minRows: 1, maxRows: 20 }} size="large" type="text" className="make__input" placeholder="Title  (optional)" value={postTitle} onChange={handlePostTitleChange} />

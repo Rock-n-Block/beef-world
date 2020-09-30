@@ -1,0 +1,43 @@
+@import '../../styles/var';
+.search {
+  padding: 40px 0;
+  color: white;
+  &__title {
+    font-family: BB;
+    font-size: 36px;
+    line-height: 43px;
+    margin-bottom: 10px;
+    &:nth-child(n + 2) {
+      margin-top: 70px;
+    }
+  }
+  &__subtitle {
+    opacity: 0.5;
+    font-size: 22px;
+    line-height: 26px;
+    font-family: BR;
+    margin-bottom: 20px;
+  }
+  &__topic {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: $gray;
+    padding: 20px 35px 20px 15px;
+    border-radius: 12px;
+    & + & {
+      margin-top: 10px;
+    }
+    &-title {
+      font-family: BB;
+      font-size: 22px;
+      line-height: 17px;
+      span {
+        color: $red;
+      }
+    }
+  }
+  &__posts {
+    margin: 30px -15px 0 -15px;
+  }
+}

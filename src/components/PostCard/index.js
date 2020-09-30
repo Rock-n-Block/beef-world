@@ -10,7 +10,7 @@ import shareImg from '../../assets/img/share.svg'
 
 import './PostCard.scss'
 
-const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, type, topicName, to, path }) => {
+const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, type, topicName, to, topicTitle, postTitle }) => {
     const handleShare = () => {
         const url = window.location.origin + `/${to}/${topicName}`;
         facebookApi.share(url)
@@ -34,6 +34,12 @@ const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, ty
                     </div>
                     {
                         img && <img src={img} alt="" className="card__img" />
+                    }
+                    {
+                        topicTitle && <div className="card__title">{topicTitle}</div>
+                    }
+                    {
+                        postTitle && <div className="card__title-post">{postTitle}</div>
                     }
                     {
                         text && <div className="card__text">{text}</div>
