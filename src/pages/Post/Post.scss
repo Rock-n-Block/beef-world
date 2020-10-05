@@ -5,8 +5,11 @@
   grid-column-gap: 20px;
   color: white;
   &__trends {
-    padding: 15px 30px 35px 20px;
+    padding: 15px 18px 35px 20px;
     border-left: 1px solid rgba(255, 255, 255, 0.25);
+    height: calc(100vh - 74px);
+    position: sticky;
+    top: 74px;
     &-title {
       font-size: 22px;
       line-height: 26px;
@@ -18,7 +21,8 @@
       background: rgba(255, 255, 255, 0.4) !important;
     }
     .ScrollbarsCustom-TrackY {
-      margin-right: -10px;
+      margin-right: -3px;
+      width: 6px !important;
     }
   }
   &__content {

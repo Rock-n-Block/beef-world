@@ -122,3 +122,14 @@
     padding-bottom: 0;
   }
 }
+
+@media only screen and (max-width: 991px) {
+  .navbar {
+    width: calc(100% - 18px);
+    transition: 0.4s left;
+    left: -100%;
+    &.active {
+      left: 0;
+    }
+  }
+}

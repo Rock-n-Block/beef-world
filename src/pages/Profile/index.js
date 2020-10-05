@@ -13,8 +13,7 @@ const ProfilePage = () => {
     const [avatar, setAvatar] = React.useState(defaultAvatar)
 
     const onUploadAvatar = newAvatar => {
-        console.log((newAvatar))
-        setAvatar(newAvatar[0])
+        setAvatar(URL.createObjectURL(newAvatar[0]))
     }
 
     return (

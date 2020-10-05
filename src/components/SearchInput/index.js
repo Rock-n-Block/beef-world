@@ -33,7 +33,7 @@ const SearchInput = () => {
                 subscribe: false,
                 placet: '33.3k',
                 against: '24k',
-                id: '1'
+                id: '2'
             }
         ],
         posts: [

@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { Scrollbar } from 'react-scrollbars-custom';
 import { useSelector } from 'react-redux';
 
+
 import './Navbar.scss'
 
-const Navbar = ({ isOpen, navbarRef }) => {
+const Navbar = ({ isOpen, navbarRef, history }) => {
     const tabs = [
         {
             link: 'trending',
@@ -75,6 +76,7 @@ const Navbar = ({ isOpen, navbarRef }) => {
             link: '123'
         },
     ]
+
 
     const { activeTab, activeSort } = useSelector(({ filter }) => {
         return {

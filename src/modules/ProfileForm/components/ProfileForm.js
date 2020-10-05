@@ -41,28 +41,16 @@ const SignUpForm = props => {
             layout="vertical"
         >
             <Form.Item
-                name="firstname"
-                label="First Name"
+                name="fullname"
+                label="Username"
                 className="profile__form-item"
+                validateStatus={validateField('fullname', touched, errors)}
+                help={!touched.fullname ? false : errors.fullname}
             >
                 <Input
-                    id="firstname"
+                    id="fullname"
                     className="profile__form-input"
-                    placeholder="Your First Name"
-                    size="large"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-            </Form.Item>
-            <Form.Item
-                name="lastname"
-                label="Last Name"
-                className="profile__form-item"
-            >
-                <Input
-                    id="lastname"
-                    className="profile__form-input"
-                    placeholder="Your Last Name"
+                    placeholder="Your Username"
                     size="large"
                     onChange={handleChange}
                     onBlur={handleBlur}

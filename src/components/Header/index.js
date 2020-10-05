@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Popover } from 'antd';
 
@@ -14,7 +14,7 @@ import navbarCloseImg from '../../assets/img/navbar-close.svg';
 import logoImg from '../../assets/img/logo.svg';
 import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 
-const Header = () => {
+const Header = ({ history }) => {
 
     const dispatch = useDispatch();
 
@@ -53,6 +53,13 @@ const Header = () => {
     const handleOkSignUpModal = () => {
         dispatch(modalActions.toggleSignUpModal(false))
     }
+
+
+    history.listen(() => {
+        if (window.innerWidth < 901) {
+            setIsNavbarOpen(false)
+        }
+    });
 
     return (
         <>
@@ -98,4 +105,4 @@ const Header = () => {
     );
 }
 
-export default Header;
+export default withRouter(Header);

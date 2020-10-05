@@ -6,8 +6,7 @@ import validateForm from '../../../utils/validate'
 export default withFormik({
     enableReinitialize: true,
     mapPropsToValues: () => ({
-        firstname: '',
-        lastname: '',
+        fullname: '',
         email: '',
         password: '',
         confirm: ''

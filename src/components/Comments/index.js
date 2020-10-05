@@ -10,6 +10,16 @@ const { TextArea } = Input;
 const Comments = ({ comments }) => {
     const [commentText, setCommentText] = React.useState('')
 
+    const handleSendComment = (e) => {
+
+        if (e.key === 'Enter' && commentText.trim().length) {
+            console.log(commentText)
+            setCommentText('')
+        } else if (e.key === 'Enter' && !commentText.trim().length) {
+            setCommentText('')
+        }
+    }
+
     return (
         <div className="comments">
             <div className="comments__title">
@@ -19,7 +29,7 @@ const Comments = ({ comments }) => {
                 <Avatar
                     src="https://sun9-26.userapi.com/impf/RI0zS2_e7QuwGaNG2ji5sqYSgKNe950uz9a5fA/MJyaN_JHbvU.jpg?size=50x0&quality=88&crop=268,0,1535,1535&sign=025ed0b2dd6137a7d9b22daeacbeb330&ava=1"
                 />
-                <TextArea value={commentText} onChange={(e) => setCommentText(e.target.value)} autoSize={{ minRows: 1, maxRows: 20 }} size="large" className="comments__input" placeholder="Add your comment" />
+                <TextArea value={commentText} onKeyUp={handleSendComment} onChange={(e) => setCommentText(e.target.value)} autoSize={{ minRows: 1, maxRows: 20 }} size="large" className="comments__input" placeholder="Add your comment" />
                 <button className="comments__btn" disabled={!commentText}>Post</button>
             </div>
             {
