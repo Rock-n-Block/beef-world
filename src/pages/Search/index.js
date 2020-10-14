@@ -1,5 +1,6 @@
 import React from 'react';
 import Masonry from 'react-masonry-component';
+import {Link} from 'react-router-dom';
 
 import { TopicStatistic, PostCard } from '../../components';
 
@@ -20,13 +21,13 @@ const Search = (props) => {
                     data.topics && (
                         <>
                             <div className="search__title">Topics</div>
-                            <div className="search__subtitle">7 results tocip for pizza</div>
+                            <div className="search__subtitle">{data.topics.length} results topic for pizza</div>
                             {
                                 data.topics.map(topic => {
-                                    return <div className="search__topic">
+                                    return <Link to={`/topic/${topic.id}`} className="search__topic">
                                         <div className="search__topic-title">{topic.leftTheme} <span>vs</span> {topic.rightTheme}</div>
                                         <TopicStatistic posts="4" placet={topic.placet} against={topic.against} date={topic.date} />
-                                    </div>
+                                    </Link>
                                 })
                             }
                         </>
@@ -36,7 +37,7 @@ const Search = (props) => {
                     data.posts && (
                         <>
                             <div className="search__title">Topics</div>
-                            <div className="search__subtitle">7 results tocip for pizza</div>
+                            <div className="search__subtitle">{data.posts.length} results tocip for pizza</div>
                             <div className="search__posts">
 
                                 <Masonry options={{

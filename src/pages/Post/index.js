@@ -105,7 +105,7 @@ const PostPage = () => {
 
 
     React.useEffect(() => {
-        axios.get('https://localhost:3000/data.json').then(({ data }) => {
+        axios.get('http://localhost:3000/data.json').then(({ data }) => {
             setCards(data.data)
         })
     }, [])

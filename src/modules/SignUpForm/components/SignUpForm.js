@@ -92,12 +92,12 @@ const SignUpForm = props => {
             >
                 <Form.Item
                     hasFeedback
-                    name="fullname"
-                    validateStatus={validateField('fullname', touched, errors)}
-                    help={!touched.fullname ? false : errors.fullname}
+                    name="username"
+                    validateStatus={validateField('username', touched, errors)}
+                    help={!touched.username ? false : errors.username}
                 >
                     <Input
-                        id="fullname"
+                        id="username"
                         className="m-form__input"
                         placeholder="User Name"
                         size="large"
@@ -131,6 +131,22 @@ const SignUpForm = props => {
                         className="m-form__input"
                         type="password"
                         placeholder="Password"
+                        size="large"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    />
+                </Form.Item>
+                <Form.Item
+                    hasFeedback
+                    name="confirm_password"
+                    validateStatus={validateField('confirm_password', touched, errors)}
+                    help={!touched.confirm_password ? false : errors.confirm_password}
+                >
+                    <Input
+                        id="confirm_password"
+                        className="m-form__input"
+                        type="password"
+                        placeholder="Confirm Password"
                         size="large"
                         onChange={handleChange}
                         onBlur={handleBlur}

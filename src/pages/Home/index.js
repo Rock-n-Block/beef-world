@@ -45,7 +45,7 @@ const Home = () => {
 
 
     React.useEffect(() => {
-        axios.get('https://localhost:3000/data.json').then(({ data }) => {
+        axios.get('http://localhost:3000/data.json').then(({ data }) => {
             setCards(data.data)
         })
     }, [])
@@ -79,7 +79,7 @@ const Home = () => {
                     }}>
                         {cards &&
                             cards.map((card, index) => {
-                                return <PostCard key={index} {...card} type="grid" to="post" />
+                                return <PostCard key={index} {...card} type="grid" to="topic" />
                             })
                         }
                     </Masonry>

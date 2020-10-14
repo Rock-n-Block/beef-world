@@ -8,6 +8,8 @@ const SignUpForm = props => {
     const dispatch = useDispatch();
 
     const {
+        username,
+        email,
         touched,
         errors,
         handleChange,
@@ -28,11 +30,6 @@ const SignUpForm = props => {
         }
     }
 
-    const handleSignIn = () => {
-        dispatch(modalActions.toggleSignInModal(true))
-        dispatch(modalActions.toggleSignUpModal(false))
-    }
-
     return (
         <Form
             name="normal_login"
@@ -41,23 +38,23 @@ const SignUpForm = props => {
             layout="vertical"
         >
             <Form.Item
-                name="fullname"
+                name="username"
                 label="Username"
                 className="profile__form-item"
-                validateStatus={validateField('fullname', touched, errors)}
-                help={!touched.fullname ? false : errors.fullname}
+                validateStatus={validateField('username', touched, errors)}
+                help={!touched.username ? false : errors.username}
             >
                 <Input
-                    id="fullname"
+                    id="username"
                     className="profile__form-input"
                     placeholder="Your Username"
                     size="large"
+                    defaultValue={username}
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
             </Form.Item>
             <Form.Item
-                hasFeedback
                 name="email"
                 validateStatus={validateField('email', touched, errors)}
                 help={!touched.email ? false : errors.email}
@@ -69,6 +66,7 @@ const SignUpForm = props => {
                     className="profile__form-input"
                     placeholder="Your Email"
                     size="large"
+                    defaultValue={email}
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
@@ -92,13 +90,13 @@ const SignUpForm = props => {
             </Form.Item>
             <Form.Item
                 hasFeedback
-                name="confirm"
-                validateStatus={validateField('confirm', touched, errors)}
-                help={!touched.confirm ? false : errors.confirm}
+                name="confirm_password"
+                validateStatus={validateField('confirm_password', touched, errors)}
+                help={!touched.confirm_password ? false : errors.confirm_password}
                 className="profile__form-item profile__form-item--password"
             >
                 <Input
-                    id="confirm"
+                    id="confirm_password"
                     className="profile__form-input"
                     type="password"
                     placeholder="Repeat new password"

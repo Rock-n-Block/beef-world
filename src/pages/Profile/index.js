@@ -1,5 +1,6 @@
 import React from 'react';
 import { UploadField } from '@navjobs/upload'
+import { useSelector } from 'react-redux';
 
 import { ProfileForm } from '../../modules';
 import { Logout } from '../../components';
@@ -15,6 +16,13 @@ const ProfilePage = () => {
     const onUploadAvatar = newAvatar => {
         setAvatar(URL.createObjectURL(newAvatar[0]))
     }
+
+    const { username, email } = useSelector(({ user }) => {
+        return {
+            username: user.username,
+            email: user.email
+        }
+    })
 
     return (
         <div className="profile">
@@ -36,7 +44,7 @@ const ProfilePage = () => {
                     </Logout>
                 </div>
                 <div className="profile__form">
-                    <ProfileForm />
+                    <ProfileForm username={username} email={email} />
                 </div>
             </div>
         </div>

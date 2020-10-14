@@ -1,12 +1,18 @@
 
 const initialState = {
     username: '',
-    isAuth: false,
+    isAuth: !!window.localStorage.access_token,
     photo: ''
 }
 
 export default (state = initialState, { type, payload }) => {
     switch (type) {
+        case 'USER:SET_DATA':
+            return {
+                ...state,
+                ...payload,
+                isAuth: true
+            };
         case 'USER:SET_USERNAME':
             return {
                 ...state,

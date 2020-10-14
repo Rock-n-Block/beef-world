@@ -3,7 +3,6 @@ import { Select } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 
 import searchImg from '../../assets/img/search.svg';
-import searchClearImg from '../../assets/img/search-clean.svg';
 import searchRedImg from '../../assets/img/search-red.svg';
 
 import './SearchInput.scss'

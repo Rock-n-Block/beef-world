@@ -20,16 +20,16 @@ export default ({ isAuth, values, errors }) => {
             }
 
         },
-        fullname: (value) => {
+        username: (value) => {
             if (!value) {
-                errors.fullname = 'Enter your name'
+                errors.username = 'Enter your name'
             }
         },
-        confirm: (value) => {
-            if (!values.password || !values.confirm) {
-                errors.confirm = 'Repeat new password'
+        confirm_password: (value) => {
+            if (!values.password || !values.confirm_password) {
+                errors.confirm_password = 'Repeat new password'
             } else if (values.password !== value) {
-                errors.confirm = 'Пароли не совпадают'
+                errors.confirm_password = 'Пароли не совпадают'
             }
         },
     }

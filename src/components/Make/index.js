@@ -129,12 +129,15 @@ const Make = ({ type }) => {
                     <span>{postTitle.length}/100</span>
                 </div>
             </div>
-            <div className="make__box make__descr">
-                <div className="make__box-title">
-                    <TextArea autoSize={{ minRows: 1, maxRows: 20 }} size="large" type="text" className="make__input" placeholder="Description  (optional)" value={postDescr} onChange={handlePostDescriptionChange} />
-                    <span>{postDescr.length}/1000</span>
+            {
+
+                type === 'topic' && <div className="make__box make__descr">
+                    <div className="make__box-title">
+                        <TextArea autoSize={{ minRows: 1, maxRows: 20 }} size="large" type="text" className="make__input" placeholder="Description  (optional)" value={postDescr} onChange={handlePostDescriptionChange} />
+                        <span>{postDescr.length}/1000</span>
+                    </div>
                 </div>
-            </div>
+            }
             <div className="make__box make__tags">
 
                 <Select

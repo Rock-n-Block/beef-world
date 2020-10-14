@@ -1,6 +1,6 @@
 import React from 'react';
-import { Route } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { Route, Redirect } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 
 import { HomePage, TopicPage, PostPage, MakeTopicPage, ProfilePage, CommunityPage, TestPage, SearchPage } from './pages';
 import { Header } from './components';
@@ -12,8 +12,9 @@ import './styles/style.scss'
 function App() {
   const dispatch = useDispatch()
 
-  React.useEffect(() => {
+  const isAuth = useSelector(({ user }) => user.isAuth)
 
+  React.useEffect(() => {
     const facebookInterval = setInterval(() => {
       facebookApi.getFacebookApi()
 
@@ -40,6 +41,10 @@ function App() {
     }, 100)
   }, [])
 
+  React.useEffect(() => {
+    dispatch(userActions.getMe())
+  }, [])
+
   return (
     <div className="wrapper">
       <Header />
@@ -50,8 +55,8 @@ function App() {
       <Route exact path={['/editors', '/editors/:topic']} component={HomePage}></Route>
       <Route path={'/topic/:id'} component={TopicPage}></Route>
       <Route path={'/post/:id'} component={PostPage}></Route>
-      <Route exact path={'/make'} component={MakeTopicPage}></Route>
-      <Route path={'/profile/:id'} component={ProfilePage}></Route>
+      <Route exact path={'/make'} render={() => isAuth ? <MakeTopicPage /> : <Redirect to="/" />}></Route>
+      <Route path={'/profile/:id'} render={() => isAuth ? <ProfilePage /> : <Redirect to="/" />}></Route>
       <Route exact path={'/community'} component={CommunityPage}></Route>
       <Route exact path={'/search'} component={SearchPage}></Route>
 

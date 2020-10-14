@@ -7,6 +7,7 @@ import { facebookApi } from '../../utils/api';
 
 import commentsImg from '../../assets/img/comments.svg'
 import shareImg from '../../assets/img/share.svg'
+import defaultAvatar from '../../assets/img/default-avatar.svg';
 
 import './PostCard.scss'
 
@@ -26,7 +27,7 @@ const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, ty
                 <Link to={`/${to}/${topicName}`} className="card__link">
                     <div className="card__head">
                         <div className="card__avatar">
-                            <img src={avatar} alt={name} />
+                            {avatar ? <img src={avatar} alt={name} /> : <img src={defaultAvatar} alt={name} />}
                         </div>
                         <div className="card__name">
                             by <span>{name}</span>  • <span className="card__name-time">{date && <Time date={date} />}</span>
