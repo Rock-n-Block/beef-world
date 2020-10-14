@@ -20,19 +20,40 @@ const actions = {
             type: 'USER:LOGOUT'
         })
     },
-    signUp: data => dispatch => {
+    signUp: data => () => {
         return userApi.signUp(data)
     },
     getMe: () => dispatch => {
         userApi.getMe().then(({ data }) => {
             dispatch(actions.setUserData(data))
         })
-            .catch(err => console.log(err))
+            .catch(() => {
+                dispatch(actions.refreshToken(actions.getMe))
+            })
+    },
+    refreshToken: (method) => dispatch => {
+        if (localStorage.refresh_token) {
+            userApi.refreshToken().then(({ data }) => {
+                localStorage.access_token = data.access_token
+                localStorage.refresh_token = data.refresh_token
+
+                window.axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.access_token}`
+
+                dispatch(method())
+            })
+                .catch(() => {
+                    dispatch(actions.logout())
+                })
+        } else {
+            dispatch(actions.logout())
+        }
     },
     signIn: data => dispatch => {
         return userApi.signIn(data).then(({ data }) => {
             localStorage.access_token = data.access_token
             localStorage.refresh_token = data.refresh_token
+
+            window.axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.access_token}`
 
             dispatch(actions.getMe())
         })

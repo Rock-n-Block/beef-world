@@ -1,5 +1,7 @@
 
 const initialState = {
+    id: '',
+    email: '',
     username: '',
     isAuth: !!window.localStorage.access_token,
     photo: ''

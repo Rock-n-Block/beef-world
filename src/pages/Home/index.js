@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { filterActions } from '../../redux/actions';
 import { PostCard } from '../../components';
+import { topicApi } from '../../utils/api';
 
 import './Home.scss'
 
@@ -36,10 +37,11 @@ const Home = () => {
 
     const [cards, setCards] = React.useState([])
 
-    const { activeTab, activeSort } = useSelector(({ filter }) => {
+    const { activeTab, activeSort, userId } = useSelector(({ filter, user }) => {
         return {
             activeTab: filter.sort,
-            activeSort: filter.filter
+            activeSort: filter.filter,
+            userId: user.id
         }
     })
 
@@ -49,6 +51,10 @@ const Home = () => {
             setCards(data.data)
         })
     }, [])
+
+    React.useEffect(() => {
+        topicApi.getTopics().then(res => console.log(res)).catch(err => console.log(err))
+    }, [window.localStorage.access_token])
 
     React.useEffect(() => {
         const sortName = path.split('/')[1] ? path.split('/')[1] : 'trending'

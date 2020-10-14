@@ -6,10 +6,9 @@ export default {
         ...postData,
         "grant_type": "password"
     }),
-    getMe: () => axios({
-        url: 'user/me/',
-        headers: {
-            'Authorization': `Bearer ${localStorage.access_token}`
-        }
+    getMe: () => axios.get('user/me/'),
+    refreshToken: () => axios.post('o/token/', {
+        refresh_token: localStorage.refresh_token,
+        "grant_type": "refresh_token"
     })
 }
