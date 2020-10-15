@@ -12,7 +12,7 @@ import checkImg from '../../assets/img/check.svg';
 const { TextArea } = Input
 const { Option } = Select
 
-const Make = ({ type }) => {
+const Make = ({ type, handleCreate }) => {
 
     const [videoLink, setVideoLink] = React.useState('')
     const [youtubeVideoTitle, setYoutubeVideoTitle] = React.useState('')
@@ -37,8 +37,6 @@ const Make = ({ type }) => {
             id: 3
         }
     ]
-
-    // const [postType, setPostType] = React.useState('placet')
 
     const youtube_parser = (url) => {
         var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -79,6 +77,25 @@ const Make = ({ type }) => {
 
     const handleTagsChange = (tag) => {
         console.log(tag)
+    }
+
+    const handleBtnClick = () => {
+        const postData = {}
+        if (type === 'topic') {
+            postData.right_theme = secondOponent
+            postData.left_theme = firstOponent
+        }
+
+        if (type === 'post') {
+            postData.title = postTitle;
+            postData.link = videoLink;
+        }
+        postData.text = postDescr
+
+        handleCreate(postData)
+        setPostTitle('');
+        setVideoLink('')
+        setPostDescr('')
     }
 
     return (
@@ -125,20 +142,17 @@ const Make = ({ type }) => {
             }
             <div className="make__box make__headline">
                 <div className="make__box-title">
-                    <TextArea autoSize={{ minRows: 1, maxRows: 20 }} size="large" type="text" className="make__input" placeholder="Title  (optional)" value={postTitle} onChange={handlePostTitleChange} />
+                    <TextArea autoSize={{ minRows: 1, maxRows: 20 }} size="large" type="text" className="make__input" placeholder="Title" value={postTitle} onChange={handlePostTitleChange} />
                     <span>{postTitle.length}/100</span>
                 </div>
             </div>
-            {
-
-                type === 'topic' && <div className="make__box make__descr">
-                    <div className="make__box-title">
-                        <TextArea autoSize={{ minRows: 1, maxRows: 20 }} size="large" type="text" className="make__input" placeholder="Description  (optional)" value={postDescr} onChange={handlePostDescriptionChange} />
-                        <span>{postDescr.length}/1000</span>
-                    </div>
+            <div className="make__box make__descr">
+                <div className="make__box-title">
+                    <TextArea autoSize={{ minRows: 1, maxRows: 20 }} size="large" type="text" className="make__input" placeholder="Description  (optional)" value={postDescr} onChange={handlePostDescriptionChange} />
+                    <span>{postDescr.length}/1000</span>
                 </div>
-            }
-            <div className="make__box make__tags">
+            </div>
+            <div className="make__box make__tags" id="moke__box">
 
                 <Select
                     mode="multiple"
@@ -146,6 +160,7 @@ const Make = ({ type }) => {
                     style={{ width: '100%' }}
                     placeholder="Tags"
                     onChange={handleTagsChange}
+                    getPopupContainer={() => document.getElementById('moke__box')}
                 >
                     {
                         tags.map((tag) => {
@@ -154,7 +169,7 @@ const Make = ({ type }) => {
                     }
                 </Select>
             </div>
-            <div className="make__btn btn">POst</div>
+            <button className="make__btn btn" onClick={handleBtnClick} disabled={(type === 'topic' && (!firstOponent || !secondOponent)) || !postTitle}>POst</button>
         </div>
     );
 }

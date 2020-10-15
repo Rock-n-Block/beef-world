@@ -33,12 +33,7 @@ const actions = {
     },
     refreshToken: (method) => dispatch => {
         if (localStorage.refresh_token) {
-            userApi.refreshToken().then(({ data }) => {
-                localStorage.access_token = data.access_token
-                localStorage.refresh_token = data.refresh_token
-
-                window.axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.access_token}`
-
+            userApi.refreshToken().then(() => {
                 dispatch(method())
             })
                 .catch(() => {
@@ -49,12 +44,7 @@ const actions = {
         }
     },
     signIn: data => dispatch => {
-        return userApi.signIn(data).then(({ data }) => {
-            localStorage.access_token = data.access_token
-            localStorage.refresh_token = data.refresh_token
-
-            window.axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.access_token}`
-
+        return userApi.signIn(data).then(() => {
             dispatch(actions.getMe())
         })
     }

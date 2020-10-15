@@ -5,10 +5,22 @@ export default {
     signIn: (postData) => axios.post(`o/token/`, {
         ...postData,
         "grant_type": "password"
+    }).then(({ data }) => {
+
+        localStorage.access_token = data.access_token
+        localStorage.refresh_token = data.refresh_token
+
+        window.axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.access_token}`
     }),
     getMe: () => axios.get('user/me/'),
     refreshToken: () => axios.post('o/token/', {
         refresh_token: localStorage.refresh_token,
         "grant_type": "refresh_token"
+    }).then(({ data }) => {
+
+        localStorage.access_token = data.access_token
+        localStorage.refresh_token = data.refresh_token
+
+        window.axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.access_token}`
     })
 }

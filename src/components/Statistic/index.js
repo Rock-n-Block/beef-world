@@ -9,20 +9,25 @@ const Statistic = ({ count, like }) => {
     const [isLiked, setIsLiked] = React.useState(like)
 
     const onLike = () => {
-        if (!isLiked) {
-            let newCount = totalCount + 1
-            setIsLiked(true)
-            setTotalCount(newCount)
+        let newCount
+        if (!isLiked && (isLiked === null || isLiked === '')) {
+            newCount = totalCount + 1
+        } else {
+            newCount = totalCount + 2
         }
+        setIsLiked(true)
+        setTotalCount(newCount)
     }
     const onDislike = () => {
-        if (isLiked || isLiked === '') {
-            let newCount = totalCount - 1
-            setIsLiked(false)
-            setTotalCount(newCount)
+        let newCount
+        if (isLiked && (isLiked === null || isLiked === '')) {
+            newCount = totalCount - 1
+        } else {
+            newCount = totalCount - 2
         }
+        setIsLiked(false)
+        setTotalCount(newCount)
     }
-
     return (
         <div className="stat">
             <div className="stat__controller">

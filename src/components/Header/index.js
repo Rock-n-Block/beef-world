@@ -82,7 +82,7 @@ const Header = ({ history }) => {
                             </>
                         }
                         {
-                            isAuth && <Popover ov placement="bottom" trigger="hover" content={
+                            isAuth && <Popover placement="bottom" trigger="hover" content={
                                 <Logout><div className="header__user-logout">Log Out</div></Logout>
                             }>
                                 <Link to="/profile/1" className="header__user">

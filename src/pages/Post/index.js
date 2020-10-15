@@ -4,14 +4,17 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 import { PostCard, VideoPlayer, Time, Smiles, Comments, Statistic } from '../../components';
+import { topicApi } from '../../utils/api';
+import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
 
 import './Post.scss'
 
 import fbImg from '../../assets/img/social/fb.svg';
 import twImg from '../../assets/img/social/tw.svg';
 import shareImg from '../../assets/img/share-arrow.svg';
+import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 
-const PostPage = () => {
+const PostPage = (props) => {
 
     const data = {
         title: 'Please do not RT this video',
@@ -29,10 +32,6 @@ const PostPage = () => {
             "Romanempire",
             "Carthage"
         ],
-        "statistic": {
-            "count": 391,
-            "like": false
-        },
         "comments": 24,
         views: 123,
         smiles: {
@@ -47,7 +46,7 @@ const PostPage = () => {
                 omg: 0,
                 win: 0
             },
-            // choose: 'hate'
+            choose: 'hate'
         },
         comments: [
             {
@@ -102,6 +101,7 @@ const PostPage = () => {
 
 
     const [cards, setCards] = React.useState([])
+    const [postData, setPostData] = React.useState({})
 
 
     React.useEffect(() => {
@@ -110,31 +110,43 @@ const PostPage = () => {
         })
     }, [])
 
+    React.useEffect(() => {
+        const topic_id = props.match.params.topicId
+        const post_id = props.match.params.postId
+        refreshTokenWrapper(topicApi.getPost, () => { }, () => { }, { topic_id, post_id })
+            .then(({ data }) => {
+                setPostData(data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
+
     return (
         <div className="post">
             <div className="post__wrapper">
-                <VideoPlayer video={data.video} />
+                {postData.link && <VideoPlayer video={postData.link} />}
                 <div className="post__content">
-                    <Statistic {...data.statistic} />
-                    <div className="post__info-views">{data.views}k views</div>
+                    {postData.likes !== undefined && <Statistic count={postData.likes} like={postData.user_reaction} />}
+                    <div className="post__info-views">{postData.views}k views</div>
                     <div className="post__info">
                         <div className="post__info-box">
                             <div className="post__info-wrapper">
                                 <div className="post__info-person-box">
                                     <div className="post__info-avatar">
-                                        <img src={data.avatar} alt="" />
+                                        {postData.user ? <img src={data.avatar} alt="" /> : <img src={defaultAvatarImg} alt="" />}
                                     </div>
                                     <div>
-                                        <div className="post__info-title">{data.title}</div>
+                                        {postData.title && <div className="post__info-title">{postData.title}</div>}
                                         <div className="post__info-person">
-                                            by <span>{data.name}</span> • <span className="post__info-person-time">{<Time date={data.date} />}</span>
+                                            by <span>{data.name}</span> • <span className="post__info-person-time">{postData.created && <Time date={postData.created} />}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="post__info-text">{data.text}</div>
+                            {postData.text && <div className="post__info-text">{postData.text}</div>}
                             {
-                                data.tags && <div className="post__info-tags">
+                                postData.tags && <div className="post__info-tags">
                                     {
                                         data.tags.map((tag, index) => {
                                             return <Link key={index} to={`/topics/${tag}`} className="post__info-tags-item tag">#{tag}</Link>
@@ -162,7 +174,7 @@ const PostPage = () => {
                             </div>
                             <Smiles {...data.smiles} />
                             <div className="post__comments">
-                                <Comments comments={data.comments} />
+                                <Comments comments={postData.comments} />
                             </div>
                         </div>
                     </div>

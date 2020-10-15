@@ -3,14 +3,17 @@ import classNames from 'classnames';
 import { Scrollbar } from 'react-scrollbars-custom';
 
 import { PostCard, Modal, Make, TopicStatistic } from '../../components';
+import { topicApi } from '../../utils/api';
+import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
 
 import './Topic.scss'
 
 import closeModalImg from '../../assets/img/close-cross.svg';
 import subImg from '../../assets/img/sub.svg';
 import subActiveImg from '../../assets/img/sub-active.svg';
+import topic from '../../utils/api/topic';
 
-const TopicPage = () => {
+const TopicPage = (props) => {
     const data = {
         leftTheme: 'Roman Empire',
         rightTheme: 'Carthage',
@@ -75,7 +78,6 @@ const TopicPage = () => {
                     "like": ""
                 },
                 "comments": 24,
-                "topicname": "politics"
             },
             {
                 "avatar": "https://sun9-26.userapi.com/impf/RI0zS2_e7QuwGaNG2ji5sqYSgKNe950uz9a5fA/MJyaN_JHbvU.jpg?size=50x0&quality=88&crop=268,0,1535,1535&sign=025ed0b2dd6137a7d9b22daeacbeb330&ava=1",
@@ -97,7 +99,6 @@ const TopicPage = () => {
                     "like": ""
                 },
                 "comments": 24,
-                "topicname": "politics"
             },
         ]
     }
@@ -106,6 +107,9 @@ const TopicPage = () => {
     const [isModalOpen, setIsModalOpen] = React.useState(false)
     const [modalTitle, setModalTitle] = React.useState('')
     const [isSub, setIsSub] = React.useState(data.subscribe)
+    const [isRightSideNewPost, RightSideNewPost] = React.useState(false)
+
+    const [topicData, setTopicData] = React.useState({})
 
     const tabs = ['HOT', 'NEW', 'TOP']
 
@@ -113,13 +117,32 @@ const TopicPage = () => {
         setIsModalOpen(false)
     }
 
-    const handleOpenModal = (modalTitle) => {
+    const handleOpenModal = (modalTitle, is_right_side) => {
         setModalTitle(modalTitle)
         setIsModalOpen(true)
+        RightSideNewPost(is_right_side)
     }
 
     const handleSubscribe = () => {
         setIsSub(!isSub)
+    }
+
+    React.useEffect(() => {
+        if (props.location.state) {
+            setTopicData(props.location.state.data)
+        } else {
+            refreshTokenWrapper(topicApi.getTopic, () => { }, () => { }, props.match.params.id)
+                .then(({ data }) => {
+                    setTopicData(data)
+                })
+                .catch(err => console.log(err))
+        }
+    }, [])
+
+    const handleCreatePost = (postData) => {
+        refreshTokenWrapper(topicApi.createPost, () => { }, () => { }, { data: { ...postData, is_right_side: isRightSideNewPost }, id: props.match.params.id })
+            .then(({ data }) => console.log(data, 'created_post'))
+            .catch(err => console.log(err))
     }
 
     return (
@@ -154,7 +177,7 @@ const TopicPage = () => {
                             <div className="topic__content-name">{data.leftTheme}</div>
                             <div className="topic__content-make">
                                 <span>{data.placets.length} posts&nbsp;&nbsp;&nbsp;•</span>
-                                <div className="topic__content-btn" onClick={() => handleOpenModal(data.leftTheme)}>
+                                <div className="topic__content-btn" onClick={() => handleOpenModal(data.leftTheme, false)}>
                                     <div className="topic__content-btn-plus"><span>+</span></div>
                                     <div className="topic__content-btn-text">Make a post</div>
                                 </div>
@@ -174,7 +197,7 @@ const TopicPage = () => {
                             <div className="topic__content-name">{data.rightTheme}</div>
                             <div className="topic__content-make">
                                 <span>{data.placets.length} posts&nbsp;&nbsp;&nbsp;•</span>
-                                <div className="topic__content-btn" onClick={() => handleOpenModal(data.rightTheme)}>
+                                <div className="topic__content-btn" onClick={() => handleOpenModal(data.rightTheme, true)}>
                                     <div className="topic__content-btn-plus topic__content-btn-plus--yellow"><span>+</span></div>
                                     <div className="topic__content-btn-text topic__content-btn-text--yellow">Make a post</div>
                                 </div>
@@ -194,7 +217,7 @@ const TopicPage = () => {
                 <div className="topic__make">
                     <div className="topic__make-title">Make a post for {modalTitle}</div>
                     <img className="topic__make-img" onClick={handleCloseModal} src={closeModalImg} alt="" />
-                    <Make type="post" />
+                    <Make type="post" handleCreate={handleCreatePost} />
                 </div>
             </Modal>
         </div>

@@ -7,6 +7,7 @@
   cursor: pointer;
   color: white;
   background: $red !important;
+  border: none;
   transition: 0.3s;
   &:hover {
     background: #ec5050 !important;
@@ -18,5 +19,9 @@
     &:hover {
       background: rgba(255, 255, 255, 0.24) !important;
     }
+  }
+  &:disabled {
+    background: #e2948b !important;
+    cursor: default;
   }
 }

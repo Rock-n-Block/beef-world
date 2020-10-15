@@ -53,8 +53,12 @@ const Home = () => {
     }, [])
 
     React.useEffect(() => {
-        topicApi.getTopics().then(res => console.log(res)).catch(err => console.log(err))
+        topicApi.getTopics().then(({ data }) => console.log(data)).catch(err => console.log(err))
     }, [window.localStorage.access_token])
+
+    React.useEffect(() => {
+        console.log('refresh_token')
+    }, [window.localStorage.refresh_token])
 
     React.useEffect(() => {
         const sortName = path.split('/')[1] ? path.split('/')[1] : 'trending'
