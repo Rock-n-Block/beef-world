@@ -6,7 +6,7 @@ import './TopicStatistic.scss'
 const index = ({ posts, placet, against, date }) => {
 
     const formatDate = (date) => {
-        return format(new Date(date), 'd MMM Y')
+        return format(new Date(date), 'dd MMM Y')
     }
 
     return (
@@ -24,10 +24,10 @@ const index = ({ posts, placet, against, date }) => {
                 <div className="t-statistic__item-content against">{against}</div>
                 <div className="t-statistic__item-head">Against</div>
             </div>
-            <div className="t-statistic__item">
+            {date && <div className="t-statistic__item">
                 <div className="t-statistic__item-content">{formatDate(date)}</div>
                 <div className="t-statistic__item-head">Created</div>
-            </div>
+            </div>}
         </div>
     );
 }

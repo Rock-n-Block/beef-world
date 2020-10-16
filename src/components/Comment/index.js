@@ -7,14 +7,15 @@ import { Time } from '../../components';
 import './Comment.scss'
 
 import replyImg from '../../assets/img/reply.svg';
+import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 
 const { TextArea } = Input;
 
-const CommentComponent = ({ replies, author, avatar, text, date, likes, dislikes, liked, disliked }) => {
+const CommentComponent = ({ replies, user, avatar, text, created, likes, dislikes, liked, disliked }) => {
     const replyInputRef = React.useRef();
 
-    const [likesCount, setLikes] = useState(likes);
-    const [dislikesCount, setDislikes] = useState(dislikes);
+    const [likesCount, setLikes] = useState(likes || 0);
+    const [dislikesCount, setDislikes] = useState(dislikes || 0);
     const [action, setAction] = useState(liked ? 'liked' : disliked ? 'disliked' : null);
     const [isShowReaplies, setIsShowReplies] = React.useState(false)
     const [isRepling, setIsRepling] = React.useState(false)
@@ -52,18 +53,18 @@ const CommentComponent = ({ replies, author, avatar, text, date, likes, dislikes
         <div className="comment">
             <Comment
                 actions={actions}
-                author={<a>{author}</a>}
+                author={<a>{user && user.username}</a>}
                 avatar={
                     <Avatar
-                        src={avatar}
-                        alt={author}
+                        src={avatar ? avatar : defaultAvatarImg}
+                        alt={user && user.username}
                     />
                 }
                 content={
                     <p>{text}</p>
                 }
                 datetime={
-                    <span>•&nbsp;&nbsp;&nbsp;<Time date={date} /></span>
+                    <span>•&nbsp;&nbsp;&nbsp;<Time date={created} /></span>
                 }
             >
                 {
@@ -71,8 +72,8 @@ const CommentComponent = ({ replies, author, avatar, text, date, likes, dislikes
                     <div className="comment__reply-box">
                         <div className="comment__reply-wrapper">
                             <Avatar
-                                src={avatar}
-                                alt={author}
+                                src={avatar ? avatar : defaultAvatarImg}
+                                alt={user && user.username}
                             />
                             <TextArea value={replyText} onChange={(e) => setReplyText(e.target.value)} ref={replyInputRef} autoSize={{ minRows: 1, maxRows: 20 }} size="large" className="comment__reply-input" placeholder="Add your reply" />
                         </div>

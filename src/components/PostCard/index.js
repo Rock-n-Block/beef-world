@@ -11,7 +11,7 @@ import defaultAvatar from '../../assets/img/default-avatar.svg';
 
 import './PostCard.scss'
 
-const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, type, topicName, to, topicTitle, postTitle }) => {
+const PostCard = ({ user, created, img, text, tags, likes, user_reaction, comments, type, topicName, to, topicTitle, title, id, topicId }) => {
     const handleShare = () => {
         const url = window.location.origin + `/${to}/${topicName}`;
         facebookApi.share(url)
@@ -24,13 +24,13 @@ const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, ty
             'only-text': !img
         })}>
             <div className="card__box">
-                <Link to={`/${to}/${topicName}`} className="card__link">
+                <Link to={type === 'grid' ? `/topic/${topicId}` : `/topic/${topicId}/post/${id}`} className="card__link">
                     <div className="card__head">
                         <div className="card__avatar">
-                            {avatar ? <img src={avatar} alt={name} /> : <img src={defaultAvatar} alt={name} />}
+                            {user && user.avatar !== null ? <img src={user && user.avatar} alt={user && user.username} /> : <img src={defaultAvatar} alt={user && user.username} />}
                         </div>
                         <div className="card__name">
-                            by <span>{name}</span>  • <span className="card__name-time">{date && <Time date={date} />}</span>
+                            {user && user.username && <>by <span>{user && user.username}</span>  •</>} <span className="card__name-time">{created && <Time date={created} />}</span>
                         </div>
                     </div>
                     {
@@ -40,7 +40,7 @@ const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, ty
                         topicTitle && <div className="card__title">{topicTitle}</div>
                     }
                     {
-                        postTitle && <div className="card__title-post">{postTitle}</div>
+                        title && <div className="card__title-post">{title}</div>
                     }
                     {
                         text && <div className="card__text">{text}</div>
@@ -56,7 +56,7 @@ const PostCard = ({ avatar, name, date, img, text, tags, statistic, comments, ty
                     </div>
                 }
                 <div to={`/topic/${topicName}`} className="card__wrapper">
-                    <Statistic {...statistic} />
+                    <Statistic count={likes} like={user_reaction} />
                     <Link to={`/topic/${topicName}`} className="card__comments">
                         <img src={commentsImg} alt="" />
                         <span>{comments}</span>

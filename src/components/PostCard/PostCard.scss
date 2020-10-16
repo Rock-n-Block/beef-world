@@ -3,6 +3,7 @@ $self: '.card';
 .card {
   color: white;
   font-family: BR;
+  width: 100%;
   &.only-text {
     #{$self} {
       &__text {
@@ -45,6 +46,7 @@ $self: '.card';
   &__grid {
     padding: 0 15px;
     padding-bottom: 30px;
+    max-width: 440px;
     #{$self} {
       &__box {
         max-width: 410px;

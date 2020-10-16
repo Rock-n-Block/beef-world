@@ -127,20 +127,24 @@ const TopicPage = (props) => {
         setIsSub(!isSub)
     }
 
+    const getTopicData = () => {
+
+        refreshTokenWrapper(topicApi.getTopic, () => { }, () => { }, props.match.params.id)
+            .then(({ data }) => {
+                setTopicData(data)
+            })
+            .catch(err => console.log(err))
+    }
+
     React.useEffect(() => {
         if (props.location.state) {
             setTopicData(props.location.state.data)
-        } else {
-            refreshTokenWrapper(topicApi.getTopic, () => { }, () => { }, props.match.params.id)
-                .then(({ data }) => {
-                    setTopicData(data)
-                })
-                .catch(err => console.log(err))
         }
+        getTopicData()
     }, [])
 
     const handleCreatePost = (postData) => {
-        refreshTokenWrapper(topicApi.createPost, () => { }, () => { }, { data: { ...postData, is_right_side: isRightSideNewPost }, id: props.match.params.id })
+        refreshTokenWrapper(topicApi.createPost, () => { getTopicData() }, () => { }, { data: { ...postData, is_right_side: isRightSideNewPost }, id: props.match.params.id })
             .then(({ data }) => console.log(data, 'created_post'))
             .catch(err => console.log(err))
     }
@@ -149,7 +153,7 @@ const TopicPage = (props) => {
         <div className="topic">
             <div className="topic__row row">
                 <div className="topic__title">
-                    <p>{data.leftTheme}<span> vs </span>{data.rightTheme}</p>
+                    <p>{topicData.left_theme}<span> vs </span>{topicData.right_theme}</p>
                     <div className="topic__sub btn btn--gray" onClick={handleSubscribe}>
                         {
                             isSub ? <img src={subActiveImg} alt="" /> : <img src={subImg} alt="" />
@@ -168,48 +172,48 @@ const TopicPage = (props) => {
                         }
                     </div>
 
-                    <TopicStatistic posts={data.placets.length + data.worsts.length} placet={data.placet} against={data.against} date={data.date} />
+                    {topicData && <TopicStatistic posts={(topicData.left && topicData.left) ? topicData.left.length + topicData.right.length : 0} placet={data.placet} against={data.against} date={topicData.created} />}
 
                 </div>
                 <div className="topic__content">
                     <div className="topic__content-box">
                         <div className="topic__content-wrapper">
-                            <div className="topic__content-name">{data.leftTheme}</div>
+                            <div className="topic__content-name">{topicData.left_theme}</div>
                             <div className="topic__content-make">
-                                <span>{data.placets.length} posts&nbsp;&nbsp;&nbsp;•</span>
-                                <div className="topic__content-btn" onClick={() => handleOpenModal(data.leftTheme, false)}>
+                                <span>{topicData.left && topicData.left.length} posts&nbsp;&nbsp;&nbsp;•</span>
+                                <div className="topic__content-btn" onClick={() => handleOpenModal(topicData.left_theme, false)}>
                                     <div className="topic__content-btn-plus"><span>+</span></div>
                                     <div className="topic__content-btn-text">Make a post</div>
                                 </div>
                             </div>
                         </div>
 
-                        <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
-                            {data.placets &&
-                                data.placets.map((card, index) => {
-                                    return <PostCard key={index} {...card} type="column" to="post" />
+                        {topicData.left && <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
+                            {
+                                topicData.left.map((card, index) => {
+                                    return <PostCard topicId={topicData.id} topicTitle={`${topicData.left_theme} vs ${topicData.right_theme}`} key={index} {...card} type="column" to="post" />
                                 })
                             }
-                        </Scrollbar>
+                        </Scrollbar>}
                     </div>
                     <div className="topic__content-box">
                         <div className="topic__content-wrapper">
-                            <div className="topic__content-name">{data.rightTheme}</div>
+                            <div className="topic__content-name">{topicData.right_theme}</div>
                             <div className="topic__content-make">
-                                <span>{data.placets.length} posts&nbsp;&nbsp;&nbsp;•</span>
-                                <div className="topic__content-btn" onClick={() => handleOpenModal(data.rightTheme, true)}>
+                                <span>{topicData.right && topicData.right.length} posts&nbsp;&nbsp;&nbsp;•</span>
+                                <div className="topic__content-btn" onClick={() => handleOpenModal(topicData.right_theme, true)}>
                                     <div className="topic__content-btn-plus topic__content-btn-plus--yellow"><span>+</span></div>
                                     <div className="topic__content-btn-text topic__content-btn-text--yellow">Make a post</div>
                                 </div>
                             </div>
                         </div>
-                        <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
-                            {data.worsts &&
-                                data.worsts.map((card, index) => {
-                                    return <PostCard key={index} {...card} type="column" to="post" />
+                        {topicData.right && <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
+                            {
+                                topicData.right.map((card, index) => {
+                                    return <PostCard topicId={topicData.id} topicTitle={`${topicData.left_theme} vs ${topicData.right_theme}`} key={index} {...card} type="column" to="post" />
                                 })
                             }
-                        </Scrollbar>
+                        </Scrollbar>}
                     </div>
                 </div>
             </div>

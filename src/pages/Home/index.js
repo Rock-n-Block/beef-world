@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { filterActions } from '../../redux/actions';
 import { PostCard } from '../../components';
 import { topicApi } from '../../utils/api';
+import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
 
 import './Home.scss'
 
@@ -46,19 +47,15 @@ const Home = () => {
     })
 
 
+    // React.useEffect(() => {
+    //     axios.get('http://localhost:3000/data.json').then(({ data }) => {
+    //         setCards(data.data)
+    //     })
+    // }, [])
+
     React.useEffect(() => {
-        axios.get('http://localhost:3000/data.json').then(({ data }) => {
-            setCards(data.data)
-        })
+        refreshTokenWrapper(topicApi.getTopics, () => { }, () => { }).then(({ data }) => setCards(data)).catch(err => console.log(err))
     }, [])
-
-    React.useEffect(() => {
-        topicApi.getTopics().then(({ data }) => console.log(data)).catch(err => console.log(err))
-    }, [window.localStorage.access_token])
-
-    React.useEffect(() => {
-        console.log('refresh_token')
-    }, [window.localStorage.refresh_token])
 
     React.useEffect(() => {
         const sortName = path.split('/')[1] ? path.split('/')[1] : 'trending'
@@ -89,7 +86,7 @@ const Home = () => {
                     }}>
                         {cards &&
                             cards.map((card, index) => {
-                                return <PostCard key={index} {...card} type="grid" to="topic" />
+                                return <PostCard topicId={card.id} topicTitle={`${card.left_theme} vs ${card.right_theme}`} key={index} {...card.post} type="grid" to="topic" />
                             })
                         }
                     </Masonry>

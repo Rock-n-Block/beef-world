@@ -1,7 +1,7 @@
 import React from 'react';
 import { Scrollbar } from 'react-scrollbars-custom';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { PostCard, VideoPlayer, Time, Smiles, Comments, Statistic } from '../../components';
 import { topicApi } from '../../utils/api';
@@ -14,7 +14,7 @@ import twImg from '../../assets/img/social/tw.svg';
 import shareImg from '../../assets/img/share-arrow.svg';
 import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 
-const PostPage = (props) => {
+const PostPage = () => {
 
     const data = {
         title: 'Please do not RT this video',
@@ -103,6 +103,28 @@ const PostPage = (props) => {
     const [cards, setCards] = React.useState([])
     const [postData, setPostData] = React.useState({})
 
+    const { topicId, postId } = useParams()
+
+    const getPostData = () => {
+
+        refreshTokenWrapper(topicApi.getPost, () => { }, () => { }, { topic_id: topicId, post_id: postId })
+            .then(({ data }) => {
+                setPostData(data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+
+    const handleSendComment = (text) => {
+        refreshTokenWrapper(topicApi.createComment, () => { }, () => { }, { topic_id: topicId, post_id: postId, commentText: { text: text.trim() } })
+            .then(({ data }) => {
+                getPostData()
+            })
+            .catch(err => console.log(err))
+    }
+
 
     React.useEffect(() => {
         axios.get('http://localhost:3000/data.json').then(({ data }) => {
@@ -111,15 +133,7 @@ const PostPage = (props) => {
     }, [])
 
     React.useEffect(() => {
-        const topic_id = props.match.params.topicId
-        const post_id = props.match.params.postId
-        refreshTokenWrapper(topicApi.getPost, () => { }, () => { }, { topic_id, post_id })
-            .then(({ data }) => {
-                setPostData(data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        getPostData()
     }, [])
 
     return (
@@ -139,7 +153,7 @@ const PostPage = (props) => {
                                     <div>
                                         {postData.title && <div className="post__info-title">{postData.title}</div>}
                                         <div className="post__info-person">
-                                            by <span>{data.name}</span> • <span className="post__info-person-time">{postData.created && <Time date={postData.created} />}</span>
+                                            by <span>{postData.user && postData.user.username}</span> • <span className="post__info-person-time">{postData.created && <Time date={postData.created} />}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -174,7 +188,7 @@ const PostPage = (props) => {
                             </div>
                             <Smiles {...data.smiles} />
                             <div className="post__comments">
-                                <Comments comments={postData.comments} />
+                                <Comments handleSendComment={handleSendComment} comments={postData.comments} />
                             </div>
                         </div>
                     </div>

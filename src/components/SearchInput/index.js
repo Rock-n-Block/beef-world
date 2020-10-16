@@ -2,6 +2,9 @@ import React from 'react';
 import { Select } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 
+import { topicApi } from '../../utils/api';
+import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
+
 import searchImg from '../../assets/img/search.svg';
 import searchRedImg from '../../assets/img/search-red.svg';
 
@@ -83,24 +86,53 @@ const SearchInput = () => {
     const [isLoading, setIsLoading] = React.useState(false)
     const [searchData, setSearchData] = React.useState([])
 
+    const [options, setOptions] = React.useState([])
+
     const onSearch = (value) => {
         setIsLoading(true)
-        setSearchData([...data.topics, ...data.posts])
+
+        refreshTokenWrapper(topicApi.search, () => { }, () => { }, value)
+            .then(({ data }) => {
+                setSearchData(data)
+
+
+                const topics = data.topics.length ? data.topics.map(item => <Option key={item.id}>
+                    <Link className="s-input__link" to={`/topic/${item.id}`}>
+                        <img src={searchRedImg} alt="" />
+                        <span>{`${item.left_theme} vs ${item.right_theme}`}</span>
+                    </Link>
+                </Option>) : [];
+
+                const posts = data.posts.length ? data.posts.map(item => <Option key={item.id}>
+                    <Link className="s-input__link" to="/">
+                        <img src={searchRedImg} alt="" />
+                        <span>{item.title}</span>
+                    </Link>
+                </Option>) : [];
+                setOptions([...topics, ...posts])
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
-    const onChangeSearch = (value) => setSearchText(value)
+    const onChangeSearch = (value) => {
+        setSearchText(value)
+
+    }
 
     const onSelectOption = (value) => {
+        debugger
         console.log(value)
         setSearchText('')
     }
 
-    const handleSearchPage = () => {
-        if (searchData.length) {
+    const handleSearchPage = (e) => {
+        if (((searchData.topics && searchData.topics.length) || (searchData.posts && searchData.posts.length)) && e.key === 'Enter') {
             history.push({
                 pathname: '/search',
                 state: {
-                    data: data
+                    data: searchData
                 }
             })
         } else {
@@ -108,12 +140,6 @@ const SearchInput = () => {
         }
     }
 
-    const options = searchData.map(item => <Option key={item.id}>
-        <Link className="s-input__link" to="/">
-            <img src={searchRedImg} alt="" />
-            <span>{item.leftTheme ? `${item.leftTheme} vs ${item.rightTheme}` : item.postTitle}</span>
-        </Link>
-    </Option>);
 
     return (
         <div className="s-input" id="s-input">
@@ -132,7 +158,9 @@ const SearchInput = () => {
                 showArrow={false}
                 filterOption={false}
                 showSearch
+                onBlur={() => setOptions([])}
                 onSelect={onSelectOption}
+                onKeyDown={handleSearchPage}
                 loading={isLoading}
                 getPopupContainer={() => document.getElementById('s-input')}
             >

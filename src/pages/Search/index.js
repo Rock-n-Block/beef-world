@@ -1,6 +1,6 @@
 import React from 'react';
 import Masonry from 'react-masonry-component';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { TopicStatistic, PostCard } from '../../components';
 
@@ -11,30 +11,33 @@ const Search = (props) => {
     const [data, setData] = React.useState([])
 
     React.useEffect(() => {
-        setData(props.location.state.data)
+        if (props.location.state) {
+
+            setData(props.location.state.data)
+        }
     })
 
     return (
         <div className="search">
             <div className="search__row row">
                 {
-                    data.topics && (
+                    (data.topics && data.topics.length) ? (
                         <>
                             <div className="search__title">Topics</div>
                             <div className="search__subtitle">{data.topics.length} results topic for pizza</div>
                             {
                                 data.topics.map(topic => {
                                     return <Link to={`/topic/${topic.id}`} className="search__topic">
-                                        <div className="search__topic-title">{topic.leftTheme} <span>vs</span> {topic.rightTheme}</div>
-                                        <TopicStatistic posts="4" placet={topic.placet} against={topic.against} date={topic.date} />
+                                        <div className="search__topic-title">{topic.left_theme} <span>vs</span> {topic.right_theme}</div>
+                                        <TopicStatistic posts={data.topics.length} placet={0} against={0} date={topic.created} />
                                     </Link>
                                 })
                             }
                         </>
-                    )
+                    ) : ''
                 }
                 {
-                    data.posts && (
+                    (data.posts && data.posts.length) ? (
                         <>
                             <div className="search__title">Topics</div>
                             <div className="search__subtitle">{data.posts.length} results tocip for pizza</div>
@@ -51,7 +54,7 @@ const Search = (props) => {
                                 </Masonry>
                             </div>
                         </>
-                    )
+                    ) : []
                 }
             </div>
         </div>

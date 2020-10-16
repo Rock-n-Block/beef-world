@@ -5,6 +5,7 @@ export default (promise, methodFulfilled, methodRejected, ...args) => {
         promise(...args)
             .then((data) => {
                 resolve(data)
+                methodFulfilled && methodFulfilled()
             })
             .catch(() => {
                 if (localStorage.refresh_token) {
@@ -13,12 +14,12 @@ export default (promise, methodFulfilled, methodRejected, ...args) => {
                         promise(...args)
                             .then((data) => {
                                 resolve(data)
+                                methodFulfilled && methodFulfilled()
                             })
                             .catch(err => {
                                 reject(err)
                             })
 
-                        methodFulfilled && methodFulfilled()
                     })
                         .catch(() => {
                             methodRejected && methodRejected()

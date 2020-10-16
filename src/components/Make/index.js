@@ -50,15 +50,15 @@ const Make = ({ type, handleCreate }) => {
         value = value.replace('http://', '')
 
         if (id) {
-            youtubeApi.get('/search', {
-                params: {
-                    q: id,
-                }
-            }).then(({ data }) => {
-                setYoutubeVideoTitle(data.items[0].snippet.title)
-                setVideoLink(value)
-            })
+            // youtubeApi.get('/search', {
+            //     params: {
+            //         q: id,
+            //     }
+            // }).then(({ data }) => {
+            //     setYoutubeVideoTitle(data.items[0].snippet.title)
+            // })
 
+            setVideoLink(value)
         }
 
     }
@@ -84,13 +84,19 @@ const Make = ({ type, handleCreate }) => {
         if (type === 'topic') {
             postData.right_theme = secondOponent
             postData.left_theme = firstOponent
+            postData.post = {
+                title: postTitle,
+                link: videoLink,
+                text: postDescr,
+                is_right_side: !!myChoose
+            }
         }
 
         if (type === 'post') {
             postData.title = postTitle;
             postData.link = videoLink;
+            postData.text = postDescr
         }
-        postData.text = postDescr
 
         handleCreate(postData)
         setPostTitle('');
