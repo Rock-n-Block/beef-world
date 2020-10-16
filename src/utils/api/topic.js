@@ -7,5 +7,6 @@ export default {
     createPost: (postData) => axios.post(`/topics/${postData.id}/posts/`, postData.data),
     getPost: ({ topic_id, post_id }) => axios.get(`/topics/${topic_id}/posts/${post_id}/`),
     createComment: ({ topic_id, post_id, commentText }) => axios.post(`/topics/${topic_id}/posts/${post_id}/comments/`, commentText),
-    search: (searchText) => axios.get(`/topics/search/?to_search=${searchText}`)
+    search: (searchText) => axios.get(`/topics/search/?to_search=${searchText}`),
+    cardLike: ({ topic_id, post_id, value }) => axios.post(`/topics/${topic_id}/posts/${post_id}/like/`, value)
 }

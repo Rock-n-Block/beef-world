@@ -4,7 +4,7 @@ const initialState = {
     email: '',
     username: '',
     isAuth: !!window.localStorage.access_token,
-    photo: ''
+    avatar: ''
 }
 
 export default (state = initialState, { type, payload }) => {

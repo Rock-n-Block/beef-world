@@ -2,6 +2,8 @@ import React from 'react';
 import { Scrollbar } from 'react-scrollbars-custom';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useSelector } from 'react-redux';
 
 import { PostCard, VideoPlayer, Time, Smiles, Comments, Statistic } from '../../components';
 import { topicApi } from '../../utils/api';
@@ -9,9 +11,7 @@ import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
 
 import './Post.scss'
 
-import fbImg from '../../assets/img/social/fb.svg';
-import twImg from '../../assets/img/social/tw.svg';
-import shareImg from '../../assets/img/share-arrow.svg';
+import shareImg from '../../assets/img/share.svg'
 import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 
 const PostPage = () => {
@@ -100,7 +100,6 @@ const PostPage = () => {
     }
 
 
-    const [cards, setCards] = React.useState([])
     const [postData, setPostData] = React.useState({})
 
     const { topicId, postId } = useParams()
@@ -125,12 +124,7 @@ const PostPage = () => {
             .catch(err => console.log(err))
     }
 
-
-    React.useEffect(() => {
-        axios.get('http://localhost:3000/data.json').then(({ data }) => {
-            setCards(data.data)
-        })
-    }, [])
+    const cards = useSelector(({ topics }) => topics.cards)
 
     React.useEffect(() => {
         getPostData()
@@ -142,7 +136,7 @@ const PostPage = () => {
                 {postData.link && <VideoPlayer video={postData.link} />}
                 <div className="post__content">
                     {postData.likes !== undefined && <Statistic count={postData.likes} like={postData.user_reaction} />}
-                    <div className="post__info-views">{postData.views}k views</div>
+                    <div className="post__info-views">{postData.views} views</div>
                     <div className="post__info">
                         <div className="post__info-box">
                             <div className="post__info-wrapper">
@@ -169,22 +163,13 @@ const PostPage = () => {
                                 </div>
                             }
                             <div className="post__socials">
-                                <div className="post__socials-item post__socials-item--fb">
-                                    <div className="post__socials-item-img">
-                                        <img src={fbImg} alt="" />
+                                {postData.topic && <Link to={`/topic/${topicId}`} className="post__topic-title">{postData.topic.left_theme} <span>vs</span> {postData.topic.right_theme}</Link>}
+                                <CopyToClipboard text={window.location.origin + `/topic/${topicId}/post/${postId}`}>
+                                    <div className="post__socials-item post__socials-item--share">
+                                        <img src={shareImg} alt="" />
+                                        <div className="post__socials-item-text">Сopy link</div>
                                     </div>
-                                    <div className="post__socials-item-text">Facebook</div>
-                                </div>
-                                <div className="post__socials-item post__socials-item--tw">
-                                    <div className="post__socials-item-img">
-                                        <img src={twImg} alt="" />
-                                    </div>
-                                    <div className="post__socials-item-text">Twitter</div>
-                                </div>
-                                <div className="post__socials-item post__socials-item--share">
-                                    <img src={shareImg} alt="" />
-                                    <div className="post__socials-item-text">Share</div>
-                                </div>
+                                </CopyToClipboard>
                             </div>
                             <Smiles {...data.smiles} />
                             <div className="post__comments">
@@ -195,14 +180,15 @@ const PostPage = () => {
                 </div>
             </div>
             <div className="post__trends">
-                <div className="post__trends-title">Trends for you</div>
-                <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
-                    {cards &&
-                        cards.map((card, index) => {
-                            return <PostCard key={index} {...card} type="column" />
-                        })
-                    }
-                </Scrollbar>
+                <div className="post__trends-title">Random Posts</div>
+                {(cards && cards.length) &&
+                    <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
+                        {
+                            cards.map((card, index) => {
+                                return <PostCard topicId={card.id} topicTitle={`${card.left_theme} vs ${card.right_theme}`} key={index} {...card.post} type="column" />
+                            })
+                        }
+                    </Scrollbar>}
             </div>
         </div>
     );

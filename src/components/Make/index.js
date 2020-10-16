@@ -3,7 +3,6 @@ import { Input, Select } from 'antd';
 import classNames from 'classnames';
 
 import { VideoPlayer } from '../../components';
-import { youtubeApi } from '../../utils/api';
 
 import './Make.scss'
 
@@ -50,13 +49,6 @@ const Make = ({ type, handleCreate }) => {
         value = value.replace('http://', '')
 
         if (id) {
-            // youtubeApi.get('/search', {
-            //     params: {
-            //         q: id,
-            //     }
-            // }).then(({ data }) => {
-            //     setYoutubeVideoTitle(data.items[0].snippet.title)
-            // })
 
             setVideoLink(value)
         }

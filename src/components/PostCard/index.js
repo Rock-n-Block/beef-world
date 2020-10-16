@@ -1,9 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { Time, Statistic } from '../../components';
-import { facebookApi } from '../../utils/api';
+import { youtubeApi } from '../../utils/api';
 
 import commentsImg from '../../assets/img/comments.svg'
 import shareImg from '../../assets/img/share.svg'
@@ -11,12 +12,30 @@ import defaultAvatar from '../../assets/img/default-avatar.svg';
 
 import './PostCard.scss'
 
-const PostCard = ({ user, created, img, text, tags, likes, user_reaction, comments, type, topicName, to, topicTitle, title, id, topicId }) => {
-    const handleShare = () => {
-        const url = window.location.origin + `/${to}/${topicName}`;
-        facebookApi.share(url)
-    }
+const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, type, topicName, topicTitle, title, id, topicId, handleLike }) => {
 
+    const [img, setImg] = React.useState(null)
+
+    // const youtube_parser = (url) => {
+    //     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    //     var match = url.match(regExp);
+    //     return (match && match[7].length == 11) ? match[7] : false;
+    // }
+    // React.useEffect(() => {
+    //     const id = youtube_parser('https://www.youtube.com/watch?v=vbvyNnw8Qjg&ab_channel=LiveAid')
+
+    //     if (id) {
+
+    //         youtubeApi.get('/search', {
+    //             params: {
+    //                 q: id,
+    //             }
+    //         }).then(({ data }) => {
+    //             // setImg(data.items[0].snippet.thumbnails.hight.url)
+    //             console.log(data)
+    //         })
+    //     }
+    // })
     return (
         <div className={classNames('card', {
             'card__grid': type === 'grid',
@@ -56,15 +75,17 @@ const PostCard = ({ user, created, img, text, tags, likes, user_reaction, commen
                     </div>
                 }
                 <div to={`/topic/${topicName}`} className="card__wrapper">
-                    <Statistic count={likes} like={user_reaction} />
+                    <Statistic count={likes} like={user_reaction} handleLike={handleLike} />
                     <Link to={`/topic/${topicName}`} className="card__comments">
                         <img src={commentsImg} alt="" />
                         <span>{comments}</span>
                     </Link>
-                    <div className="card__share" onClick={handleShare}>
-                        <img src={shareImg} alt="" />
-                        <span>Share</span>
-                    </div>
+                    <CopyToClipboard text={window.location.origin + (type === 'grid' ? `/topic/${topicId}` : `/topic/${topicId}/post/${id}`)}>
+                        <div className="card__share">
+                            <img src={shareImg} alt="" />
+                            <span>Share</span>
+                        </div>
+                    </CopyToClipboard>
                 </div>
             </div>
         </div>

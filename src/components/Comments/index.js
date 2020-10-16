@@ -1,15 +1,17 @@
 import React from 'react';
 import { Avatar, Input } from 'antd';
+import { useSelector } from 'react-redux';
 
 import { Comment } from '../../components';
-import { topicApi } from '../../utils/api';
-import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
 
 import './Comments.scss'
+
+import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 
 const { TextArea } = Input;
 
 const Comments = ({ comments, handleSendComment }) => {
+    const avatar = useSelector(({ user }) => user.avatar)
     const [commentText, setCommentText] = React.useState('')
 
     const handleChange = (e) => {
@@ -24,12 +26,14 @@ const Comments = ({ comments, handleSendComment }) => {
     return (
         <div className="comments">
             <div className="comments__title">
-                24 COMMENTS
+                {comments && comments.length} COMMENTS
             </div>
             <div className="comments__box">
-                <Avatar
-                    src="https://sun9-26.userapi.com/impf/RI0zS2_e7QuwGaNG2ji5sqYSgKNe950uz9a5fA/MJyaN_JHbvU.jpg?size=50x0&quality=88&crop=268,0,1535,1535&sign=025ed0b2dd6137a7d9b22daeacbeb330&ava=1"
-                />
+                {avatar ? <Avatar
+                    src={avatar}
+                /> : <Avatar
+                        src={defaultAvatarImg}
+                    />}
                 <TextArea value={commentText} onKeyUp={handleChange} onChange={(e) => setCommentText(e.target.value)} autoSize={{ minRows: 1, maxRows: 20 }} size="large" className="comments__input" placeholder="Add your comment" />
                 <button className="comments__btn" onClick={() => { handleSendComment(commentText); setCommentText('') }} disabled={!commentText}>Post</button>
             </div>

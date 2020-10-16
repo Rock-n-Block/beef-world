@@ -1,7 +1,7 @@
 
 const initialState = {
     filter: '',
-    sort: 'trending'
+    sort: 'hot'
 }
 
 export default (state = initialState, { type, payload }) => {

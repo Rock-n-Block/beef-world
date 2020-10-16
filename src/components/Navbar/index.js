@@ -10,21 +10,21 @@ import './Navbar.scss'
 const Navbar = ({ isOpen, navbarRef, history }) => {
     const tabs = [
         {
-            link: 'trending',
-            text: 'Trending'
-        },
-        {
             link: 'hot',
-            text: 'Hot'
+            text: 'HOT'
         },
         {
-            link: 'popular',
-            text: 'Popular'
+            link: 'new',
+            text: 'NEW'
         },
         {
-            link: 'editors',
-            text: 'Editor’s Pick'
+            link: 'top',
+            text: 'Top'
         },
+        {
+            link: 'legendary',
+            text: 'Legendary'
+        }
     ]
 
     const tags = [
@@ -111,7 +111,7 @@ const Navbar = ({ isOpen, navbarRef, history }) => {
                         })
                     }
                 </div>
-                <div className="navbar__topics navbar__subs">
+                {/* <div className="navbar__topics navbar__subs">
                     <div className="navbar__topics-title">subscribe</div>
                     {
                         subs.map((item, index) => {
@@ -122,7 +122,7 @@ const Navbar = ({ isOpen, navbarRef, history }) => {
                             )
                         })
                     }
-                </div>
+                </div> */}
                 <div className="navbar__topics">
                     <div className="navbar__topics-title">tags</div>
                     {

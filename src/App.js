@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { HomePage, TopicPage, PostPage, MakeTopicPage, ProfilePage, CommunityPage, TestPage, SearchPage } from './pages';
 import { Header } from './components';
-import { facebookActions, userActions } from './redux/actions';
+import { facebookActions, userActions, topicActions } from './redux/actions';
 import { facebookApi } from './utils/api';
 
 import './styles/style.scss'
@@ -40,6 +40,10 @@ function App() {
       }
     }, 100)
   }, [])
+  React.useEffect(() => {
+    dispatch(topicActions.getTopicsData())
+  }, [])
+
 
   React.useEffect(() => {
     dispatch(userActions.getMe())
@@ -49,10 +53,10 @@ function App() {
     <div className="wrapper">
       <Header />
       <Route exact path={'/'} component={HomePage}></Route>
-      <Route exact path={['/trending', '/trending/:topic']} component={HomePage}></Route>
       <Route exact path={['/hot', '/hot/:topic']} component={HomePage}></Route>
-      <Route exact path={['/popular', '/popular/:topic']} component={HomePage}></Route>
-      <Route exact path={['/editors', '/editors/:topic']} component={HomePage}></Route>
+      <Route exact path={['/new', '/new/:topic']} component={HomePage}></Route>
+      <Route exact path={['/top', '/top/:topic']} component={HomePage}></Route>
+      <Route exact path={['/legendary', '/legendary/:topic']} component={HomePage}></Route>
       <Route exact path={'/topic/:id'} component={TopicPage}></Route>
       <Route path={'/topic/:topicId/post/:postId'} component={PostPage}></Route>
       <Route exact path={'/make'} render={() => isAuth ? <MakeTopicPage /> : <Redirect to="/" />}></Route>

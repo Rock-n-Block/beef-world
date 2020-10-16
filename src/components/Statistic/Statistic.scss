@@ -3,20 +3,26 @@
 .stat {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 6px;
-  padding: 5px 10px;
   color: white !important;
   width: fit-content;
   display: flex;
   align-items: center;
   &__controller {
     cursor: pointer;
-    padding: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
+    &:first-child {
+      padding: 8px 0px 8px 13px;
+    }
+    &:last-child {
+      padding: 8px 13px 8px 0;
+    }
   }
   &__count {
     margin: 0 7px;
+    min-width: 15px;
+    text-align: center;
     &.isliked {
       color: #37e1c3;
     }
