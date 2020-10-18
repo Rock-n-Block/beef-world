@@ -1,7 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { notification } from 'antd';
 
 import { Time, Statistic } from '../../components';
 import { youtubeApi } from '../../utils/api';
@@ -9,18 +10,20 @@ import { youtubeApi } from '../../utils/api';
 import commentsImg from '../../assets/img/comments.svg'
 import shareImg from '../../assets/img/share.svg'
 import defaultAvatar from '../../assets/img/default-avatar.svg';
+import copyImg from '../../assets/img/copy.svg';
+import copyCloseImg from '../../assets/img/copy-close.svg';
 
 import './PostCard.scss'
 
-const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, type, topicName, topicTitle, title, id, topicId, handleLike }) => {
+const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, type, topicTitle, title, id, topicId, handleLike, link }) => {
 
     const [img, setImg] = React.useState(null)
 
-    // const youtube_parser = (url) => {
-    //     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    //     var match = url.match(regExp);
-    //     return (match && match[7].length == 11) ? match[7] : false;
-    // }
+    const youtube_parser = (url) => {
+        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        var match = url.match(regExp);
+        return (match && match[7].length == 11) ? match[7] : false;
+    }
     // React.useEffect(() => {
     //     const id = youtube_parser('https://www.youtube.com/watch?v=vbvyNnw8Qjg&ab_channel=LiveAid')
 
@@ -36,11 +39,20 @@ const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, t
     //         })
     //     }
     // })
+
+    const notificationBlock = () => {
+        notification.open({
+            message: 'Copied link',
+            placement: "bottomLeft",
+            icon: <img src={copyImg} alt="" />,
+            closeIcon: <img src={copyCloseImg} alt="" />
+        });
+    };
     return (
         <div className={classNames('card', {
             'card__grid': type === 'grid',
             'card__column': type === 'column',
-            'only-text': !img
+            'only-text': !img && !link
         })}>
             <div className="card__box">
                 <Link to={type === 'grid' ? `/topic/${topicId}` : `/topic/${topicId}/post/${id}`} className="card__link">
@@ -56,7 +68,10 @@ const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, t
                         img && <img src={img} alt="" className="card__img" />
                     }
                     {
-                        topicTitle && <div className="card__title">{topicTitle}</div>
+                        link && <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${youtube_parser(link)}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                    }
+                    {
+                        topicTitle && <div className="card__title" dangerouslySetInnerHTML={{ __html: topicTitle }}></div>
                     }
                     {
                         title && <div className="card__title-post">{title}</div>
@@ -74,13 +89,13 @@ const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, t
                         }
                     </div>
                 }
-                <div to={`/topic/${topicName}`} className="card__wrapper">
+                <div className="card__wrapper">
                     <Statistic count={likes} like={user_reaction} handleLike={handleLike} />
-                    <Link to={`/topic/${topicName}`} className="card__comments">
+                    <Link to={`/topic/${topicId}/post/${id}/#comments`} className="card__comments">
                         <img src={commentsImg} alt="" />
                         <span>{comments}</span>
                     </Link>
-                    <CopyToClipboard text={window.location.origin + (type === 'grid' ? `/topic/${topicId}` : `/topic/${topicId}/post/${id}`)}>
+                    <CopyToClipboard onCopy={notificationBlock} text={window.location.origin + (type === 'grid' ? `/topic/${topicId}` : `/topic/${topicId}/post/${id}`)}>
                         <div className="card__share">
                             <img src={shareImg} alt="" />
                             <span>Share</span>

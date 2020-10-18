@@ -57,7 +57,7 @@ function App() {
       <Route exact path={['/new', '/new/:topic']} component={HomePage}></Route>
       <Route exact path={['/top', '/top/:topic']} component={HomePage}></Route>
       <Route exact path={['/legendary', '/legendary/:topic']} component={HomePage}></Route>
-      <Route exact path={'/topic/:id'} component={TopicPage}></Route>
+      <Route exact path={'/topic/:topicId'} component={TopicPage}></Route>
       <Route path={'/topic/:topicId/post/:postId'} component={PostPage}></Route>
       <Route exact path={'/make'} render={() => isAuth ? <MakeTopicPage /> : <Redirect to="/" />}></Route>
       <Route path={'/profile/:id'} render={() => isAuth ? <ProfilePage /> : <Redirect to="/" />}></Route>

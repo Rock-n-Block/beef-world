@@ -1,19 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { Scrollbar } from 'react-scrollbars-custom';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { PostCard, Modal, Make, TopicStatistic } from '../../components';
 import { topicApi } from '../../utils/api';
 import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
+import { topicActions } from '../../redux/actions';
 
 import './Topic.scss'
 
 import closeModalImg from '../../assets/img/close-cross.svg';
 import subImg from '../../assets/img/sub.svg';
 import subActiveImg from '../../assets/img/sub-active.svg';
-import topic from '../../utils/api/topic';
 
 const TopicPage = (props) => {
+    const dispatch = useDispatch();
     const data = {
         leftTheme: 'Roman Empire',
         rightTheme: 'Carthage',
@@ -103,13 +106,15 @@ const TopicPage = (props) => {
         ]
     }
 
+    const { topicId } = useParams()
+
+    const topicData = useSelector(({ topics }) => topics.currentTopic)
+
     const [activeTab, setActiveTab] = React.useState(0)
     const [isModalOpen, setIsModalOpen] = React.useState(false)
     const [modalTitle, setModalTitle] = React.useState('')
-    const [isSub, setIsSub] = React.useState(data.subscribe)
+    const [isSub, setIsSub] = React.useState(false)
     const [isRightSideNewPost, RightSideNewPost] = React.useState(false)
-
-    const [topicData, setTopicData] = React.useState({})
 
     const tabs = ['HOT', 'NEW', 'TOP']
 
@@ -128,23 +133,19 @@ const TopicPage = (props) => {
     }
 
     const getTopicData = () => {
+        dispatch(topicActions.getTopicData(topicId))
+    }
 
-        refreshTokenWrapper(topicApi.getTopic, () => { }, () => { }, props.match.params.id)
-            .then(({ data }) => {
-                setTopicData(data)
-            })
-            .catch(err => console.log(err))
+    const handleLike = (topic_id, post_id, value) => {
+        dispatch(topicActions.cardLike(topic_id, post_id, value, 'getTopicData', topic_id))
     }
 
     React.useEffect(() => {
-        if (props.location.state) {
-            setTopicData(props.location.state.data)
-        }
         getTopicData()
     }, [])
 
     const handleCreatePost = (postData) => {
-        refreshTokenWrapper(topicApi.createPost, () => { getTopicData() }, () => { }, { data: { ...postData, is_right_side: isRightSideNewPost }, id: props.match.params.id })
+        refreshTokenWrapper(topicApi.createPost, () => { getTopicData() }, () => { }, { data: { ...postData, is_right_side: isRightSideNewPost }, id: topicData.id })
             .then(({ data }) => console.log(data, 'created_post'))
             .catch(err => console.log(err))
     }
@@ -172,7 +173,7 @@ const TopicPage = (props) => {
                         }
                     </div>
 
-                    {topicData && <TopicStatistic posts={(topicData.left && topicData.left) ? topicData.left.length + topicData.right.length : 0} placet={data.placet} against={data.against} date={topicData.created} />}
+                    {topicData && <TopicStatistic posts={(topicData.left && topicData.left) ? topicData.left.length + topicData.right.length : 0} placet={0} against={0} date={topicData.created} />}
 
                 </div>
                 <div className="topic__content">
@@ -191,7 +192,7 @@ const TopicPage = (props) => {
                         {topicData.left && <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
                             {
                                 topicData.left.map((card, index) => {
-                                    return <PostCard topicId={topicData.id} topicTitle={`${topicData.left_theme} vs ${topicData.right_theme}`} key={index} {...card} type="column" to="post" />
+                                    return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} topicId={topicData.id} key={index} {...card} type="column" to="post" />
                                 })
                             }
                         </Scrollbar>}
@@ -210,7 +211,7 @@ const TopicPage = (props) => {
                         {topicData.right && <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
                             {
                                 topicData.right.map((card, index) => {
-                                    return <PostCard topicId={topicData.id} topicTitle={`${topicData.left_theme} vs ${topicData.right_theme}`} key={index} {...card} type="column" to="post" />
+                                    return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} topicId={topicData.id} key={index} {...card} type="column" to="post" />
                                 })
                             }
                         </Scrollbar>}

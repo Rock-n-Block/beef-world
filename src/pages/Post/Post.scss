@@ -5,6 +5,9 @@
   width: 100%;
   grid-column-gap: 20px;
   color: white;
+  &__video {
+    min-height: 40vw;
+  }
   &__topic-title {
     font-size: 18px;
     line-height: 21px;

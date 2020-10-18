@@ -104,7 +104,7 @@ const SearchInput = () => {
                 </Option>) : [];
 
                 const posts = data.posts.length ? data.posts.map(item => <Option key={item.id}>
-                    <Link className="s-input__link" to="/">
+                    <Link className="s-input__link" to={`/topic/${item.id}/post/${item.id}`}>
                         <img src={searchRedImg} alt="" />
                         <span>{item.title}</span>
                     </Link>
@@ -122,17 +122,17 @@ const SearchInput = () => {
     }
 
     const onSelectOption = (value) => {
-        debugger
         console.log(value)
         setSearchText('')
     }
 
     const handleSearchPage = (e) => {
         if (((searchData.topics && searchData.topics.length) || (searchData.posts && searchData.posts.length)) && e.key === 'Enter') {
+
             history.push({
                 pathname: '/search',
                 state: {
-                    data: searchData
+                    data: { ...searchData, searchText: e.target.value }
                 }
             })
         } else {

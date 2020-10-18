@@ -1,7 +1,8 @@
 
 const initialState = {
     cards: [],
-    currentTopic: {}
+    currentTopic: {},
+    currentPost: {},
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -10,6 +11,16 @@ export default (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 cards: [...payload]
+            };
+        case 'TOPICS:SET_CURRENT_TOPIC_DATA':
+            return {
+                ...state,
+                currentTopic: payload
+            };
+        case 'TOPICS:SET_CURRENT_POST_DATA':
+            return {
+                ...state,
+                currentPost: payload
             };
         default:
             return state

@@ -1,4 +1,5 @@
 $self: '.card';
+@import '../../styles/var';
 
 .card {
   color: white;
@@ -22,14 +23,16 @@ $self: '.card';
     font-family: BM;
     font-size: 14px;
     line-height: 17px;
-    opacity: 0.5;
-    color: white;
+    color: rgba(255, 255, 255, 0.5);
     &-post {
       font-family: BB;
       font-size: 15px;
       line-height: 18px;
       padding: 10px 15px 0;
       color: white;
+    }
+    span {
+      color: $red;
     }
   }
   &__box {
@@ -136,4 +139,23 @@ $self: '.card';
       margin-right: 7px;
     }
   }
+}
+.ant-notification {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  &-notice {
+    background: rgba(32, 32, 32, 0.9) !important;
+    border-radius: 12px !important;
+    width: 240px !important;
+    &-message {
+      color: white !important;
+      margin-bottom: 0 !important;
+    }
+  }
+}
+.ant-notification-notice-with-icon .ant-notification-notice-message {
+  margin-left: 25px !important;
+}
+.ant-notification-notice-icon {
+  margin-top: -2px !important;
 }

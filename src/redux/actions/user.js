@@ -16,6 +16,9 @@ const actions = {
     logout: () => dispatch => {
         delete localStorage.access_token
         delete localStorage.refresh_token
+
+        window.axios.defaults.headers.common["Authorization"] = ``
+
         dispatch({
             type: 'USER:LOGOUT'
         })

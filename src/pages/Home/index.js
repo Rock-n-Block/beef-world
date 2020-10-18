@@ -43,9 +43,7 @@ const Home = () => {
 
 
     const handleLike = (topic_id, post_id, value) => {
-        console.log(value, topic_id, post_id)
-
-        dispatch(topicActions.cardLike(topic_id, post_id, value))
+        dispatch(topicActions.cardLike(topic_id, post_id, value, 'getTopicsData'))
     }
 
     React.useEffect(() => {
@@ -78,7 +76,7 @@ const Home = () => {
                     }}>
                         {cards &&
                             cards.map((card, index) => {
-                                return <PostCard handleLike={(value) => (handleLike(card.id, card.post.id, value))} topicId={card.id} topicTitle={`${card.left_theme} vs ${card.right_theme}`} key={index} {...card.post} type="grid" to="topic" />
+                                return <PostCard handleLike={(value) => (handleLike(card.id, card.post.id, value))} topicId={card.id} topicTitle={`${card.left_theme} <span>vs</span> ${card.right_theme}`} key={index} {...card.post} type="grid" to="topic" />
                             })
                         }
                     </Masonry>

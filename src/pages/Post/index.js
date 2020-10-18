@@ -1,20 +1,24 @@
 import React from 'react';
 import { Scrollbar } from 'react-scrollbars-custom';
-import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { notification } from 'antd';
 
 import { PostCard, VideoPlayer, Time, Smiles, Comments, Statistic } from '../../components';
 import { topicApi } from '../../utils/api';
 import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
+import { topicActions } from '../../redux/actions';
 
 import './Post.scss'
 
 import shareImg from '../../assets/img/share.svg'
 import defaultAvatarImg from '../../assets/img/default-avatar.svg';
+import copyImg from '../../assets/img/copy.svg';
+import copyCloseImg from '../../assets/img/copy-close.svg';
 
 const PostPage = () => {
+    const dispatch = useDispatch();
 
     const data = {
         title: 'Please do not RT this video',
@@ -99,22 +103,25 @@ const PostPage = () => {
         ]
     }
 
-
-    const [postData, setPostData] = React.useState({})
+    const notificationBlock = () => {
+        notification.open({
+            message: 'Copied link',
+            placement: "bottomLeft",
+            icon: <img src={copyImg} alt="" />,
+            closeIcon: <img src={copyCloseImg} alt="" />
+        });
+    };
 
     const { topicId, postId } = useParams()
 
     const getPostData = () => {
 
-        refreshTokenWrapper(topicApi.getPost, () => { }, () => { }, { topic_id: topicId, post_id: postId })
-            .then(({ data }) => {
-                setPostData(data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        dispatch(topicActions.getPostData(topicId, postId))
     }
 
+    const handleLike = (topic_id, post_id, value) => {
+        dispatch(topicActions.cardLike(topic_id, post_id, value, 'getPostData', topic_id, post_id))
+    }
 
     const handleSendComment = (text) => {
         refreshTokenWrapper(topicApi.createComment, () => { }, () => { }, { topic_id: topicId, post_id: postId, commentText: { text: text.trim() } })
@@ -124,7 +131,12 @@ const PostPage = () => {
             .catch(err => console.log(err))
     }
 
-    const cards = useSelector(({ topics }) => topics.cards)
+    const { cards, postData } = useSelector(({ topics }) => {
+        return {
+            cards: topics.cards,
+            postData: topics.currentPost
+        }
+    })
 
     React.useEffect(() => {
         getPostData()
@@ -133,9 +145,11 @@ const PostPage = () => {
     return (
         <div className="post">
             <div className="post__wrapper">
-                {postData.link && <VideoPlayer video={postData.link} />}
+                <div className="post__video">
+                    {postData.link && <VideoPlayer video={postData.link} />}
+                </div>
                 <div className="post__content">
-                    {postData.likes !== undefined && <Statistic count={postData.likes} like={postData.user_reaction} />}
+                    {postData.likes !== undefined && <Statistic handleLike={(value) => (handleLike(topicId, postId, value))} count={postData.likes} like={postData.user_reaction} />}
                     <div className="post__info-views">{postData.views} views</div>
                     <div className="post__info">
                         <div className="post__info-box">
@@ -164,7 +178,7 @@ const PostPage = () => {
                             }
                             <div className="post__socials">
                                 {postData.topic && <Link to={`/topic/${topicId}`} className="post__topic-title">{postData.topic.left_theme} <span>vs</span> {postData.topic.right_theme}</Link>}
-                                <CopyToClipboard text={window.location.origin + `/topic/${topicId}/post/${postId}`}>
+                                <CopyToClipboard onCopy={notificationBlock} text={window.location.origin + `/topic/${topicId}/post/${postId}`}>
                                     <div className="post__socials-item post__socials-item--share">
                                         <img src={shareImg} alt="" />
                                         <div className="post__socials-item-text">Сopy link</div>

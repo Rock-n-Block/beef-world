@@ -24,7 +24,7 @@ const Comments = ({ comments, handleSendComment }) => {
     }
 
     return (
-        <div className="comments">
+        <div className="comments" id="comments">
             <div className="comments__title">
                 {comments && comments.length} COMMENTS
             </div>

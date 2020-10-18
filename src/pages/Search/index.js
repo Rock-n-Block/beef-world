@@ -24,7 +24,7 @@ const Search = (props) => {
                     (data.topics && data.topics.length) ? (
                         <>
                             <div className="search__title">Topics</div>
-                            <div className="search__subtitle">{data.topics.length} results topic for pizza</div>
+                            <div className="search__subtitle">{data.topics.length} results topic for {data.searchText}</div>
                             {
                                 data.topics.map(topic => {
                                     return <Link to={`/topic/${topic.id}`} className="search__topic">
@@ -39,8 +39,8 @@ const Search = (props) => {
                 {
                     (data.posts && data.posts.length) ? (
                         <>
-                            <div className="search__title">Topics</div>
-                            <div className="search__subtitle">{data.posts.length} results tocip for pizza</div>
+                            <div className="search__title">Post</div>
+                            <div className="search__subtitle">{data.posts.length} results post for {data.searchText}</div>
                             <div className="search__posts">
 
                                 <Masonry options={{
