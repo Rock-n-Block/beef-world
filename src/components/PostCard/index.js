@@ -15,7 +15,7 @@ import copyCloseImg from '../../assets/img/copy-close.svg';
 
 import './PostCard.scss'
 
-const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, type, topicTitle, title, id, topicId, handleLike, link }) => {
+const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, type, topicTitle, title, id, topicId, handleLike, link, to }) => {
 
     const [img, setImg] = React.useState(null)
 
@@ -55,7 +55,7 @@ const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, t
             'only-text': !img && !link
         })}>
             <div className="card__box">
-                <Link to={type === 'grid' ? `/topic/${topicId}` : `/topic/${topicId}/post/${id}`} className="card__link">
+                <Link to={to === 'topic' ? `/topic/${topicId}` : `/topic/${topicId}/post/${id}`} className="card__link">
                     <div className="card__head">
                         <div className="card__avatar">
                             {user && user.avatar !== null ? <img src={user && user.avatar} alt={user && user.username} /> : <img src={defaultAvatar} alt={user && user.username} />}

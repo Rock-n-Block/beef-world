@@ -2,6 +2,8 @@
 
 .make {
   width: 100%;
+  color: white !important;
+  font-family: BR;
   &__btn {
     width: fit-content;
     text-transform: uppercase;
@@ -10,28 +12,46 @@
   &__box {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    padding: 15px;
+    padding: 15px !important;
     &-title {
       font-size: 12px;
       line-height: 14px;
       align-items: center;
-      display: flex;
-      justify-content: space-between;
       font-family: BR;
       span {
         opacity: 0.5;
         margin-left: 5px;
       }
+      .ant-form-item-control-input-content {
+        display: flex;
+        justify-content: space-between;
+        color: white;
+        align-items: center;
+      }
     }
   }
   &__link {
     display: flex;
+    flex-direction: row !important;
     align-items: center;
     padding: 22px 15px;
     font-size: 15px;
     line-height: 18px;
     font-family: BR;
+    color: white !important;
     margin-bottom: 25px;
+    input {
+      width: 94% !important;
+    }
+    .ant-form-item-control-input-content {
+      display: flex !important;
+      align-items: center;
+      font-size: 15px !important;
+      line-height: 18px !important;
+      span {
+        margin-right: 5px;
+      }
+    }
   }
   &__input {
     background: transparent !important;
@@ -185,7 +205,8 @@
       }
       &-input {
         width: 100%;
-        span {
+        margin-bottom: 0 !important;
+        input + span {
           font-family: BR;
           color: #ffffff;
           font-size: 12px;
@@ -207,6 +228,14 @@
           }
           span {
             color: #36c7ad;
+          }
+        }
+        &-wrapper {
+          height: 32px;
+          input {
+            clip: rect(0 0 0 0);
+            width: 0px;
+            height: 0px;
           }
         }
         &-img {

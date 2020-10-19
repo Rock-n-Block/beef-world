@@ -22,7 +22,6 @@ export default withFormik({
 
     handleSubmit: (values, { setErrors }) => {
         store.dispatch(userActions.signIn(values)).then(res => {
-            console.log(res)
             store.dispatch(modalActions.toggleSignInModal(false))
         })
             .catch(err => {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd'
 import { useDispatch } from 'react-redux';
-import { modalActions } from '../../../redux/actions';
 
 
 const SignUpForm = props => {

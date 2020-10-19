@@ -48,7 +48,7 @@ const Search = (props) => {
                                 }}>
                                     {
                                         data.posts.map((card, index) => {
-                                            return <PostCard key={index} {...card} type="grid" to="post" />
+                                            return <PostCard key={index} {...card} topicId={card.topic.id} type="grid" to="post" />
                                         })
                                     }
                                 </Masonry>

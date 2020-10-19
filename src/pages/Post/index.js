@@ -17,7 +17,7 @@ import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 import copyImg from '../../assets/img/copy.svg';
 import copyCloseImg from '../../assets/img/copy-close.svg';
 
-const PostPage = () => {
+const PostPage = (props) => {
     const dispatch = useDispatch();
 
     const data = {
@@ -123,8 +123,16 @@ const PostPage = () => {
         dispatch(topicActions.cardLike(topic_id, post_id, value, 'getPostData', topic_id, post_id))
     }
 
-    const handleSendComment = (text) => {
-        refreshTokenWrapper(topicApi.createComment, () => { }, () => { }, { topic_id: topicId, post_id: postId, commentText: { text: text.trim() } })
+    const handleCommentLike = (comment_id, value) => {
+        refreshTokenWrapper(topicApi.commentLike, () => { }, () => { }, { topic_id: topicId, post_id: postId, comment_id, value })
+            .then(({ data }) => {
+                getPostData()
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleSendComment = (text, parent_comment = null) => {
+        refreshTokenWrapper(topicApi.createComment, () => { }, () => { }, { topic_id: topicId, post_id: postId, commentText: { text: text.trim(), parent_comment } })
             .then(({ data }) => {
                 getPostData()
             })
@@ -138,9 +146,22 @@ const PostPage = () => {
         }
     })
 
+    const handleScrollToComments = () => {
+        const commentBlock = document.querySelector(props.location.hash)
+        var top = commentBlock.getBoundingClientRect().top;
+        if (top > 200) {
+            window.requestAnimationFrame(handleScrollToComments);
+            window.scrollBy(0, top - top / 10);
+        }
+    }
+
     React.useEffect(() => {
         getPostData()
-    }, [])
+
+        if (props.location.hash) {
+            handleScrollToComments()
+        }
+    }, [postId])
 
     return (
         <div className="post">
@@ -187,7 +208,7 @@ const PostPage = () => {
                             </div>
                             <Smiles {...data.smiles} />
                             <div className="post__comments">
-                                <Comments handleSendComment={handleSendComment} comments={postData.comments} />
+                                <Comments handleCommentLike={(comment_id, value) => handleCommentLike(comment_id, value)} handleSendComment={handleSendComment} comments={postData.comments && postData.comments.reverse()} />
                             </div>
                         </div>
                     </div>

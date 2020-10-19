@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Select } from 'antd';
+import { Input, Select, Form } from 'antd';
 import classNames from 'classnames';
 
 import { VideoPlayer } from '../../components';
@@ -11,12 +11,8 @@ import checkImg from '../../assets/img/check.svg';
 const { TextArea } = Input
 const { Option } = Select
 
-const Make = ({ type, handleCreate }) => {
+const Make = ({ type, touched, errors, youtube_link, handleChange, handleBlur, values, first_oponent, second_oponent, title, descr, handleSubmit, choose }) => {
 
-    const [videoLink, setVideoLink] = React.useState('')
-    const [youtubeVideoTitle, setYoutubeVideoTitle] = React.useState('')
-    const [firstOponent, setFirstOponent] = React.useState('')
-    const [secondOponent, setSecondOponent] = React.useState('')
     const [postTitle, setPostTitle] = React.useState('')
     const [postDescr, setPostDescr] = React.useState('')
 
@@ -37,33 +33,29 @@ const Make = ({ type, handleCreate }) => {
         }
     ]
 
-    const youtube_parser = (url) => {
-        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-        var match = url.match(regExp);
-        return (match && match[7].length == 11) ? match[7] : false;
-    }
-
-    const handleInputLinkChange = (e) => {
-        const id = youtube_parser(e.target.value)
-        let value = e.target.value.replace('https://', '')
-        value = value.replace('http://', '')
-
-        if (id) {
-
-            setVideoLink(value)
+    const validateField = (key, touched, errors) => {
+        if (touched[key]) {
+            if (errors[key]) {
+                return 'error'
+            } else {
+                return 'success'
+            }
+        } else {
+            return ''
         }
-
     }
 
     const handlePostTitleChange = (e) => {
         if (e.target.value.length <= 100) {
             setPostTitle(e.target.value)
+            handleChange(e)
         }
     }
 
     const handlePostDescriptionChange = (e) => {
         if (e.target.value.length <= 1000) {
             setPostDescr(e.target.value)
+            handleChange(e)
         }
     }
 
@@ -71,83 +63,128 @@ const Make = ({ type, handleCreate }) => {
         console.log(tag)
     }
 
-    const handleBtnClick = () => {
-        const postData = {}
-        if (type === 'topic') {
-            postData.right_theme = secondOponent
-            postData.left_theme = firstOponent
-            postData.post = {
-                title: postTitle,
-                link: videoLink,
-                text: postDescr,
-                is_right_side: !!myChoose
-            }
-        }
-
-        if (type === 'post') {
-            postData.title = postTitle;
-            postData.link = videoLink;
-            postData.text = postDescr
-        }
-
-        handleCreate(postData)
-        setPostTitle('');
-        setVideoLink('')
-        setPostDescr('')
-    }
 
     return (
-        <div className="make">
-            <div className="make__box make__link">
+        // <div className="make">
+        <Form
+            name="make"
+            className="make"
+            initialValues={{ remember: true }}
+            layout="vertical"
+        >
+            {/* <div className="make__box make__link">
                 <span>https://</span>
-                <Input type="text" className="make__input" placeholder="Past youtube video link" value={videoLink} onChange={handleInputLinkChange} />
-            </div>
-            {(videoLink && type === 'topic') && <VideoPlayer video={videoLink} type="makepost" />}
+                <Input type="text" className="make__input" placeholder="Past youtube video link" value={videoLink} />
+            </div> */}
+            <Form.Item
+                name="youtube_link"
+                hasFeedback
+                className="make__box make__link"
+                validateStatus={validateField('youtube_link', touched, errors)}
+                help={!touched.youtube_link ? false : errors.youtube_link}
+            >
+                <Input
+                    id="youtube_link"
+                    className="profile__form-input"
+                    onChange={handleChange}
+                    placeholder="Past youtube video link"
+                    size="large"
+                    defaultValue={youtube_link}
+                    onBlur={handleBlur}
+                />
+            </Form.Item>
+            {(!errors.youtube_link && touched.youtube_link && type === 'topic') && <VideoPlayer video={values.youtube_link} type="makepost" />}
             {
                 type === 'topic' && (
                     <div className="make__box make__topic">
                         <div className="make__topic-item">
-                            <div className="make__topic-item-input">
-                                <Input type="text" className="make__input" placeholder="Topic" value={firstOponent} onChange={(e) => setFirstOponent(e.target.value)} />
+                            <Form.Item
+                                name="first_oponent"
+                                className="make__topic-item-input"
+                                validateStatus={validateField('first_oponent', touched, errors)}
+                                help={!touched.first_oponent ? false : errors.first_oponent}
+                            >
+                                <Input
+                                    id="first_oponent"
+                                    className="make__input"
+                                    onChange={handleChange}
+                                    placeholder="Topic Theme"
+                                    size="large"
+                                    defaultValue={first_oponent}
+                                    onBlur={handleBlur}
+                                />
                                 <span>Example Roman Empire</span>
-                            </div>
-                            <div onClick={() => setMyChoose(0)} className={classNames('make__topic-item-choose', {
-                                'active': myChoose === 0
-                            })}>
-                                <div className="make__topic-item-choose-img">
-                                    <img src={checkImg} alt="" />
+                            </Form.Item>
+                            <label className="make__topic-item-choose-wrapper" htmlFor="is_left_side">
+                                <div onClick={() => setMyChoose(0)} className={classNames('make__topic-item-choose', {
+                                    'active': myChoose === 0
+                                })}>
+                                    <div className="make__topic-item-choose-img">
+                                        <img src={checkImg} alt="" />
+                                    </div>
+                                    <span>My VOTE</span>
                                 </div>
-                                <span>My VOTE</span>
-                            </div>
+                                <input onChange={handleChange} type="radio" name="is_right_side" value="0" checked id="is_left_side" />
+                            </label>
                         </div>
                         <div className="make__topic-vs">VS</div>
                         <div className="make__topic-item">
-                            <div className="make__topic-item-input">
-                                <Input type="text" className="make__input" placeholder="Topic" value={secondOponent} onChange={(e) => setSecondOponent(e.target.value)} />
-                                <span>Carthage</span>
-                            </div>
-                            <div onClick={() => setMyChoose(1)} className={classNames('make__topic-item-choose', {
-                                'active': myChoose === 1
-                            })}>
-                                <div className="make__topic-item-choose-img">
-                                    <img src={checkImg} alt="" />
+                            <Form.Item
+                                name="second_oponent"
+                                className="make__topic-item-input"
+                                validateStatus={validateField('second_oponent', touched, errors)}
+                                help={!touched.second_oponent ? false : errors.second_oponent}
+                            >
+                                <Input
+                                    id="second_oponent"
+                                    className="make__input"
+                                    onChange={handleChange}
+                                    placeholder="Topic Theme"
+                                    size="large"
+                                    defaultValue={second_oponent}
+                                    onBlur={handleBlur}
+                                />
+                                <span>Example Roman Empire</span>
+                            </Form.Item>
+                            <label className="make__topic-item-choose-wrapper" htmlFor="is_right_side">
+                                <div onClick={() => setMyChoose(1)} className={classNames('make__topic-item-choose', {
+                                    'active': myChoose === 1
+                                })}>
+                                    <div className="make__topic-item-choose-img">
+                                        <img src={checkImg} alt="" />
+                                    </div>
+                                    <span>My VOTE</span>
                                 </div>
-                                <span>My VOTE</span>
-                            </div>
+                                <input onChange={handleChange} type="radio" name="is_right_side" value="1" id="is_right_side" />
+                            </label>
                         </div>
                     </div>
                 )
             }
             <div className="make__box make__headline">
                 <div className="make__box-title">
-                    <TextArea autoSize={{ minRows: 1, maxRows: 20 }} size="large" type="text" className="make__input" placeholder="Title" value={postTitle} onChange={handlePostTitleChange} />
-                    <span>{postTitle.length}/100</span>
+                    <Form.Item
+                        name="title"
+                        className="make__topic-item-input"
+                        validateStatus={validateField('title', touched, errors)}
+                        help={!touched.title ? false : errors.title}
+                    >
+                        <TextArea id="title" defaultValue={title} onBlur={handleBlur} autoSize={{ minRows: 1, maxRows: 20 }} size="large" type="text" className="make__input" placeholder="Title" value={postTitle} onChange={handlePostTitleChange} />
+                        <span>{postTitle.length}/100</span>
+                    </Form.Item>
                 </div>
             </div>
             <div className="make__box make__descr">
                 <div className="make__box-title">
-                    <TextArea autoSize={{ minRows: 1, maxRows: 20 }} size="large" type="text" className="make__input" placeholder="Description  (optional)" value={postDescr} onChange={handlePostDescriptionChange} />
-                    <span>{postDescr.length}/1000</span>
+                    <Form.Item
+                        name="descr"
+                        className="make__topic-item-input"
+                        validateStatus={validateField('descr', touched, errors)}
+                        help={!touched.descr ? false : errors.descr}
+                    >
+                        <TextArea id="descr" defaultValue={descr} onBlur={handleBlur} autoSize={{ minRows: 1, maxRows: 20 }} size="large" type="text" className="make__input" placeholder="Description" value={postDescr} onChange={handlePostDescriptionChange} />
+                        <span>{postDescr.length}/1000</span>
+                    </Form.Item>
                 </div>
             </div>
             <div className="make__box make__tags" id="moke__box">
@@ -167,8 +204,8 @@ const Make = ({ type, handleCreate }) => {
                     }
                 </Select>
             </div>
-            <button className="make__btn btn" onClick={handleBtnClick} disabled={(type === 'topic' && (!firstOponent || !secondOponent)) || !postTitle}>POst</button>
-        </div>
+            <button type="submit" onClick={handleSubmit} className="make__btn btn" >POst</button>
+        </Form>
     );
 }
 

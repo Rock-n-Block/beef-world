@@ -4,7 +4,8 @@ import { Scrollbar } from 'react-scrollbars-custom';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { PostCard, Modal, Make, TopicStatistic } from '../../components';
+import { PostCard, Modal, TopicStatistic } from '../../components';
+import { Make } from '../../modules';
 import { topicApi } from '../../utils/api';
 import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
 import { topicActions } from '../../redux/actions';
@@ -146,7 +147,9 @@ const TopicPage = (props) => {
 
     const handleCreatePost = (postData) => {
         refreshTokenWrapper(topicApi.createPost, () => { getTopicData() }, () => { }, { data: { ...postData, is_right_side: isRightSideNewPost }, id: topicData.id })
-            .then(({ data }) => console.log(data, 'created_post'))
+            .then(({ data }) => {
+                setIsModalOpen(false)
+            })
             .catch(err => console.log(err))
     }
 

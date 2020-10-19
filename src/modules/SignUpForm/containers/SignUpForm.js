@@ -24,16 +24,16 @@ export default withFormik({
 
     handleSubmit: (values, { setErrors }) => {
         store.dispatch(userActions.signUp(values)).then(res => {
-            console.log(res)
-            store.dispatch(modalActions.toggleSignUpModal(false))
-            store.dispatch(modalActions.toggleSignInModal(true))
+            store.dispatch(userActions.signIn({
+                email: values.email,
+                password: values.password
+            })).then(res => {
+                store.dispatch(modalActions.toggleSignUpModal(false))
+            })
         })
             .catch((err) => {
-                debugger
                 console.log(err)
-                setErrors({
-                    username: 'Enter your name'
-                })
+                setErrors(err)
             })
     },
 

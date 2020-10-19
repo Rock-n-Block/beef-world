@@ -6,7 +6,7 @@ import { topicApi } from '../../utils/api';
 import { userActions } from '../../redux/actions';
 import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
 
-import { Make } from '../../components';
+import { Make } from '../../modules';
 
 import './MakePost.scss'
 
