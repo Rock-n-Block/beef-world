@@ -68,7 +68,7 @@ const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, t
                         img && <img src={img} alt="" className="card__img" />
                     }
                     {
-                        link && <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${youtube_parser(link)}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                        link && <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${youtube_parser(link)}`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                     }
                     {
                         topicTitle && <div className="card__title" dangerouslySetInnerHTML={{ __html: topicTitle }}></div>

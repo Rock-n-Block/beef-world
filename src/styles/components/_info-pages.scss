@@ -1,0 +1,46 @@
+@import '../var';
+.info-page {
+  padding: 80px 0 40px;
+  color: #ffffff;
+  &__row {
+    max-width: 1000px !important;
+  }
+  h1 {
+    font-family: BB;
+    font-size: 36px;
+    line-height: 43px;
+    color: white;
+    margin-bottom: 30px;
+  }
+  h2 {
+    font-family: BB;
+    font-size: 24px;
+    line-height: 28px;
+    color: white;
+    margin: 30px 0 20px;
+  }
+  p {
+    font-size: 18px;
+    line-height: 26px;
+    font-family: BR;
+  }
+  p + p {
+    margin-top: 20px;
+  }
+  a {
+    color: $red;
+  }
+  b {
+    font-family: BB;
+    color: $red;
+  }
+  ul {
+    margin: 20px 0;
+    padding-left: 20px;
+  }
+  li {
+    font-size: 18px;
+    line-height: 26px;
+    font-family: BR;
+  }
+}

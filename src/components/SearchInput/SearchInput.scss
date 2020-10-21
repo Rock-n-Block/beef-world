@@ -1,5 +1,4 @@
 .s-input {
-  // overflow: hidden;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 100px;
   width: 270px;
@@ -10,6 +9,9 @@
   display: flex;
   padding: 5px 17px;
   align-items: center;
+  &__close {
+    display: none;
+  }
   &__img {
     cursor: pointer;
     position: absolute;
@@ -73,5 +75,43 @@
   .ant-select-item.ant-select-item-option.ant-select-item-option-active {
     background: #363636 !important;
     padding: 0;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .s-input {
+    width: 15px;
+    margin-left: auto;
+    background: transparent;
+    &.active {
+      width: 90vw;
+      background: rgba(255, 255, 255, 0.1);
+      transition: 0.3s;
+      .s-input {
+        &__close {
+          display: block;
+          position: absolute;
+          right: 9px;
+          padding: 3px 6px;
+          z-index: 5;
+        }
+        &__input {
+          width: 100%;
+          .ant-select-selector {
+            padding: 0 11px !important;
+          }
+        }
+      }
+    }
+    &__img {
+      left: 9px;
+    }
+    &__input {
+      width: 0;
+      overflow: hidden;
+      .ant-select-selector {
+        padding: 0 !important;
+      }
+    }
   }
 }

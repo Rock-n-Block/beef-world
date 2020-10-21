@@ -2,17 +2,33 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
-import { HomePage, TopicPage, PostPage, MakeTopicPage, ProfilePage, CommunityPage, TestPage, SearchPage } from './pages';
+import { HomePage, TopicPage, PostPage, MakeTopicPage, ProfilePage, CommunityPage, TestPage, SearchPage, PrivacyPage, TermsPage } from './pages';
 import { Header } from './components';
 import { facebookActions, userActions, topicActions } from './redux/actions';
-import { facebookApi } from './utils/api';
+import { facebookApi, twitterApi } from './utils/api';
+import { Modal } from './components';
+import { SignInForm, SignUpForm } from './modules';
+import { modalActions } from './redux/actions';
 
 import './styles/style.scss'
 
 function App() {
   const dispatch = useDispatch()
 
-  const isAuth = useSelector(({ user }) => user.isAuth)
+  const { isOpenSignIn, isOpenSignUp, isAuth } = useSelector((state) => {
+    return {
+      isOpenSignIn: state.modal.isOpenSignIn,
+      isOpenSignUp: state.modal.isOpenSignUp,
+      ...state.user
+    }
+  })
+  const handleOkSignInModal = () => {
+    dispatch(modalActions.toggleSignInModal(false))
+  }
+  const handleOkSignUpModal = () => {
+    dispatch(modalActions.toggleSignUpModal(false))
+  }
+
 
   React.useEffect(() => {
     const facebookInterval = setInterval(() => {
@@ -40,6 +56,11 @@ function App() {
       }
     }, 100)
   }, [])
+
+  React.useEffect(() => {
+    twitterApi.getTwitterApi()
+  }, [])
+
   React.useEffect(() => {
     dispatch(topicActions.getTopicsData())
   }, [])
@@ -60,12 +81,23 @@ function App() {
       <Route exact path={'/topic/:topicId'} component={TopicPage}></Route>
       <Route path={'/topic/:topicId/post/:postId'} component={PostPage}></Route>
       <Route exact path={'/make'} render={() => isAuth ? <MakeTopicPage /> : <Redirect to="/" />}></Route>
-      <Route path={'/profile/:id'} render={() => isAuth ? <ProfilePage /> : <Redirect to="/" />}></Route>
-      <Route exact path={'/community'} component={CommunityPage}></Route>
+      <Route exact path={'/profile'} render={() => isAuth ? <ProfilePage /> : <Redirect to="/" />}></Route>
       <Route exact path={'/search'} component={SearchPage}></Route>
+
+      <Route exact path={'/community'} component={CommunityPage}></Route>
+      <Route exact path={'/privacy'} component={PrivacyPage}></Route>
+      <Route exact path={'/terms'} component={TermsPage}></Route>
 
 
       <Route exact path={'/test'} component={TestPage}></Route>
+
+
+      <Modal isOpen={isOpenSignIn} handleOk={handleOkSignInModal}>
+        <SignInForm />
+      </Modal>
+      <Modal isOpen={isOpenSignUp} handleOk={handleOkSignUpModal}>
+        <SignUpForm />
+      </Modal>
     </div>
   );
 }

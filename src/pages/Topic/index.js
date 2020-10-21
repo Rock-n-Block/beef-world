@@ -13,8 +13,8 @@ import { topicActions } from '../../redux/actions';
 import './Topic.scss'
 
 import closeModalImg from '../../assets/img/close-cross.svg';
-import subImg from '../../assets/img/sub.svg';
-import subActiveImg from '../../assets/img/sub-active.svg';
+// import subImg from '../../assets/img/sub.svg';
+// import subActiveImg from '../../assets/img/sub-active.svg';
 
 const TopicPage = (props) => {
     const dispatch = useDispatch();
@@ -117,6 +117,10 @@ const TopicPage = (props) => {
     const [isSub, setIsSub] = React.useState(false)
     const [isRightSideNewPost, RightSideNewPost] = React.useState(false)
 
+
+    const [isRightContentOpen, setIsRightContentOpen] = React.useState(true)
+    const [isLeftContentOpen, setIsLeftContentOpen] = React.useState(true)
+
     const tabs = ['HOT', 'NEW', 'TOP']
 
     const handleCloseModal = () => {
@@ -142,7 +146,11 @@ const TopicPage = (props) => {
     }
 
     React.useEffect(() => {
+        if (window.innerWidth < 991) {
+            setIsRightContentOpen(false)
+        }
         getTopicData()
+
     }, [])
 
     const handleCreatePost = (postData) => {
@@ -153,17 +161,27 @@ const TopicPage = (props) => {
             .catch(err => console.log(err))
     }
 
+    const contentWrapper = window.innerWidth > 991 ? Scrollbar : 'div'
+
+    const leftPosts = topicData.left && topicData.left.map((card, index) => {
+        return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} topicId={topicData.id} key={index} {...card} type="column" to="post" />
+    })
+
+    const rightPosts = topicData.right && topicData.right.map((card, index) => {
+        return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} topicId={topicData.id} key={index} {...card} type="column" to="post" />
+    })
+
     return (
         <div className="topic">
             <div className="topic__row row">
                 <div className="topic__title">
                     <p>{topicData.left_theme}<span> vs </span>{topicData.right_theme}</p>
-                    <div className="topic__sub btn btn--gray" onClick={handleSubscribe}>
+                    {/* <div className="topic__sub btn btn--gray" onClick={handleSubscribe}>
                         {
                             isSub ? <img src={subActiveImg} alt="" /> : <img src={subImg} alt="" />
                         }
                         <span>subscribe</span>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="topic__wrapper">
                     <div className="topic__navbar">
@@ -176,12 +194,14 @@ const TopicPage = (props) => {
                         }
                     </div>
 
-                    {topicData && <TopicStatistic posts={(topicData.left && topicData.left) ? topicData.left.length + topicData.right.length : 0} placet={0} against={0} date={topicData.created} />}
+                    {topicData && window.innerWidth > 991 && <TopicStatistic posts={(topicData.left && topicData.left) ? topicData.left.length + topicData.right.length : 0} placet={topicData.left_rating} against={topicData.right_rating} date={topicData.created} />}
 
                 </div>
-                <div className="topic__content">
+                <div className={classNames('topic__content', {
+                    'mobile--hidden': !isLeftContentOpen
+                })}>
                     <div className="topic__content-box">
-                        <div className="topic__content-wrapper">
+                        {window.innerWidth > 991 && <div className="topic__content-wrapper">
                             <div className="topic__content-name">{topicData.left_theme}</div>
                             <div className="topic__content-make">
                                 <span>{topicData.left && topicData.left.length} posts&nbsp;&nbsp;&nbsp;•</span>
@@ -190,18 +210,15 @@ const TopicPage = (props) => {
                                     <div className="topic__content-btn-text">Make a post</div>
                                 </div>
                             </div>
-                        </div>
-
-                        {topicData.left && <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
-                            {
-                                topicData.left.map((card, index) => {
-                                    return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} topicId={topicData.id} key={index} {...card} type="column" to="post" />
-                                })
-                            }
-                        </Scrollbar>}
+                        </div>}
+                        {leftPosts && leftPosts.length &&
+                            React.createElement(contentWrapper, [], leftPosts)
+                        }
                     </div>
-                    <div className="topic__content-box">
-                        <div className="topic__content-wrapper">
+                    <div className={classNames('topic__content-box', {
+                        'mobile--hidden': !isRightContentOpen
+                    })}>
+                        {window.innerWidth > 991 && <div className="topic__content-wrapper">
                             <div className="topic__content-name">{topicData.right_theme}</div>
                             <div className="topic__content-make">
                                 <span>{topicData.right && topicData.right.length} posts&nbsp;&nbsp;&nbsp;•</span>
@@ -210,14 +227,10 @@ const TopicPage = (props) => {
                                     <div className="topic__content-btn-text topic__content-btn-text--yellow">Make a post</div>
                                 </div>
                             </div>
-                        </div>
-                        {topicData.right && <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
-                            {
-                                topicData.right.map((card, index) => {
-                                    return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} topicId={topicData.id} key={index} {...card} type="column" to="post" />
-                                })
-                            }
-                        </Scrollbar>}
+                        </div>}
+                        {rightPosts && rightPosts.length &&
+                            React.createElement(contentWrapper, [], rightPosts)
+                        }
                     </div>
                 </div>
             </div>

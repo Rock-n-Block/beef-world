@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import { Scrollbar } from 'react-scrollbars-custom';
 import { useSelector } from 'react-redux';
 
+import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 
 import './Navbar.scss'
 
-const Navbar = ({ isOpen, navbarRef, history }) => {
+const Navbar = ({ isOpen, navbarRef, handleSignUpOpen, handleSignInOpen, isAuth, avatar }) => {
     const tabs = [
         {
             link: 'hot',
@@ -90,9 +91,26 @@ const Navbar = ({ isOpen, navbarRef, history }) => {
             'active': isOpen
         })}>
             <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
+                {window.innerWidth < 991 && !isAuth &&
+                    <div className="navbar__wrapper">
+                        <div className="navbar__btns-item btn btn--gray" onClick={handleSignInOpen}>Log in</div>
+                        <div className="navbar__btns-item btn btn--gray" onClick={handleSignUpOpen}>Sign up</div>
+                    </div>
+                }
+                {window.innerWidth < 991 && isAuth &&
+                    <div className="navbar__wrapper">
+                        <Link to="/profile" className="navbar__user">
+                            <div className="navbar__user-img">
+                                {avatar ? <img src={avatar} alt="" /> : <img src={defaultAvatarImg} alt="" />}
+                            </div>
+                            <div className="navbar__user-text">Edit Profile</div>
+                        </Link>
+                        <Link to="/make" className="btn">Make a topic</Link>
+                    </div>
+                }
                 <div className="navbar__text">
                     Post your video, meme, etcetera, or any video that already exists online. Every week the most popular post of the month will receive <span className="navbar__text--red">100 USD</span> from us! Press "Make a Post" to begin.
-            </div>
+                </div>
                 <div className="navbar__links">
                     {
                         tabs.map((item, index) => {
@@ -139,8 +157,8 @@ const Navbar = ({ isOpen, navbarRef, history }) => {
                 <div className="navbar__more">
                     <div className="navbar__more-title">MORE BEEF DOT WORLD</div>
                     <Link to="/community" className="navbar__more-link">Community</Link>
-                    <a href="/" className="navbar__more-link">Terms</a>
-                    <a href="/" className="navbar__more-link">Privacy</a>
+                    <Link to="/terms" className="navbar__more-link">Terms</Link>
+                    <Link to="/privacy" className="navbar__more-link">Privacy</Link>
                     <a href="/" className="navbar__more-link">Contact Us</a>
                 </div>
             </Scrollbar>

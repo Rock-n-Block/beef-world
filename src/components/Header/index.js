@@ -3,8 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Popover } from 'antd';
 
-import { SearchInput, Navbar, Modal, Logout } from '../../components';
-import { SignInForm, SignUpForm } from '../../modules';
+import { SearchInput, Navbar, Logout } from '../../components';
 import { modalActions } from '../../redux/actions';
 
 import './Header.scss'
@@ -23,12 +22,24 @@ const Header = ({ history }) => {
 
     const [isNavbarOpen, setIsNavbarOpen] = React.useState(false)
 
+    const [isSearchOpen, setIsSearchOpen] = React.useState(false)
+
 
     const outsideClick = (e) => {
         const path = e.path || (e.composedPath && e.composedPath())
         if (!path.includes(navbarRef.current) && !path.includes(btnRef.current)) {
             setIsNavbarOpen(false)
         }
+    }
+
+    const handleSignInOpen = () => {
+        dispatch(modalActions.toggleSignInModal(true))
+        setIsNavbarOpen(false)
+    }
+
+    const handleSignUpOpen = () => {
+        dispatch(modalActions.toggleSignUpModal(true))
+        setIsNavbarOpen(false)
     }
 
     React.useEffect(() => {
@@ -39,20 +50,11 @@ const Header = ({ history }) => {
     }, []);
 
 
-    const { isOpenSignIn, isOpenSignUp, isAuth, photo } = useSelector((state) => {
+    const { isAuth, photo } = useSelector((state) => {
         return {
-            isOpenSignIn: state.modal.isOpenSignIn,
-            isOpenSignUp: state.modal.isOpenSignUp,
             ...state.user
         }
     })
-
-    const handleOkSignInModal = () => {
-        dispatch(modalActions.toggleSignInModal(false))
-    }
-    const handleOkSignUpModal = () => {
-        dispatch(modalActions.toggleSignUpModal(false))
-    }
 
 
     history.listen(() => {
@@ -69,38 +71,32 @@ const Header = ({ history }) => {
                         <div className="header__navbar-toggle" ref={btnRef}>
                             {isNavbarOpen ? <img onClick={() => { setIsNavbarOpen(false) }} src={navbarCloseImg} alt="" /> : <img onClick={() => setIsNavbarOpen(true)} src={navbarOpenImg} alt="" />}
                         </div>
-                        <Link to="/">
+                        {!isSearchOpen && <Link to="/" className="header__logo">
                             <img src={logoImg} alt="" />
-                        </Link>
+                        </Link>}
                     </div>
-                    <SearchInput />
-                    <div className="header__wrapper">
+                    <SearchInput handleOpenSearchInput={(value) => setIsSearchOpen(value)} />
+                    {window.innerWidth > 991 && <div className="header__wrapper">
                         {!isAuth &&
                             <>
-                                <div className="header__login" onClick={() => dispatch(modalActions.toggleSignInModal(true))}>Log in</div>
-                                <div className="header__btn btn btn--gray" onClick={() => dispatch(modalActions.toggleSignUpModal(true))}>Sign up</div>
+                                <div className="header__login" onClick={handleSignInOpen}>Log in</div>
+                                <div className="header__btn btn btn--gray" onClick={handleSignUpOpen}>Sign up</div>
                             </>
                         }
                         {
                             isAuth && <Popover placement="bottom" trigger="hover" content={
                                 <Logout><div className="header__user-logout">Log Out</div></Logout>
                             }>
-                                <Link to="/profile/1" className="header__user">
+                                <Link to="/profile" className="header__user">
                                     <img src={photo || defaultAvatarImg} alt="" />
                                 </Link>
                             </Popover>
                         }
                         {isAuth && <Link to="/make" className="header__btn btn">Make a topic</Link>}
-                    </div>
+                    </div>}
                 </div>
-                <Navbar isOpen={isNavbarOpen} navbarRef={navbarRef} />
+                <Navbar isOpen={isNavbarOpen} navbarRef={navbarRef} isAuth={isAuth} avatar={photo} handleSignInOpen={handleSignInOpen} handleSignUpOpen={handleSignUpOpen} />
             </header>
-            <Modal isOpen={isOpenSignIn} handleOk={handleOkSignInModal}>
-                <SignInForm />
-            </Modal>
-            <Modal isOpen={isOpenSignUp} handleOk={handleOkSignUpModal}>
-                <SignUpForm />
-            </Modal>
         </>
     );
 }

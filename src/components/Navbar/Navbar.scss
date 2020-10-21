@@ -19,6 +19,45 @@
   .ScrollbarsCustom-Track {
     width: 6px !important;
   }
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    padding: 20px 10px 20px 15px;
+    border-bottom: 0.5px solid #444444;
+    justify-content: space-between;
+  }
+  &__user {
+    display: flex;
+    align-items: center;
+    &-img {
+      position: relative;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      img {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+      }
+    }
+    &-text {
+      margin-left: 10px;
+      color: white !important;
+      font-family: BR;
+    }
+  }
+  &__btns {
+    &-item {
+      width: 100%;
+      text-align: center;
+      & + & {
+        margin-left: 10px;
+      }
+    }
+  }
   &__text {
     padding: 15px 20px 0;
     font-size: 13px;
@@ -125,11 +164,33 @@
 
 @media only screen and (max-width: 991px) {
   .navbar {
-    width: calc(100% - 18px);
+    width: 100vw;
     transition: 0.4s left;
+    top: 62px;
+    height: calc(100vh - 62px);
     left: -100%;
     &.active {
       left: 0;
+    }
+    &__text {
+      padding: 20px 10px 0 15px;
+    }
+    &__links {
+      &-item {
+        padding: 0 15px;
+      }
+    }
+    &__topics {
+      &-title,
+      &-item {
+        padding: 0 15px;
+      }
+    }
+    &__more {
+      &-title,
+      &-link {
+        padding: 0 15px;
+      }
     }
   }
 }

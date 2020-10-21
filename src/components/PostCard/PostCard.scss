@@ -159,3 +159,20 @@ $self: '.card';
 .ant-notification-notice-icon {
   margin-top: -2px !important;
 }
+
+@media only screen and (max-width: 991px) {
+  .card {
+    & + & {
+      margin-top: -2px;
+    }
+    &__tags {
+      border: none;
+    }
+    &__grid {
+      padding: 0;
+    }
+    &__box {
+      border-radius: 0;
+    }
+  }
+}

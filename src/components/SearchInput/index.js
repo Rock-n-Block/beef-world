@@ -1,18 +1,20 @@
 import React from 'react';
 import { Select } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 
 import { topicApi } from '../../utils/api';
 import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
 
 import searchImg from '../../assets/img/search.svg';
 import searchRedImg from '../../assets/img/search-red.svg';
+import closeImg from '../../assets/img/search-clean.svg';
 
 import './SearchInput.scss'
 
 const { Option } = Select;
 
-const SearchInput = () => {
+const SearchInput = ({ handleOpenSearchInput }) => {
 
     const history = useHistory();
     const inputRef = React.useRef()
@@ -86,6 +88,8 @@ const SearchInput = () => {
     const [isLoading, setIsLoading] = React.useState(false)
     const [searchData, setSearchData] = React.useState([])
 
+    const [isOpen, setIsOpen] = React.useState(false)
+
     const [options, setOptions] = React.useState([])
 
     const onSearch = (value) => {
@@ -126,8 +130,14 @@ const SearchInput = () => {
         setSearchText('')
     }
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleSearchPage(e)
+        }
+    }
+
     const handleSearchPage = (e) => {
-        if (((searchData.topics && searchData.topics.length) || (searchData.posts && searchData.posts.length)) && e.key === 'Enter') {
+        if ((searchData.topics && searchData.topics.length) || (searchData.posts && searchData.posts.length)) {
 
             history.push({
                 pathname: '/search',
@@ -140,11 +150,28 @@ const SearchInput = () => {
         }
     }
 
+    const handleOpen = () => {
+        if (!isOpen) {
+
+            setIsOpen(true)
+            handleOpenSearchInput(true)
+        }
+    }
+
+    const handleClose = () => {
+        setIsOpen(false)
+        handleOpenSearchInput(false)
+    }
 
     return (
-        <div className="s-input" id="s-input">
+        <div className={classNames('s-input', {
+            'active': isOpen
+        })} id="s-input" onClick={handleOpen}>
             <div className="s-input__img" onClick={handleSearchPage}>
                 <img src={searchImg} alt="" />
+            </div>
+            <div className="s-input__close" onClick={handleClose}>
+                <img src={closeImg} alt="" />
             </div>
             <Select
                 ref={inputRef}
@@ -160,7 +187,7 @@ const SearchInput = () => {
                 showSearch
                 onBlur={() => setOptions([])}
                 onSelect={onSelectOption}
-                onKeyDown={handleSearchPage}
+                onKeyDown={handleKeyDown}
                 loading={isLoading}
                 getPopupContainer={() => document.getElementById('s-input')}
             >

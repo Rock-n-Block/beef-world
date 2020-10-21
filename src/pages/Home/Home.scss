@@ -34,3 +34,12 @@
     }
   }
 }
+
+@media only screen and (max-width: 991px) {
+  .home {
+    padding: 10px 0;
+    &__cards {
+      margin: 20px -10px 0;
+    }
+  }
+}

@@ -29,7 +29,7 @@ const Search = (props) => {
                                 data.topics.map(topic => {
                                     return <Link to={`/topic/${topic.id}`} className="search__topic">
                                         <div className="search__topic-title">{topic.left_theme} <span>vs</span> {topic.right_theme}</div>
-                                        <TopicStatistic posts={data.topics.length} placet={0} against={0} date={topic.created} />
+                                        <TopicStatistic posts={data.topics.length} placet={topic.left_rating} against={topic.right_rating} date={topic.created} />
                                     </Link>
                                 })
                             }

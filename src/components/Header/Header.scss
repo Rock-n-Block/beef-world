@@ -63,3 +63,21 @@
     }
   }
 }
+
+@media only screen and (max-width: 991px) {
+  .header {
+    padding: 10px 15px;
+    width: 100vw;
+    &__logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &__user {
+      display: none;
+    }
+    &__btn {
+      display: none;
+    }
+  }
+}

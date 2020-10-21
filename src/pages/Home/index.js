@@ -57,6 +57,12 @@ const Home = () => {
     }, [path])
 
 
+    const gridWrapper = window.innerWidth > 991 ? Masonry : 'div'
+
+    const cardsElements = cards && cards.map((card, index) => {
+        return <PostCard handleLike={(value) => (handleLike(card.id, card.post.id, value))} topicId={card.id} topicTitle={`${card.left_theme} <span>vs</span> ${card.right_theme}`} key={index} {...card.post} type="grid" to="topic" />
+    })
+
     return (
         <div className="home">
             <div className="home__row row">
@@ -71,15 +77,9 @@ const Home = () => {
 
                 </div>
                 <div className="home__cards">
-                    <Masonry options={{
-                        transitionDuration: 0
-                    }}>
-                        {cards &&
-                            cards.map((card, index) => {
-                                return <PostCard handleLike={(value) => (handleLike(card.id, card.post.id, value))} topicId={card.id} topicTitle={`${card.left_theme} <span>vs</span> ${card.right_theme}`} key={index} {...card.post} type="grid" to="topic" />
-                            })
-                        }
-                    </Masonry>
+                    {
+                        React.createElement(gridWrapper, [], cardsElements)
+                    }
                 </div>
             </div>
         </div>

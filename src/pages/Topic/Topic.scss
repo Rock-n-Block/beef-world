@@ -174,3 +174,36 @@
     }
   }
 }
+
+@media only screen and (max-width: 991px) {
+  .topic {
+    height: calc(100vh - 62px);
+    padding-top: 20px;
+    &__row {
+      padding: 0 !important;
+    }
+    &__title {
+      font-size: 16px;
+      line-height: 18px;
+      padding: 0 15px;
+    }
+    &__wrapper {
+      margin-top: 20px;
+      padding: 0 15px;
+    }
+    &__navbar {
+      margin: 0 auto;
+      &-item {
+        font-size: 16px;
+        line-height: 40px;
+      }
+    }
+    &__content {
+      display: block;
+      &-box {
+        height: 100%;
+        padding-right: 0;
+      }
+    }
+  }
+}

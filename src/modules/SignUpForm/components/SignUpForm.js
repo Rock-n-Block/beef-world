@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
+import TwitterLogin from 'react-twitter-auth';
+
 
 import { modalActions, facebookActions, userActions } from '../../../redux/actions';
 import { facebookApi } from '../../../utils/api';
@@ -75,9 +77,15 @@ const SignUpForm = props => {
                 <div className="m-form__socials-item m-form__socials-item--fb" onClick={handleFacebookLogin}>
                     <img src={fbImg} alt="" />
                 </div>
-                <div className="m-form__socials-item m-form__socials-item--tw">
+                <TwitterLogin
+                    loginUrl="http://localhost:3000/api/v1/auth/twitter"
+                    onFailure={(a, b, c) => console.log(a, b, c, 'fail')}
+                    onSuccess={(a, b, c) => console.log(a, b, c, 'success')}
+                    requestTokenUrl="http://localhost:3000/api/v1/auth/twitter/reverse"
+                    className="m-form__socials-item m-form__socials-item--tw"
+                >
                     <img src={twImg} alt="" />
-                </div>
+                </TwitterLogin>
                 <div className="m-form__socials-item m-form__socials-item--google">
                     <img src={googleImg} alt="" />
                 </div>
