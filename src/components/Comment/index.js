@@ -11,7 +11,7 @@ import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 
 const { TextArea } = Input;
 
-const Comment = ({ handleSend, comments, user, avatar, text, created, likes, dislikes, id, user_reaction, handleCommentLike }) => {
+const Comment = ({ handleSend, comments, userData, text, created, likes, dislikes, id, user_reaction, handleCommentLike, currentUser }) => {
     const replyInputRef = React.useRef();
 
     const [isShowReaplies, setIsShowReplies] = React.useState(true)
@@ -38,11 +38,11 @@ const Comment = ({ handleSend, comments, user, avatar, text, created, likes, dis
         <div className="comment">
             <CommentAntd
                 actions={actions}
-                author={<a>{user && user.username}</a>}
+                author={<a>{userData && userData.username}</a>}
                 avatar={
                     <Avatar
-                        src={avatar ? avatar : defaultAvatarImg}
-                        alt={user && user.username}
+                        src={userData && userData.avatar ? userData.avatar : defaultAvatarImg}
+                        alt={userData && userData.username}
                     />
                 }
                 content={
@@ -57,8 +57,8 @@ const Comment = ({ handleSend, comments, user, avatar, text, created, likes, dis
                     <div className="comment__reply-box">
                         <div className="comment__reply-wrapper">
                             <Avatar
-                                src={avatar ? avatar : defaultAvatarImg}
-                                alt={user && user.username}
+                                src={userData && userData.avatar ? userData.avatar : defaultAvatarImg}
+                                alt={userData && userData.username}
                             />
                             <TextArea onKeyUp={(e) => handleSend(e.key, replyText, id, () => setReplyText(''))} value={replyText} onChange={(e) => setReplyText(e.target.value)} ref={replyInputRef} autoSize={{ minRows: 1, maxRows: 20 }} size="large" className="comment__reply-input" placeholder="Add your reply" />
                         </div>
@@ -76,7 +76,7 @@ const Comment = ({ handleSend, comments, user, avatar, text, created, likes, dis
                 }
                 {
                     ((comments.length && isShowReaplies)) ? comments.reverse().map((comment, index) => {
-                        return <Comment handleCommentLike={handleCommentLike} handleSend={handleSend} key={comment.likes + comment.dislikes + index} {...comment} />
+                        return <Comment userData={currentUser.id === comment.user.id ? currentUser : comment.user} currentUser={currentUser} handleCommentLike={handleCommentLike} handleSend={handleSend} key={comment.likes + comment.dislikes + index} {...comment} />
                     }) : ''
                 }
             </CommentAntd>

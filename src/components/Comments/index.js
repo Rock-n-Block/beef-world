@@ -11,7 +11,7 @@ import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 const { TextArea } = Input;
 
 const Comments = ({ comments, handleSendComment, handleCommentLike }) => {
-    const avatar = useSelector(({ user }) => user.avatar)
+    const user = useSelector(({ user }) => user)
     const [commentText, setCommentText] = React.useState('')
 
     const handleSend = (key, value, parent_id, func) => {
@@ -30,8 +30,8 @@ const Comments = ({ comments, handleSendComment, handleCommentLike }) => {
                 {comments && comments.length} COMMENTS
             </div>
             <div className="comments__box">
-                {avatar ? <Avatar
-                    src={avatar}
+                {user.avatar ? <Avatar
+                    src={user.avatar}
                 /> : <Avatar
                         src={defaultAvatarImg}
                     />}
@@ -41,7 +41,7 @@ const Comments = ({ comments, handleSendComment, handleCommentLike }) => {
             {
                 comments && comments.map((comment, index) => {
                     return (
-                        <Comment handleCommentLike={handleCommentLike} handleSend={handleSend} key={comment.likes + comment.dislikes + index} {...comment} />
+                        <Comment userData={user.id === comment.user.id ? user : comment.user} currentUser={user} handleCommentLike={handleCommentLike} handleSend={handleSend} key={comment.likes + comment.dislikes + index} {...comment} />
                     )
                 })
             }

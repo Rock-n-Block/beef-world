@@ -24,12 +24,12 @@ export default (state = initialState, { type, payload }) => {
         case 'USER:SET_PHOTO':
             return {
                 ...state,
-                photo: payload
+                avatar: payload
             };
         case 'USER:LOGOUT':
             return {
                 ...state,
-                photo: '',
+                avatar: '',
                 username: '',
                 isAuth: false
             };

@@ -42,13 +42,13 @@ const SignUpForm = props => {
                 className="profile__form-item"
                 validateStatus={validateField('username', touched, errors)}
                 help={!touched.username ? false : errors.username}
+                initialValue={username}
             >
                 <Input
                     id="username"
                     className="profile__form-input"
                     placeholder="Your Username"
                     size="large"
-                    defaultValue={username}
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
@@ -59,13 +59,13 @@ const SignUpForm = props => {
                 help={!touched.email ? false : errors.email}
                 label="Email"
                 className="profile__form-item"
+                initialValue={email}
             >
                 <Input
                     id="email"
                     className="profile__form-input"
                     placeholder="Your Email"
                     size="large"
-                    defaultValue={email}
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />

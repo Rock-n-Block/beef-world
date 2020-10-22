@@ -109,7 +109,12 @@ const TopicPage = (props) => {
 
     const { topicId } = useParams()
 
-    const topicData = useSelector(({ topics }) => topics.currentTopic)
+    const { topicData, user } = useSelector(({ topics, user }) => {
+        return {
+            topicData: topics.currentTopic,
+            user
+        }
+    })
 
     const [activeTab, setActiveTab] = React.useState(0)
     const [isModalOpen, setIsModalOpen] = React.useState(false)
@@ -164,11 +169,11 @@ const TopicPage = (props) => {
     const contentWrapper = window.innerWidth > 991 ? Scrollbar : 'div'
 
     const leftPosts = topicData.left && topicData.left.map((card, index) => {
-        return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} topicId={topicData.id} key={index} {...card} type="column" to="post" />
+        return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} userData={user.id === card.user.id ? user : card.user} topicId={topicData.id} key={index} {...card} type="column" to="post" />
     })
 
     const rightPosts = topicData.right && topicData.right.map((card, index) => {
-        return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} topicId={topicData.id} key={index} {...card} type="column" to="post" />
+        return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} userData={user.id === card.user.id ? user : card.user} topicId={topicData.id} key={index} {...card} type="column" to="post" />
     })
 
     return (
@@ -183,11 +188,21 @@ const TopicPage = (props) => {
                         <span>subscribe</span>
                     </div> */}
                 </div>
+                {window.innerWidth < 991 &&
+                    <div className="topic__wrapper topic__navbar">
+                        <div onClick={() => { setIsLeftContentOpen(true); setIsRightContentOpen(false) }} className={classNames('topic__navbar-item', {
+                            'active': isLeftContentOpen
+                        })}>{topicData.left_theme && topicData.left_theme}</div>
+                        <div onClick={() => { setIsLeftContentOpen(false); setIsRightContentOpen(true) }} className={classNames('topic__navbar-item', {
+                            'active': isRightContentOpen
+                        })}>{topicData.right_theme && topicData.right_theme}</div>
+                    </div>
+                }
                 <div className="topic__wrapper">
-                    <div className="topic__navbar">
+                    <div className="topic__sort">
                         {
                             tabs.map((tab, index) => {
-                                return <div key={index} onClick={() => setActiveTab(index)} className={classNames('topic__navbar-item', {
+                                return <div key={index} onClick={() => setActiveTab(index)} className={classNames('topic__sort-item', {
                                     'active': index === activeTab
                                 })}>{tab}</div>
                             })
@@ -197,10 +212,10 @@ const TopicPage = (props) => {
                     {topicData && window.innerWidth > 991 && <TopicStatistic posts={(topicData.left && topicData.left) ? topicData.left.length + topicData.right.length : 0} placet={topicData.left_rating} against={topicData.right_rating} date={topicData.created} />}
 
                 </div>
-                <div className={classNames('topic__content', {
-                    'mobile--hidden': !isLeftContentOpen
-                })}>
-                    <div className="topic__content-box">
+                <div className='topic__content'>
+                    <div className={classNames('topic__content-box', {
+                        'mobile--hidden': !isLeftContentOpen
+                    })}>
                         {window.innerWidth > 991 && <div className="topic__content-wrapper">
                             <div className="topic__content-name">{topicData.left_theme}</div>
                             <div className="topic__content-make">

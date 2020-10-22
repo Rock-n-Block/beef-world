@@ -13,6 +13,7 @@ export default {
         window.axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.access_token}`
     }),
     getMe: () => axios.get('user/me/'),
+    uploadAvatar: (formData) => axios.put('user/avatar/', formData),
     refreshToken: () => axios.post('o/token/', {
         refresh_token: localStorage.refresh_token,
         "grant_type": "refresh_token"

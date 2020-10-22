@@ -33,11 +33,12 @@ const Home = () => {
         }
     ]
 
-    const { activeTab, activeSort, cards } = useSelector(({ filter, user, topics }) => {
+    const { activeTab, activeSort, cards, user } = useSelector(({ filter, user, topics }) => {
         return {
             activeTab: filter.sort,
             activeSort: filter.filter,
-            cards: topics.cards
+            cards: topics.cards,
+            user
         }
     })
 
@@ -60,7 +61,7 @@ const Home = () => {
     const gridWrapper = window.innerWidth > 991 ? Masonry : 'div'
 
     const cardsElements = cards && cards.map((card, index) => {
-        return <PostCard handleLike={(value) => (handleLike(card.id, card.post.id, value))} topicId={card.id} topicTitle={`${card.left_theme} <span>vs</span> ${card.right_theme}`} key={index} {...card.post} type="grid" to="topic" />
+        return <PostCard handleLike={(value) => (handleLike(card.id, card.post.id, value))} topicId={card.id} topicTitle={`${card.left_theme} <span>vs</span> ${card.right_theme}`} key={index} {...card.post} userData={user.id === card.post.user.id ? user : card.post.user} type="grid" to="topic" />
     })
 
     return (

@@ -50,7 +50,7 @@ const Header = ({ history }) => {
     }, []);
 
 
-    const { isAuth, photo } = useSelector((state) => {
+    const { isAuth, avatar } = useSelector((state) => {
         return {
             ...state.user
         }
@@ -88,14 +88,14 @@ const Header = ({ history }) => {
                                 <Logout><div className="header__user-logout">Log Out</div></Logout>
                             }>
                                 <Link to="/profile" className="header__user">
-                                    <img src={photo || defaultAvatarImg} alt="" />
+                                    <img src={avatar || defaultAvatarImg} alt="" />
                                 </Link>
                             </Popover>
                         }
                         {isAuth && <Link to="/make" className="header__btn btn">Make a topic</Link>}
                     </div>}
                 </div>
-                <Navbar isOpen={isNavbarOpen} navbarRef={navbarRef} isAuth={isAuth} avatar={photo} handleSignInOpen={handleSignInOpen} handleSignUpOpen={handleSignUpOpen} />
+                <Navbar isOpen={isNavbarOpen} navbarRef={navbarRef} isAuth={isAuth} avatar={avatar} handleSignInOpen={handleSignInOpen} handleSignUpOpen={handleSignUpOpen} />
             </header>
         </>
     );

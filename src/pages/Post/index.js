@@ -19,6 +19,7 @@ import copyCloseImg from '../../assets/img/copy-close.svg';
 
 const PostPage = (props) => {
     const dispatch = useDispatch();
+    const { topicId, postId } = useParams()
 
     const data = {
         title: 'Please do not RT this video',
@@ -112,7 +113,6 @@ const PostPage = (props) => {
         });
     };
 
-    const { topicId, postId } = useParams()
 
     const getPostData = () => {
 
@@ -139,10 +139,11 @@ const PostPage = (props) => {
             .catch(err => console.log(err))
     }
 
-    const { cards, postData } = useSelector(({ topics }) => {
+    const { cards, postData, user } = useSelector(({ topics, user }) => {
         return {
             cards: topics.cards,
-            postData: topics.currentPost
+            postData: topics.currentPost,
+            user
         }
     })
 
@@ -177,7 +178,7 @@ const PostPage = (props) => {
                             <div className="post__info-wrapper">
                                 <div className="post__info-person-box">
                                     <div className="post__info-avatar">
-                                        {postData.user ? <img src={data.avatar} alt="" /> : <img src={defaultAvatarImg} alt="" />}
+                                        {postData.user && postData.user.avatar ? <img src={postData.user.avatar} alt="" /> : <img src={defaultAvatarImg} alt="" />}
                                     </div>
                                     <div>
                                         {postData.title && <div className="post__info-title">{postData.title}</div>}
@@ -220,7 +221,7 @@ const PostPage = (props) => {
                     <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
                         {
                             cards.map((card, index) => {
-                                return <PostCard topicId={card.id} topicTitle={`${card.left_theme} vs ${card.right_theme}`} key={index} {...card.post} type="column" />
+                                return <PostCard userData={user.id === card.post.user.id ? user : card.post.user} topicId={card.id} topicTitle={`${card.left_theme} vs ${card.right_theme}`} key={index} {...card.post} type="column" />
                             })
                         }
                     </Scrollbar>}

@@ -15,7 +15,7 @@ import copyCloseImg from '../../assets/img/copy-close.svg';
 
 import './PostCard.scss'
 
-const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, type, topicTitle, title, id, topicId, handleLike, link, to }) => {
+const PostCard = ({ userData, created, text, tags, likes, user_reaction, comments, type, topicTitle, title, id, topicId, handleLike, link, to }) => {
 
     const [img, setImg] = React.useState(null)
 
@@ -24,21 +24,20 @@ const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, t
         var match = url.match(regExp);
         return (match && match[7].length == 11) ? match[7] : false;
     }
-    // React.useEffect(() => {
-    //     const id = youtube_parser('https://www.youtube.com/watch?v=vbvyNnw8Qjg&ab_channel=LiveAid')
+    React.useEffect(() => {
+        const id = youtube_parser(link)
 
-    //     if (id) {
+        if (id) {
 
-    //         youtubeApi.get('/search', {
-    //             params: {
-    //                 q: id,
-    //             }
-    //         }).then(({ data }) => {
-    //             // setImg(data.items[0].snippet.thumbnails.hight.url)
-    //             console.log(data)
-    //         })
-    //     }
-    // })
+            youtubeApi.get('/search', {
+                params: {
+                    q: id,
+                }
+            }).then(({ data }) => {
+                setImg(data.items[0].snippet.thumbnails.high.url)
+            })
+        }
+    }, [link])
 
     const notificationBlock = () => {
         notification.open({
@@ -58,18 +57,18 @@ const PostCard = ({ user, created, text, tags, likes, user_reaction, comments, t
                 <Link to={to === 'topic' ? `/topic/${topicId}` : `/topic/${topicId}/post/${id}`} className="card__link">
                     <div className="card__head">
                         <div className="card__avatar">
-                            {user && user.avatar !== null ? <img src={user && user.avatar} alt={user && user.username} /> : <img src={defaultAvatar} alt={user && user.username} />}
+                            {userData && userData.avatar !== null ? <img src={userData && userData.avatar} alt={userData && userData.username} /> : <img src={defaultAvatar} alt={userData && userData.username} />}
                         </div>
                         <div className="card__name">
-                            {user && user.username && <>by <span>{user && user.username}</span>  •</>} <span className="card__name-time">{created && <Time date={created} />}</span>
+                            {userData && userData.username && <>by <span>{userData && userData.username}</span>  •</>} <span className="card__name-time">{created && <Time date={created} />}</span>
                         </div>
                     </div>
                     {
                         img && <img src={img} alt="" className="card__img" />
                     }
-                    {
+                    {/* {
                         link && <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${youtube_parser(link)}`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-                    }
+                    } */}
                     {
                         topicTitle && <div className="card__title" dangerouslySetInnerHTML={{ __html: topicTitle }}></div>
                     }
