@@ -179,6 +179,7 @@
       border-radius: 12px;
       padding: 10px;
       color: white;
+      transition: 0.3s;
       font-size: 18px;
       line-height: 22px;
       font-family: BR;
@@ -194,12 +195,77 @@
       }
     }
   }
+  &__statistic {
+    &-wrapper {
+      display: flex;
+      align-items: center;
+    }
+    &-item {
+      & + & {
+        margin-left: 60px;
+      }
+      &-content {
+        font-size: 16px;
+        line-height: 19px;
+        font-family: BM;
+        &.against {
+          color: $yellow;
+        }
+        &.placet {
+          color: #37e1c3;
+        }
+      }
+      &-head {
+        font-size: 14px;
+        line-height: 16px;
+        font-family: BR;
+        color: rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 991px) {
   .topic {
-    height: calc(100vh - 62px);
+    height: fit-content;
+    overflow: unset;
     padding-top: 20px;
+    &__info {
+      position: sticky;
+      top: 62px;
+      z-index: 10;
+      &.active {
+        .topic {
+          &__navbar {
+            &-item {
+              font-size: 13px;
+              line-height: 15px;
+              height: 45px;
+            }
+          }
+        }
+      }
+      &.toBottom {
+        .topic {
+          &__statistic {
+            transform: translateY(-60px);
+          }
+          &__filter {
+            transform: translateY(-120px);
+          }
+        }
+      }
+    }
+    &__make {
+      width: 95vw;
+      padding: 40px 10px 20px;
+      // max-width: 98vw;
+      &-title {
+        font-size: 18px;
+        line-height: 20px;
+        margin-bottom: 15px;
+      }
+    }
     &__row {
       padding: 0 !important;
     }
@@ -211,8 +277,10 @@
     &__wrapper {
       margin-top: 20px;
       padding: 0 15px;
+      transition: 0.5s;
       & + & {
-        margin-top: 5px;
+        border-top: 5px solid #110e0d;
+        margin-top: 0;
       }
     }
     &__sort {
@@ -236,6 +304,12 @@
     }
     &__navbar {
       padding: 8px;
+      z-index: 5;
+      position: relative;
+    }
+    &__statistic {
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
   }
 }

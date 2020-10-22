@@ -17,95 +17,8 @@ import closeModalImg from '../../assets/img/close-cross.svg';
 // import subActiveImg from '../../assets/img/sub-active.svg';
 
 const TopicPage = (props) => {
+    const infoRef = React.useRef();
     const dispatch = useDispatch();
-    const data = {
-        leftTheme: 'Roman Empire',
-        rightTheme: 'Carthage',
-        date: 'Fri Sep 18 2020 13:43:15 GMT+0300 (Москва, стандартное время)',
-        subscribe: false,
-        placet: '33.3k',
-        against: '24k',
-        placets: [
-            {
-                "avatar": "https://sun9-26.userapi.com/impf/RI0zS2_e7QuwGaNG2ji5sqYSgKNe950uz9a5fA/MJyaN_JHbvU.jpg?size=50x0&quality=88&crop=268,0,1535,1535&sign=025ed0b2dd6137a7d9b22daeacbeb330&ava=1",
-                "name": "Profile name",
-                "date": "Thu Sep 17 2019 14:47:08",
-                "img": "https://sun9-60.userapi.com/YrDO9d497x3HGKgbxMdLApdCk2LhEMiTG5_wTw/pGg1uxrvfg8.jpg",
-                "text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum consequuntur veritatis dicta eligendi, quibusdam exercitationem molestias asperiores numquam quisquam sapiente ipsa iste perferendis, sint nihil praesentium, maiores expedita molestiae unde!",
-                "tags": [
-                    "History",
-                    "Romanempire",
-                    "Carthage",
-                    "Romanempire",
-                    "Carthage",
-                    "Romanempire",
-                    "Carthage"
-                ],
-                "statistic": {
-                    "count": 391,
-                    "like": ""
-                },
-                "comments": 24,
-                "topicname": "politics"
-            },
-            {
-                "avatar": "https://sun9-26.userapi.com/impf/RI0zS2_e7QuwGaNG2ji5sqYSgKNe950uz9a5fA/MJyaN_JHbvU.jpg?size=50x0&quality=88&crop=268,0,1535,1535&sign=025ed0b2dd6137a7d9b22daeacbeb330&ava=1",
-                "name": "Profile name",
-                "date": "Thu Sep 17 2020 14:47:01",
-                "img": "https://sun9-12.userapi.com/9uHycz_uOrXv4-mlGdS_6ASC3C31Fvgsbh3xSg/VUa1Deizs8g.jpg",
-                "tags": ["History", "Romanempire", "Carthage"],
-                "statistic": {
-                    "count": 391,
-                    "like": ""
-                },
-                "comments": 24,
-                "topicname": "politics"
-            },
-        ],
-        worsts: [
-            {
-                "avatar": "https://sun9-26.userapi.com/impf/RI0zS2_e7QuwGaNG2ji5sqYSgKNe950uz9a5fA/MJyaN_JHbvU.jpg?size=50x0&quality=88&crop=268,0,1535,1535&sign=025ed0b2dd6137a7d9b22daeacbeb330&ava=1",
-                "name": "Profile name",
-                "date": "Thu Sep 17 2020 14:47:08",
-                "text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum consequuntur veritatis dicta eligendi, quibusdam exercitationem molestias asperiores numquam quisquam sapiente ipsa iste perferendis, sint nihil praesentium, maiores expedita molestiae unde!",
-                "tags": [
-                    "History",
-                    "Romanempire",
-                    "Carthage",
-                    "Romanempire",
-                    "Carthage",
-                    "Romanempire",
-                    "Carthage"
-                ],
-                "statistic": {
-                    "count": 391,
-                    "like": ""
-                },
-                "comments": 24,
-            },
-            {
-                "avatar": "https://sun9-26.userapi.com/impf/RI0zS2_e7QuwGaNG2ji5sqYSgKNe950uz9a5fA/MJyaN_JHbvU.jpg?size=50x0&quality=88&crop=268,0,1535,1535&sign=025ed0b2dd6137a7d9b22daeacbeb330&ava=1",
-                "name": "Profile name",
-                "date": "Thu Sep 17 2020 14:47:08",
-                "img": "https://sun9-60.userapi.com/YrDO9d497x3HGKgbxMdLApdCk2LhEMiTG5_wTw/pGg1uxrvfg8.jpg",
-                "text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum consequuntur veritatis dicta eligendi, quibusdam exercitationem molestias asperiores numquam quisquam sapiente ipsa iste perferendis, sint nihil praesentium, maiores expedita molestiae unde!",
-                "tags": [
-                    "History",
-                    "Romanempire",
-                    "Carthage",
-                    "Romanempire",
-                    "Carthage",
-                    "Romanempire",
-                    "Carthage"
-                ],
-                "statistic": {
-                    "count": 391,
-                    "like": ""
-                },
-                "comments": 24,
-            },
-        ]
-    }
 
     const { topicId } = useParams()
 
@@ -116,10 +29,14 @@ const TopicPage = (props) => {
         }
     })
 
+    let scrollPrev = 0;
+
     const [activeTab, setActiveTab] = React.useState(0)
     const [isModalOpen, setIsModalOpen] = React.useState(false)
     const [modalTitle, setModalTitle] = React.useState('')
     const [isSub, setIsSub] = React.useState(false)
+    const [isMobileScroll, setIsMobileScroll] = React.useState(false)
+    const [isScrollToBottom, setIsScrollToBottom] = React.useState(false)
     const [isRightSideNewPost, RightSideNewPost] = React.useState(false)
 
 
@@ -149,6 +66,38 @@ const TopicPage = (props) => {
     const handleLike = (topic_id, post_id, value) => {
         dispatch(topicActions.cardLike(topic_id, post_id, value, 'getTopicData', topic_id))
     }
+
+    const handleScroll = () => {
+        let topCoord = infoRef.current.getBoundingClientRect().top
+
+        if (topCoord < 63) {
+            setIsMobileScroll(true)
+
+        } else {
+            setIsMobileScroll(false)
+            setIsScrollToBottom(false)
+        }
+        if (window.pageYOffset > scrollPrev) {
+            if (window.pageYOffset - scrollPrev > 30 && topCoord < 63) {
+                setIsScrollToBottom(true)
+                scrollPrev = window.pageYOffset
+            }
+        } else {
+            setIsScrollToBottom(false)
+            scrollPrev = window.pageYOffset
+        }
+
+    }
+
+    React.useEffect(() => {
+        if (window.innerWidth < 991) {
+            window.addEventListener('scroll', handleScroll)
+
+            return () => {
+                window.removeEventListener('scroll', handleScroll)
+            }
+        }
+    }, [])
 
     React.useEffect(() => {
         if (window.innerWidth < 991) {
@@ -188,29 +137,61 @@ const TopicPage = (props) => {
                         <span>subscribe</span>
                     </div> */}
                 </div>
-                {window.innerWidth < 991 &&
-                    <div className="topic__wrapper topic__navbar">
-                        <div onClick={() => { setIsLeftContentOpen(true); setIsRightContentOpen(false) }} className={classNames('topic__navbar-item', {
-                            'active': isLeftContentOpen
-                        })}>{topicData.left_theme && topicData.left_theme}</div>
-                        <div onClick={() => { setIsLeftContentOpen(false); setIsRightContentOpen(true) }} className={classNames('topic__navbar-item', {
-                            'active': isRightContentOpen
-                        })}>{topicData.right_theme && topicData.right_theme}</div>
-                    </div>
-                }
-                <div className="topic__wrapper">
-                    <div className="topic__sort">
-                        {
-                            tabs.map((tab, index) => {
-                                return <div key={index} onClick={() => setActiveTab(index)} className={classNames('topic__sort-item', {
-                                    'active': index === activeTab
-                                })}>{tab}</div>
-                            })
-                        }
-                    </div>
+                <div className={classNames('topic__info', {
+                    'active': isMobileScroll,
+                    'toBottom': isScrollToBottom
+                })} ref={infoRef}>
 
-                    {topicData && window.innerWidth > 991 && <TopicStatistic posts={(topicData.left && topicData.left) ? topicData.left.length + topicData.right.length : 0} placet={topicData.left_rating} against={topicData.right_rating} date={topicData.created} />}
+                    {window.innerWidth < 991 &&
+                        <div className="topic__wrapper topic__navbar">
+                            <div onClick={() => { setIsLeftContentOpen(true); setIsRightContentOpen(false) }} className={classNames('topic__navbar-item', {
+                                'active': isLeftContentOpen
+                            })}>{topicData.left_theme && topicData.left_theme}</div>
+                            <div onClick={() => { setIsLeftContentOpen(false); setIsRightContentOpen(true) }} className={classNames('topic__navbar-item', {
+                                'active': isRightContentOpen
+                            })}>{topicData.right_theme && topicData.right_theme}</div>
+                        </div>
+                    }
+                    {window.innerWidth < 991 && topicData &&
+                        <div className="topic__wrapper topic__statistic">
+                            <div className="topic__statistic-wrapper">
 
+                                <div className="topic__statistic-item">
+                                    <div className="topic__statistic-item-content placet">{topicData.left_rating}</div>
+                                    <div className="topic__statistic-item-head">Placet!</div>
+                                </div>
+                                <div className="topic__statistic-item">
+                                    <div className="topic__statistic-item-content against">{topicData.right_rating}</div>
+                                    <div className="topic__statistic-item-head">Against!</div>
+                                </div>
+                            </div>
+                            {
+                                isLeftContentOpen ?
+                                    <div className="topic__content-btn" onClick={() => handleOpenModal(topicData.left_theme, false)}>
+                                        <div className="topic__content-btn-plus"><span>+</span></div>
+                                        <div className="topic__content-btn-text">Make a post</div>
+                                    </div> :
+                                    <div className="topic__content-btn" onClick={() => handleOpenModal(topicData.right_theme, true)}>
+                                        <div className="topic__content-btn-plus topic__content-btn-plus--yellow"><span>+</span></div>
+                                        <div className="topic__content-btn-text topic__content-btn-text--yellow">Make a post</div>
+                                    </div>
+                            }
+                        </div>
+                    }
+                    <div className="topic__wrapper topic__filter">
+                        <div className="topic__sort">
+                            {
+                                tabs.map((tab, index) => {
+                                    return <div key={index} onClick={() => setActiveTab(index)} className={classNames('topic__sort-item', {
+                                        'active': index === activeTab
+                                    })}>{tab}</div>
+                                })
+                            }
+                        </div>
+
+                        {topicData && window.innerWidth > 991 && <TopicStatistic posts={(topicData.left && topicData.left) ? topicData.left.length + topicData.right.length : 0} placet={topicData.left_rating} against={topicData.right_rating} date={topicData.created} />}
+
+                    </div>
                 </div>
                 <div className='topic__content'>
                     <div className={classNames('topic__content-box', {
