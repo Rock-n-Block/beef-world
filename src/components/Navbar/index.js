@@ -21,10 +21,6 @@ const Navbar = ({ isOpen, navbarRef, handleSignUpOpen, handleSignInOpen, isAuth,
         {
             link: 'top',
             text: 'Top'
-        },
-        {
-            link: 'legendary',
-            text: 'Legendary'
         }
     ]
 

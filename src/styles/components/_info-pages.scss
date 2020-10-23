@@ -44,3 +44,24 @@
     font-family: BR;
   }
 }
+
+@media only screen and (max-width: 991px) {
+  .info-page {
+    padding: 20px 0;
+    h1 {
+      font-size: 28px;
+      line-height: 35px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 18px;
+      line-height: 24px;
+      margin: 20px 0 10px;
+    }
+    p,
+    li {
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+}

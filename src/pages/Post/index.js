@@ -171,8 +171,6 @@ const PostPage = (props) => {
                     {postData.link && <VideoPlayer video={postData.link} />}
                 </div>
                 <div className="post__content">
-                    {postData.likes !== undefined && <Statistic handleLike={(value) => (handleLike(topicId, postId, value))} count={postData.likes} like={postData.user_reaction} />}
-                    <div className="post__info-views">{postData.views} views</div>
                     <div className="post__info">
                         <div className="post__info-box">
                             <div className="post__info-wrapper">
@@ -187,6 +185,10 @@ const PostPage = (props) => {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div className="post__info-container">
+                                {postData.likes !== undefined && <Statistic handleLike={(value) => (handleLike(topicId, postId, value))} count={postData.likes} like={postData.user_reaction} />}
+                                <div className="post__info-views">{postData.views} views</div>
                             </div>
                             {postData.text && <div className="post__info-text">{postData.text}</div>}
                             {
@@ -215,7 +217,7 @@ const PostPage = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="post__trends">
+            {window.innerWidth > 991 && <div className="post__trends">
                 <div className="post__trends-title">Random Posts</div>
                 {(cards && cards.length) &&
                     <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
@@ -225,7 +227,7 @@ const PostPage = (props) => {
                             })
                         }
                     </Scrollbar>}
-            </div>
+            </div>}
         </div>
     );
 }

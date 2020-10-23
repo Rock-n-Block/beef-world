@@ -43,9 +43,6 @@
     padding: 35px 0 35px 40px;
     position: relative;
     .stat {
-      position: absolute;
-      right: 20px;
-      top: 35px;
       &__controller {
         height: 38px;
         width: 33px;
@@ -68,15 +65,21 @@
     }
   }
   &__info {
+    &-container {
+      position: absolute;
+      right: 20px;
+      top: 35px;
+      width: fit-content;
+    }
     &-views {
       font-family: BS;
       font-size: 16px;
       line-height: 19px;
       text-align: right;
       margin-bottom: -20px;
-      position: absolute;
-      right: 20px;
-      top: 90px;
+      margin-top: 20px;
+      width: fit-content;
+      margin-left: auto;
     }
     &-wrapper {
       display: flex;
@@ -176,6 +179,52 @@
         font-family: BS;
         font-size: 14px;
         line-height: 16px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .post {
+    display: block;
+    &__content {
+      padding: 20px 15px;
+    }
+    &__socials {
+      margin: 5px 0 15px;
+      flex-direction: column;
+      &-item {
+        margin-top: 20px;
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    &__info {
+      &-title {
+        font-size: 16px;
+        line-height: 18px;
+      }
+      &-person {
+        font-size: 13px;
+      }
+      &-container {
+        display: flex;
+        margin-top: 20px;
+        position: static;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+      &-views {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      &-tags {
+        display: flex;
+        flex-wrap: wrap;
+        &-item {
+          margin: 0 15px 10px 0;
+        }
       }
     }
   }

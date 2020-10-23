@@ -69,3 +69,19 @@ $self: '.smiles__item';
     }
   }
 }
+
+@media only screen and (max-width: 991px) {
+  .smiles {
+    flex-wrap: wrap;
+    justify-content: center;
+    &__item {
+      width: 60px;
+      & + & {
+        margin-left: 10px;
+      }
+      &:nth-child(6) {
+        margin-left: 0;
+      }
+    }
+  }
+}

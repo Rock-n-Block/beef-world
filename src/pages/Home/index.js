@@ -26,10 +26,6 @@ const Home = () => {
         {
             link: 'top',
             text: 'TOP'
-        },
-        {
-            link: 'legendary',
-            text: 'LEGENDARY'
         }
     ]
 
@@ -44,7 +40,7 @@ const Home = () => {
 
 
     const handleLike = (topic_id, post_id, value) => {
-        dispatch(topicActions.cardLike(topic_id, post_id, value, 'getTopicsData'))
+        dispatch(topicActions.cardLike(topic_id, post_id, value, 'getTopicsData', activeTab, false))
     }
 
     React.useEffect(() => {

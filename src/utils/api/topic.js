@@ -1,7 +1,7 @@
 import axios from '../../core/axios'
 
 export default {
-    getTopics: () => axios.get('/topics/'),
+    getTopics: (order_by) => axios.get(`/topics/?order_type=${order_by}`),
     createTopic: (data) => axios.post('/topics/', data),
     getTopic: (id) => axios.get(`/topics/${id}/`),
     createPost: (postData) => axios.post(`/topics/${postData.id}/posts/`, postData.data),

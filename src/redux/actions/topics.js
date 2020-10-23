@@ -14,8 +14,9 @@ const actions = {
         type: 'TOPICS:SET_CURRENT_POST_DATA',
         payload: data
     }),
-    getTopicsData: () => dispatch => {
-        refreshTokenWrapper(topicApi.getTopics, () => { }, () => { })
+    getTopicsData: (order_by, is_refresh = true) => dispatch => {
+        is_refresh && dispatch(actions.setTopicsData([]))
+        refreshTokenWrapper(topicApi.getTopics, () => { }, () => { }, order_by)
             .then(({ data }) => dispatch(actions.setTopicsData(data)))
             .catch(err => console.log(err))
     },

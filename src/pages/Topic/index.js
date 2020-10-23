@@ -72,19 +72,19 @@ const TopicPage = (props) => {
 
         if (topCoord < 63) {
             setIsMobileScroll(true)
+            if (window.pageYOffset > scrollPrev) {
+                if (window.pageYOffset - scrollPrev > 30 && window.pageYOffset > 120) {
+                    setIsScrollToBottom(true)
+                    scrollPrev = window.pageYOffset
+                }
+            } else {
+                setIsScrollToBottom(false)
+                scrollPrev = window.pageYOffset
+            }
 
         } else {
             setIsMobileScroll(false)
             setIsScrollToBottom(false)
-        }
-        if (window.pageYOffset > scrollPrev) {
-            if (window.pageYOffset - scrollPrev > 30 && topCoord < 63) {
-                setIsScrollToBottom(true)
-                scrollPrev = window.pageYOffset
-            }
-        } else {
-            setIsScrollToBottom(false)
-            scrollPrev = window.pageYOffset
         }
 
     }

@@ -151,7 +151,7 @@ const SearchInput = ({ handleOpenSearchInput }) => {
     }
 
     const handleOpen = () => {
-        if (!isOpen) {
+        if (!isOpen && window.innerWidth < 991) {
 
             setIsOpen(true)
             handleOpenSearchInput(true)

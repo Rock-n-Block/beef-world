@@ -78,7 +78,6 @@ const Make = ({ type, touched, errors, youtube_link, handleChange, handleBlur, v
             </div> */}
             <Form.Item
                 name="youtube_link"
-                hasFeedback
                 className="make__box make__link"
                 validateStatus={validateField('youtube_link', touched, errors)}
                 help={!touched.youtube_link ? false : errors.youtube_link}

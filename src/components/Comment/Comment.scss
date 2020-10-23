@@ -112,3 +112,36 @@
     font-family: BR;
   }
 }
+
+@media only screen and (max-width: 991px) {
+  .comment {
+    .ant-comment-inner {
+      padding: 10px 0;
+    }
+    .ant-comment-avatar {
+      margin-right: 8px;
+    }
+    .ant-avatar {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      img {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        height: auto !important;
+      }
+    }
+    .ant-comment-content-author {
+      margin-bottom: 2px;
+    }
+    .ant-comment-actions {
+      margin-top: 5px;
+    }
+    .ant-comment-actions li + li {
+      margin-left: 15px;
+    }
+  }
+}

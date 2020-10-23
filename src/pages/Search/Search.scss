@@ -45,3 +45,29 @@
     margin: 30px -15px 0 -15px;
   }
 }
+
+@media only screen and (max-width: 991px) {
+  .search {
+    padding: 20px 0;
+    &__title {
+      font-size: 22px;
+      line-height: 26px;
+      margin-bottom: 5px;
+    }
+    &__subtitle {
+      font-size: 18px;
+      line-height: 24px;
+      margin-bottom: 10px;
+    }
+    &__topic {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 15px;
+      &-title {
+        margin-bottom: 15px;
+        font-size: 16px;
+        line-height: 19px;
+      }
+    }
+  }
+}

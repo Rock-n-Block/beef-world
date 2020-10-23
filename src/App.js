@@ -15,10 +15,11 @@ import './styles/style.scss'
 function App() {
   const dispatch = useDispatch()
 
-  const { isOpenSignIn, isOpenSignUp, isAuth } = useSelector((state) => {
+  const { isOpenSignIn, isOpenSignUp, isAuth, activeSort } = useSelector((state) => {
     return {
       isOpenSignIn: state.modal.isOpenSignIn,
       isOpenSignUp: state.modal.isOpenSignUp,
+      activeSort: state.filter.sort,
       ...state.user
     }
   })
@@ -62,8 +63,8 @@ function App() {
   }, [])
 
   React.useEffect(() => {
-    dispatch(topicActions.getTopicsData())
-  }, [])
+    dispatch(topicActions.getTopicsData(activeSort))
+  }, [activeSort])
 
 
   React.useEffect(() => {
