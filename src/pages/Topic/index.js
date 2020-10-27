@@ -118,11 +118,11 @@ const TopicPage = (props) => {
     const contentWrapper = window.innerWidth > 991 ? Scrollbar : 'div'
 
     const leftPosts = topicData.left && topicData.left.map((card, index) => {
-        return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} userData={user.id === card.user.id ? user : card.user} topicId={topicData.id} key={index} {...card} type="column" to="post" />
+        return <PostCard isAuth={user.isAuth} handleLike={(value) => (handleLike(topicData.id, card.id, value))} userData={user.id === card.user.id ? user : card.user} topicId={topicData.id} key={index} {...card} type="column" to="post" />
     })
 
     const rightPosts = topicData.right && topicData.right.map((card, index) => {
-        return <PostCard handleLike={(value) => (handleLike(topicData.id, card.id, value))} userData={user.id === card.user.id ? user : card.user} topicId={topicData.id} key={index} {...card} type="column" to="post" />
+        return <PostCard isAuth={user.isAuth} handleLike={(value) => (handleLike(topicData.id, card.id, value))} userData={user.id === card.user.id ? user : card.user} topicId={topicData.id} key={index} {...card} type="column" to="post" />
     })
 
     return (
@@ -166,7 +166,7 @@ const TopicPage = (props) => {
                                 </div>
                             </div>
                             {
-                                isLeftContentOpen ?
+                                isLeftContentOpen && user.isAuth ?
                                     <div className="topic__content-btn" onClick={() => handleOpenModal(topicData.left_theme, false)}>
                                         <div className="topic__content-btn-plus"><span>+</span></div>
                                         <div className="topic__content-btn-text">Make a post</div>
@@ -200,11 +200,16 @@ const TopicPage = (props) => {
                         {window.innerWidth > 991 && <div className="topic__content-wrapper">
                             <div className="topic__content-name">{topicData.left_theme}</div>
                             <div className="topic__content-make">
-                                <span>{topicData.left && topicData.left.length} posts&nbsp;&nbsp;&nbsp;•</span>
-                                <div className="topic__content-btn" onClick={() => handleOpenModal(topicData.left_theme, false)}>
-                                    <div className="topic__content-btn-plus"><span>+</span></div>
-                                    <div className="topic__content-btn-text">Make a post</div>
-                                </div>
+                                <span>{topicData.left && topicData.left.length} posts</span>
+                                {user.isAuth &&
+                                    <>
+                                        <span>&nbsp;&nbsp;&nbsp;•</span>
+                                        <div className="topic__content-btn" onClick={() => handleOpenModal(topicData.left_theme, false)}>
+                                            <div className="topic__content-btn-plus"><span>+</span></div>
+                                            <div className="topic__content-btn-text">Make a post</div>
+                                        </div>
+                                    </>
+                                }
                             </div>
                         </div>}
                         {leftPosts && leftPosts.length &&
@@ -217,11 +222,14 @@ const TopicPage = (props) => {
                         {window.innerWidth > 991 && <div className="topic__content-wrapper">
                             <div className="topic__content-name">{topicData.right_theme}</div>
                             <div className="topic__content-make">
-                                <span>{topicData.right && topicData.right.length} posts&nbsp;&nbsp;&nbsp;•</span>
-                                <div className="topic__content-btn" onClick={() => handleOpenModal(topicData.right_theme, true)}>
-                                    <div className="topic__content-btn-plus topic__content-btn-plus--yellow"><span>+</span></div>
-                                    <div className="topic__content-btn-text topic__content-btn-text--yellow">Make a post</div>
-                                </div>
+                                <span>{topicData.right && topicData.right.length} posts</span>
+                                {user.isAuth && <>
+                                    <span>&nbsp;&nbsp;&nbsp;•</span>
+                                    <div className="topic__content-btn" onClick={() => handleOpenModal(topicData.right_theme, true)}>
+                                        <div className="topic__content-btn-plus topic__content-btn-plus--yellow"><span>+</span></div>
+                                        <div className="topic__content-btn-text topic__content-btn-text--yellow">Make a post</div>
+                                    </div>
+                                </>}
                             </div>
                         </div>}
                         {rightPosts && rightPosts.length &&

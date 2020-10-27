@@ -11,27 +11,33 @@ import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 
 const { TextArea } = Input;
 
-const Comment = ({ handleSend, comments, userData, text, created, likes, dislikes, id, user_reaction, handleCommentLike, currentUser }) => {
+const Comment = ({ handleSend, comments, userData, text, created, likes, dislikes, id, user_reaction, handleCommentLike, currentUser, isAuth }) => {
     const replyInputRef = React.useRef();
 
     const [isShowReaplies, setIsShowReplies] = React.useState(true)
     const [isRepling, setIsRepling] = React.useState(false)
     const [replyText, setReplyText] = React.useState('')
 
+    const [isLiked, setIsLiked] = React.useState(isAuth ? user_reaction : null)
+
     const handleOpenReplyBlock = () => {
         setIsRepling(true);
     }
 
+    React.useEffect(() => {
+        setIsLiked(isAuth ? user_reaction : null)
+    }, [isAuth])
+
     const actions = [
         <span onClick={() => handleCommentLike(id, { value: true })}>
-            {user_reaction ? <LikeFilled style={{ color: "rgba(255,255,255,0.5)", fontSize: '14px' }} /> : <LikeOutlined style={{ color: "rgba(255,255,255,0.5)", fontSize: '14px' }} />}
+            {(isLiked && isAuth) ? <LikeFilled style={{ color: "rgba(255,255,255,0.5)", fontSize: '14px' }} /> : <LikeOutlined style={{ color: "rgba(255,255,255,0.5)", fontSize: '14px' }} />}
             <span className="comment-action">{likes}</span>
         </span>,
         <span onClick={() => handleCommentLike(id, { value: false })}>
-            {(!user_reaction && user_reaction !== null) ? <DislikeFilled style={{ color: "rgba(255,255,255,0.5)", fontSize: '14px' }} /> : <DislikeOutlined style={{ color: "rgba(255,255,255,0.5)", fontSize: '14px' }} />}
+            {(!isLiked && isLiked !== null && isAuth) ? <DislikeFilled style={{ color: "rgba(255,255,255,0.5)", fontSize: '14px' }} /> : <DislikeOutlined style={{ color: "rgba(255,255,255,0.5)", fontSize: '14px' }} />}
             <span className="comment-action">{dislikes}</span>
         </span>,
-        <span onClick={handleOpenReplyBlock} key="comment-basic-reply-to">Reply</span>,
+        isAuth && <span onClick={handleOpenReplyBlock} key="comment-basic-reply-to">Reply</span>,
     ];
 
     return (
@@ -53,7 +59,7 @@ const Comment = ({ handleSend, comments, userData, text, created, likes, dislike
                 }
             >
                 {
-                    isRepling &&
+                    isRepling && isAuth &&
                     <div className="comment__reply-box">
                         <div className="comment__reply-wrapper">
                             <Avatar
@@ -76,7 +82,7 @@ const Comment = ({ handleSend, comments, userData, text, created, likes, dislike
                 }
                 {
                     ((comments.length && isShowReaplies)) ? comments.reverse().map((comment, index) => {
-                        return <Comment userData={currentUser.id === comment.user.id ? currentUser : comment.user} currentUser={currentUser} handleCommentLike={handleCommentLike} handleSend={handleSend} key={comment.likes + comment.dislikes + index} {...comment} />
+                        return <Comment isAuth={isAuth} userData={currentUser.id === comment.user.id ? currentUser : comment.user} currentUser={currentUser} handleCommentLike={handleCommentLike} handleSend={handleSend} key={comment.likes + comment.dislikes + index} {...comment} />
                     }) : ''
                 }
             </CommentAntd>

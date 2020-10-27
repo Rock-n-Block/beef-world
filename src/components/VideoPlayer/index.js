@@ -19,6 +19,7 @@ const VideoPlayer = ({ video, type, errFnc }) => {
 
     const [isSeeking, setIsSeeking] = React.useState(false)
     const [played, setPlayed] = React.useState(0)
+    const [volume, setVolume] = React.useState(0.5)
     const [playing, setPlaying] = React.useState(false)
     const [muted, setMuted] = React.useState(false)
     const [duration, setDuration] = React.useState('00:00')
@@ -67,6 +68,10 @@ const VideoPlayer = ({ video, type, errFnc }) => {
         screenfull.toggle(findDOMNode(playerBox.current));
     }
 
+    const handleVolumeChange = value => {
+        setVolume(parseFloat(value))
+    }
+
 
     const pad = (string) => {
         return ('0' + string).slice(-2)
@@ -113,6 +118,7 @@ const VideoPlayer = ({ video, type, errFnc }) => {
                 onDuration={handleDuration}
                 onError={errFnc || ((err) => console.log(err))}
                 pip={false}
+                volume={volume}
                 muted={muted}
             />
             <div className={classNames('v-player__controls', {
@@ -125,10 +131,22 @@ const VideoPlayer = ({ video, type, errFnc }) => {
                                 playing ? <img className="v-player__controls-pause" onClick={handlePause} src={pauseImg} alt="" /> : <img className="v-player__controls-play" onClick={handlePlay} src={playImg} alt="" />
                             }
                         </div>
-                        <div className="v-player__controls-volume" onClick={handleToggleMuted}>
-                            {
-                                muted ? <img src={novolumeImg} alt="" /> : <img src={volumeImg} alt="" />
-                            }
+                        <div className={classNames('v-player__controls-volume', {
+                            'active': !muted
+                        })}>
+                            <div className="v-player__controls-volume-img" onClick={handleToggleMuted}>
+                                {
+                                    muted ? <img src={novolumeImg} alt="" /> : <img src={volumeImg} alt="" />
+                                }
+                            </div>
+                            {!muted && <Slider
+                                className="v-player__controls-volume-bar"
+                                tipFormatter={null}
+                                onChange={handleVolumeChange}
+                                value={volume}
+                                max={1}
+                                step="0.0001"
+                            />}
                         </div>
                         <div className="v-player__controls-time">
                             {format(duration * played)} /   {format(duration)}

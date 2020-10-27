@@ -15,7 +15,7 @@ import copyCloseImg from '../../assets/img/copy-close.svg';
 
 import './PostCard.scss'
 
-const PostCard = ({ userData, created, text, tags, likes, user_reaction, comments, type, topicTitle, title, id, topicId, handleLike, link, to }) => {
+const PostCard = ({ userData, created, text, tags, likes, user_reaction, comments, type, topicTitle, title, id, topicId, handleLike, link, to, isAuth }) => {
 
     const [img, setImg] = React.useState(null)
 
@@ -89,7 +89,7 @@ const PostCard = ({ userData, created, text, tags, likes, user_reaction, comment
                     </div>
                 }
                 <div className="card__wrapper">
-                    <Statistic count={likes} like={user_reaction} handleLike={handleLike} />
+                    <Statistic count={likes} like={user_reaction} handleLike={handleLike} isAuth={isAuth} />
                     <Link to={`/topic/${topicId}/post/${id}/#comments`} className="card__comments">
                         <img src={commentsImg} alt="" />
                         <span>{comments}</span>

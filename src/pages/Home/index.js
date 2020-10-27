@@ -57,7 +57,7 @@ const Home = () => {
     const gridWrapper = window.innerWidth > 991 ? Masonry : 'div'
 
     const cardsElements = cards && cards.map((card, index) => {
-        return <PostCard handleLike={(value) => (handleLike(card.id, card.post.id, value))} topicId={card.id} topicTitle={`${card.left_theme} <span>vs</span> ${card.right_theme}`} key={index} {...card.post} userData={user.id === card.post.user.id ? user : card.post.user} type="grid" to="topic" />
+        return <PostCard isAuth={user.isAuth} handleLike={(value) => (handleLike(card.id, card.post.id, value))} topicId={card.id} topicTitle={`${card.left_theme} <span>vs</span> ${card.right_theme}`} key={index} {...card.post} isMe={user.id === card.post.user.id} userData={card.post.user} type="grid" to="topic" />
     })
 
     return (

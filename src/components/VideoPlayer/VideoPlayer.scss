@@ -31,6 +31,12 @@
     &.hidden {
       display: none;
     }
+    .ant-slider-track {
+      background: $red !important;
+    }
+    .ant-slider-handle {
+      border-color: $red !important;
+    }
     &-box {
       display: flex;
       align-items: center;
@@ -57,15 +63,54 @@
       padding: 3px 7px;
     }
     &-volume {
-      width: 25px;
       margin-right: 15px;
+      display: flex;
+      align-items: center;
+      padding: 6px 8px 4px 6px;
       margin-bottom: -1px;
-    }
-    .ant-slider-track {
-      background: $red !important;
-    }
-    .ant-slider-handle {
-      border-color: $red !important;
+      height: 42px;
+      border-radius: 12px;
+      &.active {
+        background: rgba(0, 0, 0, 0.5);
+      }
+      &-img {
+        width: 25px;
+      }
+      &-bar {
+        width: 80px;
+        height: 6px;
+        margin-top: -2px;
+        margin-left: 5px;
+        &-line {
+          width: 50px;
+          height: 100%;
+          background: #ffffff;
+          border-radius: 4px;
+        }
+      }
+      .ant-slider-rail {
+        background: rgba(255, 255, 255, 0.15) !important;
+        border-radius: 4px !important;
+        height: 6px !important;
+        transform: translateY(-40%);
+      }
+      .ant-slider-handle {
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        margin-top: -4px;
+        width: 10px !important;
+        height: 10px !important;
+      }
+      .ant-slider-track {
+        height: 6px !important;
+        transform: translateY(-40%);
+        background: white !important;
+      }
+      .ant-slider-step {
+        height: 6px !important;
+        transform: translateY(-40%);
+      }
     }
   }
   .ytp-hide-controls.ytp-watermark,

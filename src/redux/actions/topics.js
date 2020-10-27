@@ -16,19 +16,19 @@ const actions = {
     }),
     getTopicsData: (order_by, is_refresh = true) => dispatch => {
         is_refresh && dispatch(actions.setTopicsData([]))
-        refreshTokenWrapper(topicApi.getTopics, () => { }, () => { }, order_by)
+        topicApi.getTopics()
             .then(({ data }) => dispatch(actions.setTopicsData(data)))
             .catch(err => console.log(err))
     },
     getTopicData: (id) => dispatch => {
-        refreshTokenWrapper(topicApi.getTopic, () => { }, () => { }, id)
+        topicApi.getTopic(id)
             .then(({ data }) => {
                 dispatch(actions.setTopicData(data))
             })
             .catch(err => console.log(err))
     },
     getPostData: (topic_id, post_id) => dispatch => {
-        refreshTokenWrapper(topicApi.getPost, () => { }, () => { }, { topic_id, post_id })
+        topicApi.getPost({ topic_id, post_id })
             .then(({ data }) => {
                 dispatch(actions.setPostData(data))
             })

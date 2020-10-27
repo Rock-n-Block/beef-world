@@ -124,6 +124,7 @@ const PostPage = (props) => {
     }
 
     const handleCommentLike = (comment_id, value) => {
+        if (!user.isAuth) return
         refreshTokenWrapper(topicApi.commentLike, () => { }, () => { }, { topic_id: topicId, post_id: postId, comment_id, value })
             .then(({ data }) => {
                 getPostData()
@@ -187,7 +188,7 @@ const PostPage = (props) => {
                                 </div>
                             </div>
                             <div className="post__info-container">
-                                {postData.likes !== undefined && <Statistic handleLike={(value) => (handleLike(topicId, postId, value))} count={postData.likes} like={postData.user_reaction} />}
+                                {postData.likes !== undefined && <Statistic isAuth={user.isAuth} handleLike={(value) => (handleLike(topicId, postId, value))} count={postData.likes} like={postData.user_reaction} />}
                                 <div className="post__info-views">{postData.views} views</div>
                             </div>
                             {postData.text && <div className="post__info-text">{postData.text}</div>}
@@ -211,7 +212,7 @@ const PostPage = (props) => {
                             </div>
                             <Smiles {...data.smiles} />
                             <div className="post__comments">
-                                <Comments handleCommentLike={(comment_id, value) => handleCommentLike(comment_id, value)} handleSendComment={handleSendComment} comments={postData.comments && postData.comments.reverse()} />
+                                <Comments isAuth={user.isAuth} handleCommentLike={(comment_id, value) => handleCommentLike(comment_id, value)} handleSendComment={handleSendComment} comments={postData.comments && postData.comments} />
                             </div>
                         </div>
                     </div>
@@ -223,7 +224,7 @@ const PostPage = (props) => {
                     <Scrollbar className="navbar__scroll" style={{ width: '100%', height: '100%' }}>
                         {
                             cards.map((card, index) => {
-                                return <PostCard userData={user.id === card.post.user.id ? user : card.post.user} topicId={card.id} topicTitle={`${card.left_theme} vs ${card.right_theme}`} key={index} {...card.post} type="column" />
+                                return <PostCard isAuth={user.isAuth} userData={user.id === card.post.user.id ? user : card.post.user} topicId={card.id} topicTitle={`${card.left_theme} vs ${card.right_theme}`} key={index} {...card.post} type="column" />
                             })
                         }
                     </Scrollbar>}

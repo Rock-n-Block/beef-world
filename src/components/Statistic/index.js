@@ -3,13 +3,17 @@ import classNames from 'classnames';
 
 import './Statistic.scss'
 
-const Statistic = ({ count, like, handleLike }) => {
+const Statistic = ({ count, like, handleLike, isAuth }) => {
 
     const [totalCount, setTotalCount] = React.useState(count)
-    const [isLiked, setIsLiked] = React.useState(like)
+    const [isLiked, setIsLiked] = React.useState(isAuth ? like : null)
+
+    React.useEffect(() => {
+        setIsLiked(isAuth ? like : null)
+    }, [isAuth])
 
     const onLike = () => {
-        if (like) return
+        if (like || !isAuth) return
         let newCount
         if (!isLiked && (isLiked === null || isLiked === '')) {
             newCount = totalCount + 1
@@ -23,7 +27,7 @@ const Statistic = ({ count, like, handleLike }) => {
         })
     }
     const onDislike = () => {
-        if (like === false) return
+        if (like === false || !isAuth) return
         let newCount
         if (isLiked && (isLiked === null || isLiked === '')) {
             newCount = totalCount - 1

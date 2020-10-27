@@ -1,6 +1,7 @@
 import React from 'react';
 import Masonry from 'react-masonry-component';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { TopicStatistic, PostCard } from '../../components';
 
@@ -9,6 +10,8 @@ import './Search.scss'
 const Search = (props) => {
 
     const [data, setData] = React.useState([])
+
+    const isAuth = useSelector(({ user }) => user.isAuth)
 
     React.useEffect(() => {
         if (props.location.state) {
@@ -48,7 +51,7 @@ const Search = (props) => {
                                 }}>
                                     {
                                         data.posts.map((card, index) => {
-                                            return <PostCard key={index} {...card} topicId={card.topic.id} type="grid" to="post" />
+                                            return <PostCard isAuth={isAuth} key={index} {...card} topicId={card.topic.id} type="grid" to="post" />
                                         })
                                     }
                                 </Masonry>
