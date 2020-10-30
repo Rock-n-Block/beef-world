@@ -1,3 +1,5 @@
+import youtubeParser from './youtubeParser';
+import tweetParser from './tweetParser';
 export default ({ isAuth, values, errors }) => {
 
     const rules = {
@@ -52,14 +54,17 @@ export default ({ isAuth, values, errors }) => {
                 errors.confirm_password = 'Пароли не совпадают'
             }
         },
-        youtube_link: (value) => {
-            let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-            let match = value.match(regExp);
+        link: (value) => {
+            let youtubeId = youtubeParser(value)
+            let tweetId = tweetParser(value)
 
             if (!value) {
-                errors.youtube_link = 'enter Youtube link'
-            } else if (!(match && match[7].length == 11)) {
-                errors.youtube_link = 'it is not Youtube link'
+                errors.link = 'enter Youtube or Twitter link'
+                return
+            }
+
+            if (!youtubeId && !tweetId) {
+                errors.link = 'it is not Youtube or Twitter link'
             }
         }
     }

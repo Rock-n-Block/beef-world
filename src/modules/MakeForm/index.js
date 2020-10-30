@@ -8,7 +8,7 @@ export default (props) => {
         enableReinitialize: true,
         mapPropsToValues: () => (props.type === 'topic' ?
             {
-                youtube_link: '',
+                link: '',
                 first_oponent: '',
                 second_oponent: '',
                 title: '',
@@ -16,7 +16,7 @@ export default (props) => {
                 is_right_side: ''
             } :
             {
-                youtube_link: '',
+                link: '',
                 title: '',
                 descr: '',
             }
@@ -38,7 +38,7 @@ export default (props) => {
                 postData.left_theme = values.first_oponent
                 postData.post = {
                     title: values.title,
-                    link: values.youtube_link,
+                    link: values.link,
                     text: values.descr,
                     is_right_side: !!(+values.is_right_side)
                 }
@@ -46,7 +46,7 @@ export default (props) => {
 
             if (props.type === 'post') {
                 postData.title = values.title;
-                postData.link = values.youtube_link;
+                postData.link = values.link;
                 postData.text = values.descr
             }
             props.handleCreate(postData)

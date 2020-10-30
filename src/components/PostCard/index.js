@@ -3,9 +3,12 @@ import classNames from 'classnames';
 import { HashLink as Link } from 'react-router-hash-link';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { notification } from 'antd';
+import { Tweet } from 'react-twitter-widgets'
 
 import { Time, Statistic } from '../../components';
 import { youtubeApi } from '../../utils/api';
+import youtubeParser from '../../utils/youtubeParser';
+import tweetParser from '../../utils/tweetParser';
 
 import commentsImg from '../../assets/img/comments.svg'
 import shareImg from '../../assets/img/share.svg'
@@ -19,13 +22,8 @@ const PostCard = ({ userData, created, text, tags, likes, user_reaction, comment
 
     const [img, setImg] = React.useState(null)
 
-    const youtube_parser = (url) => {
-        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-        var match = url.match(regExp);
-        return (match && match[7].length == 11) ? match[7] : false;
-    }
     React.useEffect(() => {
-        const id = youtube_parser(link)
+        const id = youtubeParser(link)
 
         if (id) {
 
@@ -67,7 +65,10 @@ const PostCard = ({ userData, created, text, tags, likes, user_reaction, comment
                         img && <img src={img} alt="" className="card__img" />
                     }
                     {
-                        link && !img && <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${youtube_parser(link)}`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                        link && youtubeParser(link) && !img && <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${youtubeParser(link)}`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                    }
+                    {
+                        link && tweetParser(link) && !img && <Tweet tweetId={tweetParser(link)} options={{ theme: "dark" }} />
                     }
                     {
                         topicTitle && <div className="card__title" dangerouslySetInnerHTML={{ __html: topicTitle }}></div>

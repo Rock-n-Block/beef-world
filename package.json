@@ -25,6 +25,7 @@
     "react-scripts": "3.4.3",
     "react-scrollbars-custom": "^4.0.25",
     "react-twitter-auth": "0.0.13",
+    "react-twitter-widgets": "^1.9.5",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "screenfull": "^5.0.2"

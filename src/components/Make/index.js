@@ -2,8 +2,6 @@ import React from 'react';
 import { Input, Select, Form } from 'antd';
 import classNames from 'classnames';
 
-import { VideoPlayer } from '../../components';
-
 import './Make.scss'
 
 import checkImg from '../../assets/img/check.svg';
@@ -11,7 +9,7 @@ import checkImg from '../../assets/img/check.svg';
 const { TextArea } = Input
 const { Option } = Select
 
-const Make = ({ type, touched, errors, youtube_link, handleChange, handleBlur, values, first_oponent, second_oponent, title, descr, handleSubmit, choose }) => {
+const Make = ({ type, touched, errors, link, handleChange, handleBlur, values, first_oponent, second_oponent, title, descr, handleSubmit, choose }) => {
 
     const [postTitle, setPostTitle] = React.useState('')
     const [postDescr, setPostDescr] = React.useState('')
@@ -77,22 +75,22 @@ const Make = ({ type, touched, errors, youtube_link, handleChange, handleBlur, v
                 <Input type="text" className="make__input" placeholder="Past youtube video link" value={videoLink} />
             </div> */}
             <Form.Item
-                name="youtube_link"
+                name="link"
                 className="make__box make__link"
-                validateStatus={validateField('youtube_link', touched, errors)}
-                help={!touched.youtube_link ? false : errors.youtube_link}
+                validateStatus={validateField('link', touched, errors)}
+                help={!touched.link ? false : errors.link}
             >
                 <Input
-                    id="youtube_link"
+                    id="link"
                     className="profile__form-input"
                     onChange={handleChange}
                     placeholder="Past youtube video link"
                     size="large"
-                    defaultValue={youtube_link}
+                    defaultValue={link}
                     onBlur={handleBlur}
                 />
             </Form.Item>
-            {(!errors.youtube_link && touched.youtube_link && type === 'topic') && <VideoPlayer video={values.youtube_link} type="makepost" />}
+            {/* {(!errors.link && touched.link && type === 'topic') && <VideoPlayer video={values.link} type="makepost" />} */}
             {
                 type === 'topic' && (
                     <div className="make__box make__topic">
