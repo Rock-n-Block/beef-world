@@ -75,7 +75,7 @@ const Home = () => {
                 </div>
                 <div className="home__cards">
                     {
-                        React.createElement(gridWrapper, [], cardsElements)
+                        React.createElement(gridWrapper, { enableResizableChildren: true }, cardsElements)
                     }
                 </div>
             </div>

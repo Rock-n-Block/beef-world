@@ -13,12 +13,14 @@ export default (props) => {
                 second_oponent: '',
                 title: '',
                 descr: '',
-                is_right_side: ''
+                is_right_side: '',
+                tags: []
             } :
             {
                 link: '',
                 title: '',
                 descr: '',
+                tags: []
             }
         ),
         validate: values => {
@@ -30,8 +32,6 @@ export default (props) => {
         },
 
         handleSubmit: (values, { props }) => {
-            console.log(values)
-
             const postData = {}
             if (props.type === 'topic') {
                 postData.right_theme = values.second_oponent
@@ -48,6 +48,11 @@ export default (props) => {
                 postData.title = values.title;
                 postData.link = values.link;
                 postData.text = values.descr
+            }
+            if (values.tags.length) {
+                postData.tags = values.tags.map(item => ({
+                    name: item
+                }))
             }
             props.handleCreate(postData)
         },

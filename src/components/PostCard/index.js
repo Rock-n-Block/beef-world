@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { HashLink as Link } from 'react-router-hash-link';
+import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { notification } from 'antd';
 import { Tweet } from 'react-twitter-widgets'
@@ -45,6 +45,7 @@ const PostCard = ({ userData, created, text, tags, likes, user_reaction, comment
             closeIcon: <img src={copyCloseImg} alt="" />
         });
     };
+
     return (
         <div className={classNames('card', {
             'card__grid': type === 'grid',
@@ -52,7 +53,7 @@ const PostCard = ({ userData, created, text, tags, likes, user_reaction, comment
             'only-text': !img && !link
         })}>
             <div className="card__box">
-                <Link to={to === 'topic' ? `/topic/${topicId}` : `/topic/${topicId}/post/${id}`} className="card__link">
+                <Link to={to === 'topic' ? `/topic/${topicId}` : `/topic/${topicId}/post/${id}`}>
                     <div className="card__head">
                         <div className="card__avatar">
                             {userData && userData.avatar !== null ? <img src={userData && userData.avatar} alt={userData && userData.username} /> : <img src={defaultAvatar} alt={userData && userData.username} />}
@@ -67,8 +68,11 @@ const PostCard = ({ userData, created, text, tags, likes, user_reaction, comment
                     {
                         link && youtubeParser(link) && !img && <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${youtubeParser(link)}`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                     }
-                    {
-                        link && tweetParser(link) && !img && <Tweet tweetId={tweetParser(link)} options={{ theme: "dark" }} />
+                    {link && tweetParser(link) && !img &&
+                        <div className="card__link">
+                            <Tweet tweetId={tweetParser(link)} options={{ theme: "dark" }} />
+                            <Link to={to === 'topic' ? `/topic/${topicId}` : `/topic/${topicId}/post/${id}`} className="card__link-item"></Link>
+                        </div>
                     }
                     {
                         topicTitle && <div className="card__title" dangerouslySetInnerHTML={{ __html: topicTitle }}></div>
@@ -84,7 +88,7 @@ const PostCard = ({ userData, created, text, tags, likes, user_reaction, comment
                     tags && <div className="card__tags">
                         {
                             tags.map((tag, index) => {
-                                return <Link key={index} to={`/topics/${tag}`} className="card__tags-item tag">#{tag}</Link>
+                                return <Link key={index} to={`/search/?search_by_tag=${tag.name}`} className="card__tags-item tag">#{tag.name}</Link>
                             })
                         }
                     </div>

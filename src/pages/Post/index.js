@@ -4,11 +4,14 @@ import { Link, useParams } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useSelector, useDispatch } from 'react-redux';
 import { notification } from 'antd';
+import { Tweet } from 'react-twitter-widgets'
 
 import { PostCard, VideoPlayer, Time, Smiles, Comments, Statistic } from '../../components';
 import { topicApi } from '../../utils/api';
 import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
 import { topicActions } from '../../redux/actions';
+import youtubeParser from '../../utils/youtubeParser';
+import tweetParser from '../../utils/tweetParser';
 
 import './Post.scss'
 
@@ -151,26 +154,40 @@ const PostPage = (props) => {
     const handleScrollToComments = () => {
         const commentBlock = document.querySelector(props.location.hash)
         var top = commentBlock.getBoundingClientRect().top;
-        if (top > 200) {
+        var bottom = commentBlock.getBoundingClientRect().bottom;
+        if (top > 200 && postData.comments.length > 10) {
             window.requestAnimationFrame(handleScrollToComments);
             window.scrollBy(0, top - top / 10);
+        }
+        if (bottom > 10 && postData.comments.length < 10) {
+            window.scrollTo(0, document.body.scrollHeight);
         }
     }
 
     React.useEffect(() => {
         getPostData()
+    }, [postId])
 
-        if (props.location.hash) {
+    React.useEffect(() => {
+        if (props.location.hash && postData.comments) {
             handleScrollToComments()
         }
-    }, [postId])
+    }, [postData])
 
     return (
         <div className="post">
             <div className="post__wrapper">
-                <div className="post__video">
-                    {postData.link && <VideoPlayer video={postData.link} />}
-                </div>
+                {postData.link && youtubeParser(postData.link) &&
+
+                    <div className="post__video">
+                        <VideoPlayer video={postData.link} />
+                    </div>
+                }
+                {postData.link && tweetParser(postData.link) &&
+                    <div className="post__tweet">
+                        <Tweet tweetId={tweetParser(postData.link)} options={{ theme: "dark" }} />
+                    </div>
+                }
                 <div className="post__content">
                     <div className="post__info">
                         <div className="post__info-box">
@@ -195,8 +212,8 @@ const PostPage = (props) => {
                             {
                                 postData.tags && <div className="post__info-tags">
                                     {
-                                        data.tags.map((tag, index) => {
-                                            return <Link key={index} to={`/topics/${tag}`} className="post__info-tags-item tag">#{tag}</Link>
+                                        postData.tags.map((tag, index) => {
+                                            return <Link key={index} to={`/search/?search_by_tag=${tag.name}`} className="post__info-tags-item tag">#{tag.name}</Link>
                                         })
                                     }
                                 </div>

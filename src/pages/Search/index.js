@@ -1,24 +1,46 @@
 import React from 'react';
 import Masonry from 'react-masonry-component';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { TopicStatistic, PostCard } from '../../components';
+import { topicApi } from '../../utils/api';
 
 import './Search.scss'
 
-const Search = (props) => {
+const Search = ({ history }) => {
+    const location = useLocation()
 
     const [data, setData] = React.useState([])
+    const [searchText, setSearchText] = React.useState('')
 
     const isAuth = useSelector(({ user }) => user.isAuth)
+    const params = new URLSearchParams(location.search)
 
-    React.useEffect(() => {
-        if (props.location.state) {
-
-            setData(props.location.state.data)
+    const handleGetData = () => {
+        if (params.get('to_search')) {
+            const text = params.get('to_search')
+            setSearchText(text)
+            topicApi.search(text)
+                .then(({ data }) => {
+                    setData(data)
+                })
+                .catch(err => console.log(err))
         }
-    })
+
+        if (params.get('search_by_tag')) {
+            const tag = params.get('search_by_tag')
+            setSearchText(tag)
+            topicApi.searchByTag(tag)
+                .then(({ data }) => {
+                    setData(data)
+                })
+                .catch(err => console.log(err))
+        }
+    }
+    React.useEffect(() => {
+        handleGetData()
+    }, [params.get('to_search'), params.get('search_by_tag')])
 
     return (
         <div className="search">
@@ -27,7 +49,7 @@ const Search = (props) => {
                     (data.topics && data.topics.length) ? (
                         <>
                             <div className="search__title">Topics</div>
-                            <div className="search__subtitle">{data.topics.length} results topic for {data.searchText}</div>
+                            <div className="search__subtitle">{data.topics.length} results topic for {searchText}</div>
                             {
                                 data.topics.map(topic => {
                                     return <Link to={`/topic/${topic.id}`} className="search__topic">
@@ -43,7 +65,7 @@ const Search = (props) => {
                     (data.posts && data.posts.length) ? (
                         <>
                             <div className="search__title">Post</div>
-                            <div className="search__subtitle">{data.posts.length} results post for {data.searchText}</div>
+                            <div className="search__subtitle">{data.posts.length} results post for {searchText}</div>
                             <div className="search__posts">
 
                                 <Masonry options={{
@@ -64,4 +86,4 @@ const Search = (props) => {
     );
 }
 
-export default Search;
+export default withRouter(Search);

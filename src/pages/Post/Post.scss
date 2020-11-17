@@ -8,6 +8,14 @@
   &__video {
     min-height: 40vw;
   }
+  &__tweet {
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+  }
+  .twitter-tweet {
+    width: 600px !important;
+  }
   &__topic-title {
     font-size: 18px;
     line-height: 21px;
@@ -192,6 +200,12 @@
     display: block;
     &__content {
       padding: 20px 15px;
+    }
+    &__tweet {
+      padding-top: 20px;
+    }
+    .twitter-tweet {
+      width: 100vw !important;
     }
     &__socials {
       margin: 5px 0 15px;

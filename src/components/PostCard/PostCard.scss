@@ -22,6 +22,16 @@ $self: '.card';
     margin: 0 auto !important;
     width: 100.3% !important;
   }
+  &__link {
+    position: relative;
+    &-item {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+  }
   &__title {
     padding: 20px 15px 0;
     font-family: BM;

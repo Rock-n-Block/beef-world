@@ -31,7 +31,7 @@ const TopicPage = (props) => {
 
     let scrollPrev = 0;
 
-    const [activeTab, setActiveTab] = React.useState(0)
+    const [activeTab, setActiveTab] = React.useState('new')
     const [isModalOpen, setIsModalOpen] = React.useState(false)
     const [modalTitle, setModalTitle] = React.useState('')
     const [isSub, setIsSub] = React.useState(false)
@@ -59,8 +59,8 @@ const TopicPage = (props) => {
         setIsSub(!isSub)
     }
 
-    const getTopicData = () => {
-        dispatch(topicActions.getTopicData(topicId))
+    const getTopicData = (order_type) => {
+        dispatch(topicActions.getTopicData(topicId, order_type))
     }
 
     const handleLike = (topic_id, post_id, value) => {
@@ -87,6 +87,11 @@ const TopicPage = (props) => {
             setIsScrollToBottom(false)
         }
 
+    }
+
+    const handleFilter = (tab) => {
+        setActiveTab(tab)
+        getTopicData(tab)
     }
 
     React.useEffect(() => {
@@ -182,8 +187,8 @@ const TopicPage = (props) => {
                         <div className="topic__sort">
                             {
                                 tabs.map((tab, index) => {
-                                    return <div key={index} onClick={() => setActiveTab(index)} className={classNames('topic__sort-item', {
-                                        'active': index === activeTab
+                                    return <div key={index} onClick={() => handleFilter(tab.toLowerCase())} className={classNames('topic__sort-item', {
+                                        'active': tab.toLowerCase() === activeTab
                                     })}>{tab}</div>
                                 })
                             }

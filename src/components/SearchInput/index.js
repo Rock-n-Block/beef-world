@@ -4,7 +4,6 @@ import { Link, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { topicApi } from '../../utils/api';
-import refreshTokenWrapper from '../../utils/refreshTokenWrapper';
 
 import searchImg from '../../assets/img/search.svg';
 import searchRedImg from '../../assets/img/search-red.svg';
@@ -19,71 +18,6 @@ const SearchInput = ({ handleOpenSearchInput }) => {
     const history = useHistory();
     const inputRef = React.useRef()
 
-    const data = {
-        topics: [
-            {
-                leftTheme: 'Roman Empire',
-                rightTheme: 'Carthage',
-                date: 'Fri Sep 18 2020 13:43:15 GMT+0300 (Москва, стандартное время)',
-                subscribe: false,
-                placet: '33.3k',
-                against: '24k',
-                id: '1'
-            },
-            {
-                leftTheme: 'Roman Empire',
-                rightTheme: 'Carthage',
-                date: 'Fri Sep 18 2020 13:43:15 GMT+0300 (Москва, стандартное время)',
-                subscribe: false,
-                placet: '33.3k',
-                against: '24k',
-                id: '2'
-            }
-        ],
-        posts: [
-            {
-                "avatar": "https://sun9-26.userapi.com/impf/RI0zS2_e7QuwGaNG2ji5sqYSgKNe950uz9a5fA/MJyaN_JHbvU.jpg?size=50x0&quality=88&crop=268,0,1535,1535&sign=025ed0b2dd6137a7d9b22daeacbeb330&ava=1",
-                "name": "Profile name",
-                "topicTitle": "Roman Empire vs Carthage",
-                "postTitle": "Please do not RT this video",
-                "date": "Thu Sep 17 2019 14:47:08",
-                "img": "https://sun9-60.userapi.com/YrDO9d497x3HGKgbxMdLApdCk2LhEMiTG5_wTw/pGg1uxrvfg8.jpg",
-                "text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum consequuntur veritatis dicta eligendi, quibusdam exercitationem molestias asperiores numquam quisquam sapiente ipsa iste perferendis, sint nihil praesentium, maiores expedita molestiae unde!",
-                "tags": [
-                    "History",
-                    "Romanempire",
-                    "Carthage",
-                    "Romanempire",
-                    "Carthage",
-                    "Romanempire",
-                    "Carthage"
-                ],
-                "statistic": {
-                    "count": 391,
-                    "like": ""
-                },
-                "comments": 24,
-                "topicname": "politics",
-                id: '345'
-            },
-            {
-                "avatar": "https://sun9-26.userapi.com/impf/RI0zS2_e7QuwGaNG2ji5sqYSgKNe950uz9a5fA/MJyaN_JHbvU.jpg?size=50x0&quality=88&crop=268,0,1535,1535&sign=025ed0b2dd6137a7d9b22daeacbeb330&ava=1",
-                "postTitle": "Please do not RT this video",
-                "name": "Profile name",
-                "date": "Thu Sep 17 2020 14:47:01",
-                "img": "https://sun9-12.userapi.com/9uHycz_uOrXv4-mlGdS_6ASC3C31Fvgsbh3xSg/VUa1Deizs8g.jpg",
-                "tags": ["History", "Romanempire", "Carthage"],
-                "statistic": {
-                    "count": 391,
-                    "like": ""
-                },
-                "comments": 24,
-                "topicname": "politics",
-                id: '45677'
-            },
-        ]
-    }
-
     const [searchText, setSearchText] = React.useState('')
     const [isLoading, setIsLoading] = React.useState(false)
     const [searchData, setSearchData] = React.useState([])
@@ -95,29 +29,32 @@ const SearchInput = ({ handleOpenSearchInput }) => {
     const onSearch = (value) => {
         setIsLoading(true)
 
-        refreshTokenWrapper(topicApi.search, () => { }, () => { }, value)
-            .then(({ data }) => {
-                setSearchData(data)
+        if (value) {
+
+            topicApi.search(value)
+                .then(({ data }) => {
+                    setSearchData(data)
 
 
-                const topics = data.topics.length ? data.topics.map(item => <Option key={item.id}>
-                    <Link className="s-input__link" to={`/topic/${item.id}`}>
-                        <img src={searchRedImg} alt="" />
-                        <span>{`${item.left_theme} vs ${item.right_theme}`}</span>
-                    </Link>
-                </Option>) : [];
+                    const topics = data.topics.length ? data.topics.map(item => <Option key={`${item.left_theme} vs ${item.right_theme}`}>
+                        <Link className="s-input__link" to={`/topic/${item.id}`}>
+                            <img src={searchRedImg} alt="" />
+                            <span>{`${item.left_theme} vs ${item.right_theme}`}</span>
+                        </Link>
+                    </Option>) : [];
 
-                const posts = data.posts.length ? data.posts.map(item => <Option key={item.id}>
-                    <Link className="s-input__link" to={`/topic/${item.id}/post/${item.id}`}>
-                        <img src={searchRedImg} alt="" />
-                        <span>{item.title}</span>
-                    </Link>
-                </Option>) : [];
-                setOptions([...topics, ...posts])
-            })
-            .catch(err => {
-                console.log(err)
-            })
+                    const posts = data.posts.length ? data.posts.map(item => <Option key={item.id + item.title}>
+                        <Link className="s-input__link" to={`/topic/${item.id}/post/${item.id}`}>
+                            <img src={searchRedImg} alt="" />
+                            <span>{item.title}</span>
+                        </Link>
+                    </Option>) : [];
+                    setOptions([...topics, ...posts])
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
     }
 
     const onChangeSearch = (value) => {
@@ -138,13 +75,7 @@ const SearchInput = ({ handleOpenSearchInput }) => {
 
     const handleSearchPage = (e) => {
         if ((searchData.topics && searchData.topics.length) || (searchData.posts && searchData.posts.length)) {
-
-            history.push({
-                pathname: '/search',
-                state: {
-                    data: { ...searchData, searchText: e.target.value }
-                }
-            })
+            history.push(`/search/?to_search=${e.target.value}`)
         } else {
             inputRef.current.focus()
         }

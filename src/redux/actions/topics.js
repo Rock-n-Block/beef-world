@@ -16,12 +16,12 @@ const actions = {
     }),
     getTopicsData: (order_by, is_refresh = true) => dispatch => {
         is_refresh && dispatch(actions.setTopicsData([]))
-        topicApi.getTopics()
+        topicApi.getTopics(order_by)
             .then(({ data }) => dispatch(actions.setTopicsData(data)))
             .catch(err => console.log(err))
     },
-    getTopicData: (id) => dispatch => {
-        topicApi.getTopic(id)
+    getTopicData: (id, order_type = 'new') => dispatch => {
+        topicApi.getTopic(id, order_type)
             .then(({ data }) => {
                 dispatch(actions.setTopicData(data))
             })

@@ -9,7 +9,7 @@ import checkImg from '../../assets/img/check.svg';
 const { TextArea } = Input
 const { Option } = Select
 
-const Make = ({ type, touched, errors, link, handleChange, handleBlur, values, first_oponent, second_oponent, title, descr, handleSubmit, choose }) => {
+const Make = ({ type, touched, errors, link, handleChange, handleBlur, values, first_oponent, second_oponent, title, descr, handleSubmit, choose, setFieldValue }) => {
 
     const [postTitle, setPostTitle] = React.useState('')
     const [postDescr, setPostDescr] = React.useState('')
@@ -57,8 +57,8 @@ const Make = ({ type, touched, errors, link, handleChange, handleBlur, values, f
         }
     }
 
-    const handleTagsChange = (tag) => {
-        console.log(tag)
+    const handleTagsChange = (tags) => {
+        setFieldValue('tags', tags)
     }
 
 
@@ -187,11 +187,13 @@ const Make = ({ type, touched, errors, link, handleChange, handleBlur, values, f
             <div className="make__box make__tags" id="moke__box">
 
                 <Select
-                    mode="multiple"
-                    allowClear
-                    style={{ width: '100%' }}
-                    placeholder="Tags"
+                    mode="tags"
+                    type="select"
                     onChange={handleTagsChange}
+                    style={{ width: '100%' }}
+                    id="tags"
+                    name="tags"
+                    placeholder="Tags"
                     getPopupContainer={() => document.getElementById('moke__box')}
                 >
                     {
