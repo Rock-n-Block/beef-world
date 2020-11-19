@@ -1,4 +1,5 @@
 import { userApi } from '../../utils/api'
+import Cookies from 'js-cookie';
 
 const actions = {
     setUserName: data => ({
@@ -31,7 +32,24 @@ const actions = {
             dispatch(actions.setUserData(data))
         })
             .catch(() => {
-                dispatch(actions.refreshToken(actions.getMe))
+                if (localStorage.refresh_token) {
+                    dispatch(actions.refreshToken(actions.getMe))
+                }
+                else {
+                    if (Cookies.get('OAUTH_ACCESS_TOKEN')) {
+                        const authCookies = Cookies.get('OAUTH_ACCESS_TOKEN').split(' ')
+                        const authType = authCookies[0]
+                        const authToken = authCookies[1]
+
+                        userApi.convertToken(authType, authToken)
+                            .then(() => {
+                                dispatch(actions.getMe())
+                            })
+                            .catch(err => console.log('err auth'))
+                    } else {
+                        dispatch(actions.logout())
+                    }
+                }
             })
     },
     refreshToken: (method) => dispatch => {

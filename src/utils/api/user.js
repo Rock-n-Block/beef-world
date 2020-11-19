@@ -23,5 +23,16 @@ export default {
         localStorage.refresh_token = data.refresh_token
 
         window.axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.access_token}`
+    }),
+    convertToken: (type, token) => axios.post('o/convert-token', {
+        "grant_type": "convert_token",
+        "backend": type,
+        token
+    }).then(({ data }) => {
+
+        localStorage.access_token = data.access_token
+        localStorage.refresh_token = data.refresh_token
+
+        window.axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.access_token}`
     })
 }

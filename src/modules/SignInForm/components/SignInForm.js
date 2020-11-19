@@ -74,12 +74,12 @@ const SignInForm = props => {
                 <div className="m-form__socials-item m-form__socials-item--fb" onClick={handleFacebookLogin}>
                     <img src={fbImg} alt="" />
                 </div>
-                <div className="m-form__socials-item m-form__socials-item--tw">
+                <a href="https://beef.world/api/o/login/twitter/" className="m-form__socials-item m-form__socials-item--tw">
                     <img src={twImg} alt="" />
-                </div>
-                <div className="m-form__socials-item m-form__socials-item--google">
+                </a>
+                <a href="https://beef.world/api/o/login/google-oauth2/" className="m-form__socials-item m-form__socials-item--google">
                     <img src={googleImg} alt="" />
-                </div>
+                </a>
             </div>
             <div className="m-form__decor">
                 <span>or</span>

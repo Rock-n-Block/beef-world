@@ -52,7 +52,7 @@ function App() {
             dispatch(userActions.setUserPhoto(res))
           })
 
-          facebookApi.getMe().then(name => dispatch(userActions.setUserName(name)))
+          // facebookApi.getMe().then(name => dispatch(userActions.setUserName(name)))
         })
       }
     }, 100)
