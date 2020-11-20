@@ -129,7 +129,7 @@ const PostPage = (props) => {
     const handleCommentLike = (comment_id, value) => {
         if (!user.isAuth) return
         refreshTokenWrapper(topicApi.commentLike, () => { }, () => { }, { topic_id: topicId, post_id: postId, comment_id, value })
-            .then(({ data }) => {
+            .then(() => {
                 getPostData()
             })
             .catch(err => console.log(err))
@@ -137,8 +137,17 @@ const PostPage = (props) => {
 
     const handleSendComment = (text, parent_comment = null) => {
         refreshTokenWrapper(topicApi.createComment, () => { }, () => { }, { topic_id: topicId, post_id: postId, commentText: { text: text.trim(), parent_comment } })
+            .then(() => {
+                getPostData()
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleChooseReaction = (smile) => {
+        refreshTokenWrapper(topicApi.sendPostReaction, () => { }, () => { }, { topic_id: topicId, post_id: postId, smile })
             .then(({ data }) => {
                 getPostData()
+                // dispatch(topicActions.setPostData(data))
             })
             .catch(err => console.log(err))
     }
@@ -227,7 +236,7 @@ const PostPage = (props) => {
                                     </div>
                                 </CopyToClipboard>
                             </div>
-                            <Smiles {...data.smiles} />
+                            {postData.reactions && <Smiles values={postData.reactions} choose={postData.user_choose_reaction} handleChooseReaction={handleChooseReaction} />}
                             <div className="post__comments">
                                 <Comments isAuth={user.isAuth} handleCommentLike={(comment_id, value) => handleCommentLike(comment_id, value)} handleSendComment={handleSendComment} comments={postData.comments && postData.comments} />
                             </div>

@@ -3,9 +3,7 @@ import classNames from 'classnames';
 
 import './Smiles.scss'
 
-const Sliles = ({ values, choose }) => {
-    const [activeSmile, setActiveSmile] = React.useState(choose || null)
-    const [statistic, setStatistic] = React.useState(values)
+const Sliles = ({ values, choose, handleChooseReaction }) => {
 
     const smiles = [
         {
@@ -47,13 +45,7 @@ const Sliles = ({ values, choose }) => {
     ]
 
     const handleSmileClick = (smile) => {
-        const newStatistic = statistic
-
-        newStatistic[activeSmile] -= 1
-        newStatistic[smile] += 1
-
-        setActiveSmile(smile)
-        setStatistic(newStatistic)
+        handleChooseReaction(smile)
     }
 
     return (
@@ -61,12 +53,12 @@ const Sliles = ({ values, choose }) => {
             {
                 smiles.map((item, index) => {
                     return (
-                        <div key={index} onClick={() => handleSmileClick(item.img)} className={classNames('smiles__item', {
-                            'active': item.img === activeSmile
+                        <div key={index} onClick={() => handleSmileClick(item.text)} className={classNames('smiles__item', {
+                            'active': item.text === choose
                         })}>
                             <img src={require(`../../assets/img/smiles/${item.img}.svg`)} alt="" />
                             <div className="smiles__item-box">
-                                <div className="smiles__item-count">{statistic[item.img]}</div>
+                                <div className="smiles__item-count">{values[item.text]}</div>
                                 <div className="smiles__item-text">{item.text}</div>
                             </div>
                         </div>

@@ -34,5 +34,7 @@ export default {
         localStorage.refresh_token = data.refresh_token
 
         window.axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.access_token}`
-    })
+    }),
+    getSubs: () => axios.get('topics/favorites/'),
+    googleLogout: () => axios.post('api-auth/logout/')
 }

@@ -15,10 +15,14 @@ const actions = {
         payload: data
     }),
     logout: () => dispatch => {
+        // userApi.googleLogout().then(res => console.log(res)).catch(err => console.log(err))
+
         delete localStorage.access_token
         delete localStorage.refresh_token
 
         window.axios.defaults.headers.common["Authorization"] = ``
+
+        Cookies.remove('OAUTH_ACCESS_TOKEN')
 
         dispatch({
             type: 'USER:LOGOUT'

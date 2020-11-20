@@ -10,5 +10,8 @@ export default {
     search: (searchText) => axios.get(`/topics/search/?to_search=${searchText}`),
     searchByTag: (tag) => axios.get(`/topics/search_by_tag/?search_by_tag=${tag}`),
     cardLike: ({ topic_id, post_id, value }) => axios.post(`/topics/${topic_id}/posts/${post_id}/like/`, value),
-    commentLike: ({ topic_id, post_id, comment_id, value }) => axios.post(`/topics/${topic_id}/posts/${post_id}/comments/${comment_id}/like/`, value)
+    commentLike: ({ topic_id, post_id, comment_id, value }) => axios.post(`/topics/${topic_id}/posts/${post_id}/comments/${comment_id}/like/`, value),
+    sendPostReaction: ({ smile, topic_id, post_id }) => axios.post(`/topics/${topic_id}/posts/${post_id}/reaction/`, {
+        value: smile
+    })
 }
