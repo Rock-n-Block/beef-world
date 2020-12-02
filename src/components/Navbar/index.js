@@ -3,17 +3,15 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { Scrollbar } from 'react-scrollbars-custom';
 import { useSelector } from 'react-redux';
+import { topicApi } from '../../utils/api';
 
 import defaultAvatarImg from '../../assets/img/default-avatar.svg';
 
 import './Navbar.scss'
 
 const Navbar = ({ isOpen, navbarRef, handleSignUpOpen, handleSignInOpen, isAuth, avatar }) => {
+    const [tags, setTags] = React.useState([]);
     const tabs = [
-        {
-            link: 'hot',
-            text: 'HOT'
-        },
         {
             link: 'new',
             text: 'NEW'
@@ -22,41 +20,6 @@ const Navbar = ({ isOpen, navbarRef, handleSignUpOpen, handleSignInOpen, isAuth,
             link: 'top',
             text: 'Top'
         }
-    ]
-
-    const tags = [
-        {
-            link: 'animals',
-            text: 'Animals'
-        },
-        {
-            link: 'music',
-            text: 'Music'
-        },
-        {
-            link: 'News and Politics',
-            text: 'news'
-        },
-        {
-            link: 'sports',
-            text: 'Sports'
-        },
-        {
-            link: 'science',
-            text: 'Science'
-        },
-        {
-            link: 'meme',
-            text: 'Meme'
-        },
-        {
-            link: 'celebrity',
-            text: 'Celebrity'
-        },
-        {
-            link: 'uncategorized',
-            text: 'Uncategorized'
-        },
     ]
 
     const subs = [
@@ -73,6 +36,15 @@ const Navbar = ({ isOpen, navbarRef, handleSignUpOpen, handleSignInOpen, isAuth,
             link: '123'
         },
     ]
+
+
+    React.useEffect(() => {
+        topicApi.getTags()
+            .then(({ data }) => {
+                setTags(data)
+            })
+            .catch(err => console.log(err))
+    }, [])
 
 
     const { activeTab, activeSort } = useSelector(({ filter }) => {
@@ -108,7 +80,7 @@ const Navbar = ({ isOpen, navbarRef, handleSignUpOpen, handleSignInOpen, isAuth,
                     Post your video, meme, etcetera, or any video that already exists online. Every week the most popular post of the month will receive <span className="navbar__text--red">100 USD</span> from us! Press "Make a Post" to begin.
                 </div>
                 <div className="navbar__links">
-                    {
+                    {tabs.length &&
                         tabs.map((item, index) => {
                             return (
                                 <Link key={index} className={classNames('navbar__links-item', {
@@ -137,25 +109,25 @@ const Navbar = ({ isOpen, navbarRef, handleSignUpOpen, handleSignInOpen, isAuth,
                         })
                     }
                 </div> */}
-                <div className="navbar__topics">
+                {tags.length && <div className="navbar__topics">
                     <div className="navbar__topics-title">tags</div>
                     {
                         tags.map((item, index) => {
                             return (
-                                <Link key={index} className="navbar__topics-item" to={`/${activeTab}/${item.link}`}>
+                                <Link key={index} className="navbar__topics-item" to={`/search/?search_by_tag=${item.name}`}>
                                     <div className="navbar__topics-item-img"></div>
-                                    <span className="navbar__topics-item-text">{item.text}</span>
+                                    <span className="navbar__topics-item-text">{item.name}</span>
                                 </Link>
                             )
                         })
                     }
-                </div>
+                </div>}
                 <div className="navbar__more">
                     <div className="navbar__more-title">MORE BEEF DOT WORLD</div>
                     <Link to="/community" className="navbar__more-link">Community</Link>
                     <Link to="/terms" className="navbar__more-link">Terms</Link>
                     <Link to="/privacy" className="navbar__more-link">Privacy</Link>
-                    <a href="/" className="navbar__more-link">Contact Us</a>
+                    <div className="navbar__more-link">Contact Us</div>
                 </div>
             </Scrollbar>
         </div>

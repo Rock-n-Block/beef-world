@@ -51,8 +51,6 @@ function App() {
           facebookApi.getUserPhoto(res.authResponse.userID).then(res => {
             dispatch(userActions.setUserPhoto(res))
           })
-
-          // facebookApi.getMe().then(name => dispatch(userActions.setUserName(name)))
         })
       }
     }, 100)
@@ -75,7 +73,7 @@ function App() {
     <div className="wrapper">
       <Header />
       <Route exact path={'/'} component={HomePage}></Route>
-      <Route exact path={['/hot', '/hot/:topic']} component={HomePage}></Route>
+      {/* <Route exact path={['/hot', '/hot/:topic']} component={HomePage}></Route> */}
       <Route exact path={['/new', '/new/:topic']} component={HomePage}></Route>
       <Route exact path={['/top', '/top/:topic']} component={HomePage}></Route>
       <Route exact path={['/legendary', '/legendary/:topic']} component={HomePage}></Route>

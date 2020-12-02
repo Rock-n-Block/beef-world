@@ -43,7 +43,7 @@ const TopicPage = (props) => {
     const [isRightContentOpen, setIsRightContentOpen] = React.useState(true)
     const [isLeftContentOpen, setIsLeftContentOpen] = React.useState(true)
 
-    const tabs = ['HOT', 'NEW', 'TOP']
+    const tabs = ['NEW', 'TOP']
 
     const handleCloseModal = () => {
         setIsModalOpen(false)

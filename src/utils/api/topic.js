@@ -13,5 +13,6 @@ export default {
     commentLike: ({ topic_id, post_id, comment_id, value }) => axios.post(`/topics/${topic_id}/posts/${post_id}/comments/${comment_id}/like/`, value),
     sendPostReaction: ({ smile, topic_id, post_id }) => axios.post(`/topics/${topic_id}/posts/${post_id}/reaction/`, {
         value: smile
-    })
+    }),
+    getTags: () => axios.get('/tags/')
 }

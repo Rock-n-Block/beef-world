@@ -32,8 +32,7 @@ export default withFormik({
             })
         })
             .catch((err) => {
-                console.log(err)
-                setErrors(err)
+                setErrors(err.response.data)
             })
     },
 

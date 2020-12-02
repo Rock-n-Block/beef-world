@@ -15,10 +15,10 @@ const Home = () => {
     const dispatch = useDispatch();
 
     const tabs = [
-        {
-            link: 'hot',
-            text: 'HOT'
-        },
+        // {
+        //     link: 'hot',
+        //     text: 'HOT'
+        // },
         {
             link: 'new',
             text: 'NEW'
@@ -44,7 +44,7 @@ const Home = () => {
     }
 
     React.useEffect(() => {
-        const sortName = path.split('/')[1] ? path.split('/')[1] : 'hot'
+        const sortName = path.split('/')[1] ? path.split('/')[1] : 'new'
 
         dispatch(filterActions.setMainSort(sortName))
 
