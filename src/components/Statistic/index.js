@@ -5,7 +5,7 @@ import './Statistic.scss'
 
 const Statistic = ({ count, like, handleLike, isAuth }) => {
 
-    const [totalCount, setTotalCount] = React.useState(count)
+    // const [totalCount, setTotalCount] = React.useState(count)
     // const [isLiked, setIsLiked] = React.useState(isAuth ? like : null)
 
     // React.useEffect(() => {
@@ -22,9 +22,15 @@ const Statistic = ({ count, like, handleLike, isAuth }) => {
         // }
         // setIsLiked(true)
         // setTotalCount(newCount)
-        handleLike({
-            value: true
-        })
+        if (like === false) {
+            handleLike({
+                value: null
+            })
+        } else if (like !== true) {
+            handleLike({
+                value: true
+            })
+        }
     }
     const onDislike = () => {
         // if (like === false || !isAuth) return
@@ -36,9 +42,15 @@ const Statistic = ({ count, like, handleLike, isAuth }) => {
         // }
         // setIsLiked(false)
         // setTotalCount(newCount)
-        handleLike({
-            value: false
-        })
+        if (like === true) {
+            handleLike({
+                value: null
+            })
+        } else if (like !== false) {
+            handleLike({
+                value: false
+            })
+        }
     }
     return (
         <div className="stat">

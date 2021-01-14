@@ -50,9 +50,16 @@ export default (props) => {
                 postData.text = values.descr
             }
             if (values.tags.length) {
-                postData.tags = values.tags.map(item => ({
-                    name: item
-                }))
+                if (props.type === 'post') {
+                    postData.tags = values.tags.map(item => ({
+                        name: item
+                    }))
+                }
+                if (props.type === 'topic') {
+                    postData.post.tags = values.tags.map(item => ({
+                        name: item
+                    }))
+                }
             }
             props.handleCreate(postData)
         },
