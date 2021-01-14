@@ -13,6 +13,10 @@ const Navbar = ({ isOpen, navbarRef, handleSignUpOpen, handleSignInOpen, isAuth,
     const [tags, setTags] = React.useState([]);
     const tabs = [
         {
+            link: 'hot',
+            text: 'HOT'
+        },
+        {
             link: 'new',
             text: 'NEW'
         },

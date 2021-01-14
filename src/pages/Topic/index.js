@@ -31,7 +31,7 @@ const TopicPage = (props) => {
 
     let scrollPrev = 0;
 
-    const [activeTab, setActiveTab] = React.useState('new')
+    const [activeTab, setActiveTab] = React.useState('hot')
     const [isModalOpen, setIsModalOpen] = React.useState(false)
     const [modalTitle, setModalTitle] = React.useState('')
     const [isSub, setIsSub] = React.useState(false)
@@ -43,7 +43,7 @@ const TopicPage = (props) => {
     const [isRightContentOpen, setIsRightContentOpen] = React.useState(true)
     const [isLeftContentOpen, setIsLeftContentOpen] = React.useState(true)
 
-    const tabs = ['NEW', 'TOP']
+    const tabs = ['HOT', 'NEW', 'TOP']
 
     const handleCloseModal = () => {
         setIsModalOpen(false)
